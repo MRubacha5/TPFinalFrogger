@@ -1,3 +1,5 @@
+#ifndef RANA_H
+#define RANA_H
 #include <stdint.h>
 enum ARROW_KEYS {UP, DOWN, LEFT, RIGHT};
 #define POSX_INI 5
@@ -11,3 +13,4 @@ typedef struct{
     uint8_t posx;
     uint8_t posy;
 } rana_t;
+#endif RANA_H

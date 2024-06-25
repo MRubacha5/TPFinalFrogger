@@ -36,10 +36,3 @@ void RestarVidas(rana_t rana){
     }
 }
 
-int Collisions(rana_t rana, linea_t * pl){
-    linea_t * linea_actual = pl+rana.posy;
-    int * plinea = linea_actual->p_linea;
-    if(!plinea[rana.posx]){
-        RestarVidas(rana);
-    }
-}

@@ -1,3 +1,5 @@
+#ifndef OBJETOS_H
+#define OBJETOS_H
 #include <stdint.h>
 #define IZQ -1
 #define DER 1
@@ -24,3 +26,4 @@ void FreeWorldData(linea_t * pl, unsigned int h);
 void ShiftArr (int len, objeto_t* p2obj);
 void CreateObject(linea_t * pl);
 void DestroyObject(linea_t * pl);
+#endif //OBJETOS_H
