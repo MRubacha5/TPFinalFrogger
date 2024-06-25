@@ -89,8 +89,26 @@ void DestroyObject(linea_t * pl){
 }
 
 //funcion mover objetos, uso threads?
-void MoveObject(){
+void MoveObject(linea_t * pl){
+    if(pl->cant_obj > 0){
+        int cobjs = pl->cant_obj;
+        int vel = pl->v;
+        int dir = pl->dir;
+        int i, c;
+        for (i = 0; i < WIDTH; i++)
+        {
+            *((pl->p_linea) + i) = pl->val_def;
+        }
+        for (i = 0; i < cobjs; i++)
+        {
+            ((pl->po) + i)->x += vel * dir;
 
+            for (c = 0; i < pl->po->size; i++)
+            {
+                *((pl->p_linea) + (((pl->po) + i)->x) + c) = !(pl->val_def);
+            }
+        }
+    }
 }
 
 
