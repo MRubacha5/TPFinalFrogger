@@ -35,16 +35,19 @@ linea_t * CreateWorld(unsigned int h, unsigned int w){
     for(i = 0 ; i < h ; i++){
         linea_t * linea_actual = pl+i;
         linea_actual->dir = (rand()%2) ? DER : IZQ;
-        linea_actual->v = 1; //a cambiar despues, variar segun delays por procesadores (movimiento por segundo y ajustar)
+        linea_actual->v = (rand()%3 + 1); //a cambiar despues, variar segun delays por procesadores (movimiento por segundo y ajustar)
 
         if(i <= (h/2)){
-            linea_actual->val_def = 1; // se puede caminar
+            linea_actual->val_def = 0; // se puede caminar
         }
         else{
-            linea_actual->val_def = 0;
+            linea_actual->val_def = 1;
         }
 
         linea_actual->p_linea = (int *)malloc(sizeof(int) * w); //creo las celdas en x y las poblo con le val def
+        if(linea_actual->p_linea == NULL){
+            return NULL;
+        }
         int * px = linea_actual->p_linea;
         for(c = 0 ; c < w ; c++){
             *(px+c) = linea_actual->val_def;
@@ -52,6 +55,9 @@ linea_t * CreateWorld(unsigned int h, unsigned int w){
 
         linea_actual->cant_obj = 0;
         linea_actual->po = (objeto_t *)malloc(sizeof(objeto_t));
+        if(linea_actual->po == NULL){
+            return NULL;
+        }
     }
 
     return pl;
@@ -76,6 +82,10 @@ void CreateObject(linea_t * pl){
     (po+s)->x = (pl->dir == DER ? 0 : WIDTH-1); // si direccion es derecha arranca en 0 si no al final
     (pl->cant_obj)++;
     pl->po = realloc(po, (pl->cant_obj)+1);
+    if(pl->po == NULL){
+        printf("ERROR WITH REALLOC");
+    }
+    
 }
 
 //funcion destroyobjects --> hace falta un flip array por si cambia la direccion del movimiento
@@ -115,7 +125,7 @@ void ShiftArr (int len, objeto_t* p2obj)
 	
 	objeto_t temp;
 	
-	if (len = 1)
+	if (len == 1)
 	{
 		return;
 	}
