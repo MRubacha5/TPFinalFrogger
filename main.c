@@ -9,14 +9,18 @@
 #include <stdio.h>
 #include <pthread.h>
 
-#define GSIZE 20
+#define GSIZE 85
 
 #define DISPLAY_X (GSIZE*WIDTH)
 #define DISPLAY_Y (GSIZE*HEIGHT)
 
-void * buttonThread();
+void * line1();
 
 int do_exit = 0;
+int keyPressed = 0;
+
+linea_t * pl;
+rana_t rana = {.posx=WIDTH/2, .posy=0, .vidas=3};
 
 int main (void) {
 
@@ -86,21 +90,26 @@ int main (void) {
 
 		al_clear_to_color(al_color_name("black"));
 
-		//pthread_create(&tid1, NULL, buttonThread, NULL);
+		pthread_create(&tid1, NULL, line1, NULL);
 
 		//pthread_join(tid1, NULL);
+        pl = CreateWorld(HEIGHT, WIDTH);
 
-        linea_t * pl = CreateWorld(HEIGHT, WIDTH);
-        rana_t rana = {.posx=HEIGHT/2, .posy=0, .vidas=3};
-
-        for (int i = HEIGHT; i > 0; i--)
+        for (int i = 0; i < HEIGHT; i++)
         {
             for (int c = 0; c < WIDTH; c++)
             {
-                al_draw_filled_rectangle(snake.x, snake.y, snake.x + DISPLAY_X/B_SIZE - 2, snake.y + DISPLAY_Y/B_SIZE -2 , al_color_name("red"));
+                if(*(((pl+i)->p_linea)+c)){
+                    al_draw_filled_rectangle(c*GSIZE, i*GSIZE, (c+1)*GSIZE, (i+1)*GSIZE , al_color_name("green"));
+                }
+                else{
+                    al_draw_filled_rectangle(c*GSIZE, i*GSIZE, (c+1)*GSIZE, (i+1)*GSIZE , al_color_name("blue"));
+                }
+                
             }
             
         }
+        al_draw_filled_ellipse(rana.posx*GSIZE + GSIZE/2, DISPLAY_Y-(rana.posy*GSIZE) - GSIZE/2, GSIZE/2, GSIZE/2, al_color_name("pink"));
         al_flip_display();
 		while(!do_exit){
 
@@ -109,7 +118,32 @@ int main (void) {
 			if(al_get_next_event(event_queue, &ev)){
 
 				if(ev.type == ALLEGRO_EVENT_TIMER){
-					
+					if(keyPressed){
+                        printf("%d", rana.posy);
+                    }
+                    keyPressed = 0;
+                    for (int i = 0; i < HEIGHT; i++)
+                    {
+                        for (int c = 0; c < WIDTH; c++)
+                        {
+                            if(*(((pl+i)->p_linea)+c)){
+                                al_draw_filled_rectangle(c*GSIZE, i*GSIZE, (c+1)*GSIZE, (i+1)*GSIZE , al_color_name("green"));
+                            }
+                            else{
+                                al_draw_filled_rectangle(c*GSIZE, i*GSIZE, (c+1)*GSIZE, (i+1)*GSIZE , al_color_name("blue"));
+                            }
+                            
+                        }
+                        
+                    }
+                    al_draw_filled_ellipse(rana.posx*GSIZE + GSIZE/2, DISPLAY_Y-(rana.posy*GSIZE) - GSIZE/2, GSIZE/2, GSIZE/2, al_color_name("pink"));
+
+                    for(int i = 0 ; i < HEIGHT ; i++){
+                        for(int c = 0 ; c < (pl+i)->cant_obj ; c++){
+                            al_draw_filled_rectangle(((((pl+i)->po)+c)->x) *GSIZE, i*GSIZE, (((((pl+i)->po)+c)->x) + ((((pl+i)->po)+c)->size)) * GSIZE, (i+1)*GSIZE,al_color_name("brown"));
+                        }
+                    }
+                    al_flip_display();
 		    	}
 				else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
 					do_exit = true;
@@ -126,22 +160,26 @@ int main (void) {
 		    	}
                 else if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
 
-				switch(ev.keyboard.keycode){
-				case ALLEGRO_KEY_DOWN:
-					
-					break;
-				case ALLEGRO_KEY_UP:
-					
-					break;
-				case ALLEGRO_KEY_LEFT:
-					
-					break;
-				case ALLEGRO_KEY_RIGHT:
-					
-					break;
+                    switch(ev.keyboard.keycode){
+                        case ALLEGRO_KEY_DOWN:
+                            MoveRana(rana, DOWN);
+                            keyPressed = 1;
+                            break;
+                        case ALLEGRO_KEY_UP:
+                            MoveRana(rana, UP);
+                            keyPressed = 1;
+                            break;
+                        case ALLEGRO_KEY_LEFT:
+                            MoveRana(rana, LEFT);
+                            keyPressed = 1;
+                            break;
+                        case ALLEGRO_KEY_RIGHT:
+                            MoveRana(rana, RIGHT);
+                            keyPressed = 1;
+                            break;
 
-				}
-			}
+                    }
+			    }
 		    }
 		}
         FreeWorldData(pl, HEIGHT);
@@ -150,19 +188,44 @@ int main (void) {
 	return 0;
 }
 
-void * buttonThread(){
+void * line1(){
 	//detecta botones y cambia la direccion
-	ALLEGRO_EVENT_QUEUE * button_queue;
-	button_queue = al_create_event_queue();
-	al_register_event_source(button_queue, al_get_keyboard_event_source());
-
+    int dir = (pl+3)->dir;
+    int v = (pl+3)->v;
+    int time_buffer = 0;
+    int spawned = 0;
+	ALLEGRO_EVENT_QUEUE * queue;
+    ALLEGRO_TIMER * timer = al_create_timer(1.0/v);
+	queue = al_create_event_queue();
+	al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_start_timer(timer);
+    CreateObject(pl+3);
+    
 	while(1){
 		ALLEGRO_EVENT ev;
-		if(al_get_next_event(button_queue, &ev)){
-			
+		if(al_get_next_event(queue, &ev)){
+            if(ev.type == ALLEGRO_EVENT_TIMER){
+                
+                MoveObject(pl+3);
+            
+                switch (dir)
+                {
+                case DER:
+                    if((pl+3)->po->x > WIDTH){
+                        DestroyObject(pl+3);
+                        printf("destory");
+                    }
+                    break;
+                case IZQ:
+                    if((pl+3)->po->x + (pl+3)->po->size < 0){
+                        DestroyObject(pl+3);
+                        printf("destory");
+                    }
+                }
+            }
 		}
 	}
-
 }
 
 
+//que pasa cuando no hay objetos con el realloc. Hacer la logica de crear y borrar
