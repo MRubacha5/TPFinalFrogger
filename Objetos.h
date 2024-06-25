@@ -26,4 +26,5 @@ void FreeWorldData(linea_t * pl, unsigned int h);
 void ShiftArr (int len, objeto_t* p2obj);
 void CreateObject(linea_t * pl);
 void DestroyObject(linea_t * pl);
-#endif //OBJETOS_H
+void MoveObject(linea_t * pl);
+#endif
