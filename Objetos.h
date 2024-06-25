@@ -18,3 +18,9 @@ typedef struct{
     int * p_linea; //puntero a coordenada (0, linea)
     objeto_t * po; //puntero a objetos
 } linea_t;
+
+linea_t * CreateWorld(unsigned int h, unsigned int w);
+void FreeWorldData(linea_t * pl, unsigned int h);
+void ShiftArr (int len, objeto_t* p2obj);
+void CreateObject(linea_t * pl);
+void DestroyObject(linea_t * pl);

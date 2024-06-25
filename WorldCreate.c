@@ -8,18 +8,16 @@ como la direccion del movimiento, la velocidad de los objetos, el valor default 
 #include <time.h>
 #include <stdio.h>
 
-linea_t * CreateWorld(unsigned int h, unsigned int w);
-void FreeWorldData(linea_t * pl, unsigned int h);
-void ShiftArr (int len, objeto_t* p2obj);
-void CreateObject(linea_t * pl);
-void DestroyObject(linea_t * pl);
+/*
+int main(void)
+{
+    linea_t *pl = CreateWorld(HEIGHT, WIDTH);
 
-int main(void){
-    linea_t * pl = CreateWorld(HEIGHT, WIDTH);
-
-    for(int i = 0 ; i < 10 ; i++){
-        for(int c = 0 ; c < 10 ; c++){
-            printf("%d\t",*(((pl+i)->p_linea)+c));
+    for (int i = 0; i < 10; i++)
+    {
+        for (int c = 0; c < 10; c++)
+        {
+            printf("%d\t", *(((pl + i)->p_linea) + c));
         }
         printf("\n");
     }
@@ -28,7 +26,7 @@ int main(void){
 
     return 1;
 }
-
+*/
 
 linea_t * CreateWorld(unsigned int h, unsigned int w){
     linea_t * pl = (linea_t *)malloc(h*sizeof(linea_t));
