@@ -17,12 +17,12 @@ void MoveRana(rana_t rana, uint8_t dir){
     case LEFT:
         rana.posx--;
         break;
-    default:
-        break;
     }
+    /*
     if(rana.posx > WIDTH || rana.posx < 0 || rana.posy > HEIGHT || rana.posy < 0){
         RestarVidas(rana);
     }
+    */
 }
 
 void RestarVidas(rana_t rana){
@@ -35,4 +35,3 @@ void RestarVidas(rana_t rana){
         rana.posy = POSY_INI;
     }
 }
-
