@@ -96,44 +96,6 @@ void DestroyObject(linea_t * pl){
     (pl->cant_obj)--;
 }
 
-//funcion mover objetos, uso threads?
-void MoveObject(linea_t * pl){
-    if(pl->cant_obj > 0){
-        int cobjs = pl->cant_obj;
-        int vel = pl->v;
-        int dir = pl->dir;
-        int i, c;
-        for (i = 0; i < WIDTH; i++)
-        {
-            *((pl->p_linea) + i) = pl->val_def;
-        }
-        for (i = 0; i < cobjs; i++)
-        {
-            ((pl->po) + i)->x += vel * dir;
-
-            switch (dir)
-            {
-            case DER:
-                if((pl)->po->x >= WIDTH){
-                    DestroyObject(pl);
-                    //printf("destory");
-                }
-                break;
-            case IZQ:
-                if((pl)->po->x + (pl)->size - 1 < 0){
-                    DestroyObject(pl);
-                    //printf("destory");
-                }
-            }
-
-            for (c = 0; c < pl->size; c++)
-            {
-                *((pl->p_linea) + (((pl->po) + i)->x) + c) = !(pl->val_def);
-            }
-        }
-    }
-}
-
 void ObjectSpawner(unsigned int spawn_chance, unsigned int size, unsigned int num_cur_obj, linea_t * pl){
     static int spawned = 0;
     static int timeBuffer = 0;

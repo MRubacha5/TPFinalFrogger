@@ -2,27 +2,23 @@
 #include "Objetos.h"
 
 
-void MoveRana(rana_t rana, uint8_t dir){
+void MoveRana(rana_t* prana, uint8_t dir){
     switch (dir)
     {
     case UP:
-        rana.posy++;
+        prana->posy++;
         break;
     case DOWN:
-        rana.posy--;
+        prana->posy--;
         break;
     case RIGHT:
-        rana.posx++;
+        prana->posx++;
         break;
     case LEFT:
-        rana.posx--;
+        prana->posx--;
         break;
     }
-    /*
-    if(rana.posx > WIDTH || rana.posx < 0 || rana.posy > HEIGHT || rana.posy < 0){
-        RestarVidas(rana);
-    }
-    */
+   
 }
 
 void RestarVidas(rana_t* pRana){
