@@ -95,7 +95,7 @@ int main (void) {
 		pl = CreateWorld(HEIGHT, WIDTH);
 
 		//creo instancias de objetos
-		//CreateObject(pl+3);
+		ObjectSpawner(1, (pl+3)->size, (pl+3)->cant_obj, pl+3);
 
 		pthread_create(&tid1, NULL, line3, NULL);
 

@@ -85,7 +85,9 @@ void CreateObject(linea_t * pl){
     (po+s)->x = (pl->dir == DER ? 1-pl->size : WIDTH-1); // si direccion es derecha arranca en 0 si no al final
     printf("X: %d\n",(po+s)->x);
     (pl->cant_obj)++;
+    printf("pointer in create: %p\n", pl->po);
     pl->po = realloc(po, (pl->cant_obj)+1);
+    
     if(pl->po == NULL){
         printf("ERROR WITH REALLOC");
     }
@@ -94,6 +96,7 @@ void CreateObject(linea_t * pl){
 
 //funcion destroyobjects --> hace falta un flip array por si cambia la direccion del movimiento
 void DestroyObject(linea_t * pl){
+    printf("pointer in destroy: %p\n", pl->po);
     ShiftArr(pl->po, (pl->po)+(pl->cant_obj), (pl->po)+(pl->cant_obj), *((pl->po)+(pl->cant_obj)));
     objeto_t * po = pl->po;
     pl->po = realloc(po, (pl->cant_obj));
