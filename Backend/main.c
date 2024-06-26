@@ -197,19 +197,19 @@ int main (void) {
 
                     switch(ev.keyboard.keycode){
                         case ALLEGRO_KEY_DOWN:
-                            MoveRana(rana, DOWN);
+                            MoveRana(&rana, DOWN);
                             keyPressed = 1;
                             break;
                         case ALLEGRO_KEY_UP:
-                            MoveRana(rana, UP);
+                            MoveRana(&rana, UP);
                             keyPressed = 1;
                             break;
                         case ALLEGRO_KEY_LEFT:
-                            MoveRana(rana, LEFT);
+                            MoveRana(&rana, LEFT);
                             keyPressed = 1;
                             break;
                         case ALLEGRO_KEY_RIGHT:
-                            MoveRana(rana, RIGHT);
+                            MoveRana(&rana, RIGHT);
                             keyPressed = 1;
                             break;
 
