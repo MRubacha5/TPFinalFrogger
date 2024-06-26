@@ -25,13 +25,13 @@ void MoveRana(rana_t rana, uint8_t dir){
     */
 }
 
-void RestarVidas(rana_t rana){
-    rana.vidas--;
-    if(rana.vidas == 0){
-        //death
+void RestarVidas(rana_t* pRana){
+    pRana->vidas--;
+    if(pRana->vidas == 0){
+        //game over
     }
     else{
-        rana.posx = POSX_INI;
-        rana.posy = POSY_INI;
+        pRana->posx = POSX_INI;
+        pRana->posy = POSY_INI;
     }
 }

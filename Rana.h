@@ -12,6 +12,6 @@ typedef struct{
 } rana_t;
 
 void MoveRana(rana_t rana, uint8_t dir);
-void RestarVidas(rana_t rana);
+void RestarVidas(rana_t* pRana);
 
 #endif
