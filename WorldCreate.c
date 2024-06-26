@@ -35,13 +35,16 @@ linea_t * CreateWorld(unsigned int h, unsigned int w){
     for(i = 0 ; i < h ; i++){
         linea_t * linea_actual = pl+i;
         linea_actual->dir = (rand()%2) ? DER : IZQ;
-        linea_actual->v = (rand()%3 + 1); //a cambiar despues, variar segun delays por procesadores (movimiento por segundo y ajustar)
-
-        if(i <= (h/2)){
-            linea_actual->val_def = 0; // se puede caminar
+        
+        if(i <= (h/2)){ //agua
+            linea_actual->v = (rand()%3 + 1);
+            linea_actual->val_def = 0;
+            linea_actual->size = rand()%3+1;
         }
-        else{
+        else{ //cemento
+            linea_actual->v = (rand()%2 + 1);
             linea_actual->val_def = 1;
+            linea_actual->size = rand()%2+1;
         }
 
         linea_actual->p_linea = (int *)malloc(sizeof(int) * w); //creo las celdas en x y las poblo con le val def
@@ -77,9 +80,8 @@ void FreeWorldData(linea_t * pl, unsigned int h){
 void CreateObject(linea_t * pl){
     objeto_t * po = pl->po;
     int s = pl->cant_obj;
-    (po+s)->size = 1; //modificar para distintos tipo (switch?)
     (po+s)->val = !(pl->val_def);
-    (po+s)->x = (pl->dir == DER ? 0 : WIDTH-1); // si direccion es derecha arranca en 0 si no al final
+    (po+s)->x = (pl->dir == DER ? 1-pl->size : WIDTH-1); // si direccion es derecha arranca en 0 si no al final
     (pl->cant_obj)++;
     pl->po = realloc(po, (pl->cant_obj)+1);
     if(pl->po == NULL){
@@ -90,7 +92,7 @@ void CreateObject(linea_t * pl){
 
 //funcion destroyobjects --> hace falta un flip array por si cambia la direccion del movimiento
 void DestroyObject(linea_t * pl){
-    ShiftArr((pl->cant_obj)+1, pl->po);
+    ShiftArr(pl->po, (pl->po)+(pl->cant_obj), (pl->po)+(pl->cant_obj), *((pl->po)+(pl->cant_obj)));
     objeto_t * po = pl->po;
     pl->po = realloc(po, (pl->cant_obj));
     (pl->cant_obj)--;
@@ -111,7 +113,7 @@ void MoveObject(linea_t * pl){
         {
             ((pl->po) + i)->x += vel * dir;
 
-            for (c = 0; i < pl->po->size; i++)
+            for (c = 0; i < pl->size; i++)
             {
                 *((pl->p_linea) + (((pl->po) + i)->x) + c) = !(pl->val_def);
             }
@@ -119,24 +121,39 @@ void MoveObject(linea_t * pl){
     }
 }
 
+void ObjectSpawner(unsigned int spawn_chance, unsigned int size, unsigned int num_cur_obj, linea_t * pl){
+    static int spawned = 0;
+    static int timeBuffer = 0;
+    if(spawned == 0 && num_cur_obj < 4){
 
-void ShiftArr (int len, objeto_t* p2obj)
-{
-	
-	objeto_t temp;
-	
-	if (len == 1)
-	{
-		return;
-	}
-	else
-	{
-		temp = *p2obj;
-		*p2obj = *(p2obj+1);
-		*(p2obj+1) = temp;
-		ShiftArr (len-1, p2obj+1);
-	}	
-	return;
+        if (rand()%spawn_chance == 0){
+            CreateObject(pl);
+        }
+        spawned = 1;
+    }
+    else if (spawned == 1) {
+        if (timeBuffer <= size){
+            timeBuffer++;
+        }
+        else {
+            timeBuffer = 0;
+            spawned = 0;
+        }
+    }
 }
+
+void ShiftArr(objeto_t * ppri, objeto_t * pult, objeto_t * pstage ,objeto_t copia){
+    if(ppri == pstage){
+        *pult = copia;
+        return;
+    }
+    else {
+        objeto_t temp = *(pstage-1);
+        *(pstage-1) = copia;
+        ShiftArr(ppri, pult, pstage-1, temp);
+        return;
+    }
+}
+
 
 //en el agua siempre tiene que haber algo para pasar, no siempre random

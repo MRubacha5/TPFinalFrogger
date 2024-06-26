@@ -7,14 +7,14 @@
 #define WIDTH 10
 
 typedef struct {
-    uint8_t size; //ancho
-    uint8_t x; //posicion x (desde izquierda)
+    int8_t x; //posicion x (desde izquierda)
     uint8_t val; //valor de la linea negada
 } objeto_t;
 
 typedef struct{
-    uint8_t dir; //direccion de los objetos
-    uint8_t v; //velocidad de los objectos
+    uint8_t size;
+    int8_t dir; //direccion de los objetos
+    int8_t v; //velocidad de los objectos
     uint8_t val_def; //valor default de la linea
     uint8_t cant_obj;
     int * p_linea; //puntero a coordenada (0, linea)
@@ -23,8 +23,9 @@ typedef struct{
 
 linea_t * CreateWorld(unsigned int h, unsigned int w);
 void FreeWorldData(linea_t * pl, unsigned int h);
-void ShiftArr (int len, objeto_t* p2obj);
+void ShiftArr(objeto_t * ppri, objeto_t * pult, objeto_t * pstage ,objeto_t copia);
 void CreateObject(linea_t * pl);
 void DestroyObject(linea_t * pl);
 void MoveObject(linea_t * pl);
+void ObjectSpawner(unsigned int difficulty, unsigned int size, unsigned int num_cur_obj, linea_t * pl);
 #endif

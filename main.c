@@ -14,7 +14,7 @@
 #define DISPLAY_X (GSIZE*WIDTH)
 #define DISPLAY_Y (GSIZE*HEIGHT)
 
-void * line1();
+void * line3();
 
 int do_exit = 0;
 int keyPressed = 0;
@@ -90,7 +90,7 @@ int main (void) {
 
 		al_clear_to_color(al_color_name("black"));
 
-		pthread_create(&tid1, NULL, line1, NULL);
+		pthread_create(&tid1, NULL, line3, NULL);
 
 		//pthread_join(tid1, NULL);
         pl = CreateWorld(HEIGHT, WIDTH);
@@ -140,7 +140,10 @@ int main (void) {
 
                     for(int i = 0 ; i < HEIGHT ; i++){
                         for(int c = 0 ; c < (pl+i)->cant_obj ; c++){
-                            al_draw_filled_rectangle(((((pl+i)->po)+c)->x) *GSIZE, i*GSIZE, (((((pl+i)->po)+c)->x) + ((((pl+i)->po)+c)->size)) * GSIZE, (i+1)*GSIZE,al_color_name("brown"));
+							int xvalue = ((((pl+i)->po)+c)->x) < 0 ? 0 : (((pl+i)->po)+c)->x ;
+							int maxvalue = (xvalue + pl->size) > WIDTH ? WIDTH : (xvalue + pl->size);
+
+                            al_draw_filled_rectangle(xvalue * GSIZE, i*GSIZE, maxvalue * GSIZE, (i+1)*GSIZE,al_color_name("white"));
                         }
                     }
                     al_flip_display();
@@ -188,40 +191,56 @@ int main (void) {
 	return 0;
 }
 
-void * line1(){
+void * line3(){
 	//detecta botones y cambia la direccion
-    int dir = (pl+3)->dir;
-    int v = (pl+3)->v;
-    int time_buffer = 0;
-    int spawned = 0;
+	linea_t * linea = pl+3;
+    int dir = (linea)->dir;
+    int v = (linea)->v;
+	int size = linea->size; 
+
+	printf("dir: %d, v: %d, size: %d\n", dir, v, size);
+
 	ALLEGRO_EVENT_QUEUE * queue;
     ALLEGRO_TIMER * timer = al_create_timer(1.0/v);
 	queue = al_create_event_queue();
 	al_register_event_source(queue, al_get_timer_event_source(timer));
     al_start_timer(timer);
-    CreateObject(pl+3);
     
+    ObjectSpawner(v, size, linea->cant_obj, linea);
+
+	int counter = 0;
+	int flag = 0 ;
 	while(1){
 		ALLEGRO_EVENT ev;
 		if(al_get_next_event(queue, &ev)){
             if(ev.type == ALLEGRO_EVENT_TIMER){
                 
-                MoveObject(pl+3);
+				if(counter > 6 && flag == 0){
+					DestroyObject(linea);
+					flag = 1;
+				}
+				counter++;
+
+				//ObjectSpawner(v*2, size, linea->cant_obj, linea);
+
+                /*
+				MoveObject(linea);
             
                 switch (dir)
                 {
                 case DER:
-                    if((pl+3)->po->x > WIDTH){
-                        DestroyObject(pl+3);
+                    if((linea)->po->x >= WIDTH + linea->size - 1){
+                        DestroyObject(linea);
                         printf("destory");
                     }
                     break;
                 case IZQ:
-                    if((pl+3)->po->x + (pl+3)->po->size < 0){
-                        DestroyObject(pl+3);
+                    if((linea)->po->x + (linea)->size - 1 < 0){
+                        DestroyObject(linea);
                         printf("destory");
                     }
                 }
+				*/
             }
 		}
 	}
