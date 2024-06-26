@@ -45,7 +45,7 @@ void MoveObject(linea_t * pl){
         }    
         for (i = 0; i < cobjs; i++)
         {
-            ((pl->po) + i)->x += vel * dir;
+            ((pl->po) + i)->x += dir;
 
             switch (dir)
             {

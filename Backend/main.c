@@ -27,6 +27,8 @@ rana_t rana = {.posx=WIDTH/2, .posy=0, .vidas=3};
 int tnum[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
 
 int flag = 0;
+int contadores[HEIGHT];
+
 
 int main (void) {
 
@@ -34,10 +36,10 @@ int main (void) {
 		ALLEGRO_FONT * font;
 		ALLEGRO_EVENT_QUEUE * event_queue;
 		ALLEGRO_TIMER * timer;
+		ALLEGRO_TIMER * gameTimer;
 		ALLEGRO_BITMAP * background;
 
 		pthread_t tid[HEIGHT];
-
 
 		if(!al_init()){
 		    	fprintf(stderr, "failed to initialize allegro!\n");
@@ -63,13 +65,20 @@ int main (void) {
 	        return -1;
 	    }
 
-	    timer = al_create_timer(1.0/FPS);
+	    timer = al_create_timer(1.0);
 	    al_init_font_addon();
 	    if(!timer){
 	    	printf("failed to create timer!\n");
 	    	al_destroy_display(display);
 	    	return -1;
 	    }
+
+		gameTimer = al_create_timer(1.0/FPS);
+		if(!gameTimer){
+			printf("error creating game timer");
+			al_destroy_display(display);
+			return -1;
+		}
 
 	    font = al_create_builtin_font();
 	    if (!font) {
@@ -97,45 +106,19 @@ int main (void) {
 
 		al_register_event_source(event_queue, al_get_display_event_source(display));
 		al_register_event_source(event_queue, al_get_timer_event_source(timer));
+		al_register_event_source(event_queue, al_get_timer_event_source(gameTimer));
 		al_register_event_source(event_queue, al_get_keyboard_event_source());
 		al_register_event_source(event_queue, al_get_mouse_event_source());
 
 		al_start_timer(timer);
+		al_start_timer(gameTimer);
 
 		al_clear_to_color(al_color_name("black"));
 
 		pl = CreateWorld(HEIGHT, WIDTH);
 
-		//creo instancias de objetos
-		//int i;
-		/*
-		for(i = 1 ; i < 19 ; i++){
-			pthread_create(&(tid[i]), NULL, line, &(tnum[i]));
-		}
-		*/
-		
-		
-
-		//pthread_join(tid1, NULL);
-
-		/*
-        for (int i = 0; i < HEIGHT; i++)
-        {
-            for (int c = 0; c < WIDTH; c++)
-            {
-                if(*(((pl+i)->p_linea)+c)){
-                    al_draw_filled_rectangle(c*GSIZE, i*GSIZE, (c+1)*GSIZE, (i+1)*GSIZE , al_color_name("green"));
-                }
-                else{
-                    al_draw_filled_rectangle(c*GSIZE, i*GSIZE, (c+1)*GSIZE, (i+1)*GSIZE , al_color_name("blue"));
-                }
-                
-            }
-            
-        }
-		*/
-        al_draw_filled_ellipse(rana.posx*GSIZE + GSIZE/2, DISPLAY_Y-(rana.posy*GSIZE) - GSIZE/2, GSIZE/2, GSIZE/2, al_color_name("pink"));
         al_flip_display();
+
 		while(!do_exit){
 
 			ALLEGRO_EVENT ev;
@@ -143,41 +126,44 @@ int main (void) {
 			if(al_get_next_event(event_queue, &ev)){
 
 				if(ev.type == ALLEGRO_EVENT_TIMER){
-					al_draw_bitmap(background, 0, 0, 0);
-					if(keyPressed){
-                        printf("%d", rana.posy);
-                    }
-                    keyPressed = 0;
-					/*
-                    for (int i = 0; i < HEIGHT; i++)
-                    {
-                        for (int c = 0; c < WIDTH; c++)
-                        {
-                            if(*(((pl+i)->p_linea)+c)){
-                                al_draw_filled_rectangle(c*GSIZE, i*GSIZE, (c+1)*GSIZE, (i+1)*GSIZE , al_color_name("green"));
-                            }
-                            else{
-                                al_draw_filled_rectangle(c*GSIZE, i*GSIZE, (c+1)*GSIZE, (i+1)*GSIZE , al_color_name("blue"));
-                            }
-                            
-                        }
-                        
-                    }
-					*/
-                    al_draw_filled_ellipse(rana.posx*GSIZE + GSIZE/2, DISPLAY_Y-(rana.posy*GSIZE) - GSIZE/2, GSIZE/2, GSIZE/2, al_color_name("pink"));
+					if(ev.timer.source == gameTimer){
+						al_draw_bitmap(background, 0, 0, 0);
 
+						if(keyPressed){
+							printf("%d", rana.posy);
+						}
+						keyPressed = 0;
+						
+						al_draw_filled_ellipse(rana.posx*GSIZE + GSIZE/2, DISPLAY_Y-(rana.posy*GSIZE) - GSIZE/2, GSIZE/2, GSIZE/2, al_color_name("pink"));
+
+						
+						
+						
+						for(int i = 0 ; i < HEIGHT ; i++){
+							for(int c = 0 ; c < (pl+i)->cant_obj ; c++){
+								int xvalue = ((((pl+i)->po)+c)->x) < 0 ? 0 : (((pl+i)->po)+c)->x ;
+								int maxvalue = (((((pl+i)->po)+c)->x) + (pl+i)->size) > WIDTH ? WIDTH : (((((pl+i)->po)+c)->x) + (pl+i)->size);
+								al_draw_filled_rectangle(xvalue * GSIZE, i*GSIZE, maxvalue * GSIZE, (i+1)*GSIZE,al_color_name("white"));
+							}
+						}
+						
+						
+						al_flip_display();
 					
-					for(int i = 0 ; i < HEIGHT ; i++){
-						for(int c = 0 ; c < (pl+i)->cant_obj ; c++){
-							int xvalue = ((((pl+i)->po)+c)->x) < 0 ? 0 : (((pl+i)->po)+c)->x ;
-							int maxvalue = (((((pl+i)->po)+c)->x) + (pl+i)->size) > WIDTH ? WIDTH : (((((pl+i)->po)+c)->x) + (pl+i)->size);
-							//printf("size: %d, x: %d, xval: %d, maxval: %d\n", (pl+i)->size, ((((pl+i)->po)+c)->x), xvalue, maxvalue);
-							al_draw_filled_rectangle(xvalue * GSIZE, i*GSIZE, maxvalue * GSIZE, (i+1)*GSIZE,al_color_name("white"));
+					
+					
+						for(int i = 1 ; i < 5 ; i++){
+							linea_t * linea = pl+i;
+							ObjectSpawner(linea->v*2, linea->size, linea->cant_obj, linea);
+							contadores[i]++;
+							if(contadores[i] > FPS/linea->v){
+								MoveObject(linea);
+								contadores[i] = 0;
+							}
+							
 						}
 					}
 					
-					
-					al_flip_display();
                     
 		    	}
 				else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
@@ -219,6 +205,11 @@ int main (void) {
 		}
         FreeWorldData(pl, HEIGHT);
 		al_destroy_display(display);
+		al_destroy_bitmap(background);
+		al_destroy_event_queue(event_queue);
+		al_destroy_font(font);
+		al_destroy_timer(timer);
+		al_destroy_timer(gameTimer);
 
 	return 0;
 }
