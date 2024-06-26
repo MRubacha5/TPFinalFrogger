@@ -37,9 +37,9 @@ linea_t * CreateWorld(unsigned int h, unsigned int w){
         linea_actual->dir = (rand()%2) ? DER : IZQ;
         
         if(i <= (h/2)){ //agua
-            linea_actual->v = (rand()%3 + 1);
+            linea_actual->v = (rand()%2 + 1);
             linea_actual->val_def = 0;
-            linea_actual->size = rand()%3+1;
+            linea_actual->size = rand()%3+2;
         }
         else{ //cemento
             linea_actual->v = (rand()%2 + 1);
@@ -57,7 +57,7 @@ linea_t * CreateWorld(unsigned int h, unsigned int w){
         }
 
         linea_actual->cant_obj = 0;
-        linea_actual->po = (objeto_t *)malloc(sizeof(objeto_t));
+        linea_actual->po = (objeto_t *)malloc(sizeof(objeto_t)*4); // hay cuatro obj por linea
         if(linea_actual->po == NULL){
             return NULL;
         }
@@ -74,35 +74,25 @@ void FreeWorldData(linea_t * pl, unsigned int h){
         free((pl+i)->po);
     }
     free(pl);
-    printf("segment reached");
+    //printf("segment reached");
 }
 
 //funcion crear instancia de objeto
 void CreateObject(linea_t * pl){
+    if(pl->cant_obj == 4){
+        return;
+    }
     objeto_t * po = pl->po;
     int s = pl->cant_obj;
     (po+s)->val = !(pl->val_def);
     (po+s)->x = (pl->dir == DER ? 1-pl->size : WIDTH-1); // si direccion es derecha arranca en 0 si no al final
-    printf("X: %d\n",(po+s)->x);
     (pl->cant_obj)++;
-    printf("pointer in create: %p\n", pl->po);
-    pl->po = realloc(po, (pl->cant_obj)+1);
-    
-    if(pl->po == NULL){
-        printf("ERROR WITH REALLOC");
-    }
     
 }
 
 //funcion destroyobjects --> hace falta un flip array por si cambia la direccion del movimiento
 void DestroyObject(linea_t * pl){
-    printf("pointer in destroy: %p\n", pl->po);
     ShiftArr(pl->po, (pl->po)+(pl->cant_obj), (pl->po)+(pl->cant_obj), *((pl->po)+(pl->cant_obj)));
-    objeto_t * po = pl->po;
-    pl->po = realloc(po, (pl->cant_obj));
-    if(pl->po == NULL){
-        printf("ERROR CON REALLOC EN DESTROY");
-    }
     (pl->cant_obj)--;
 }
 
@@ -121,6 +111,21 @@ void MoveObject(linea_t * pl){
         {
             ((pl->po) + i)->x += vel * dir;
 
+            switch (dir)
+            {
+            case DER:
+                if((pl)->po->x >= WIDTH){
+                    DestroyObject(pl);
+                    //printf("destory");
+                }
+                break;
+            case IZQ:
+                if((pl)->po->x + (pl)->size - 1 < 0){
+                    DestroyObject(pl);
+                    //printf("destory");
+                }
+            }
+
             for (c = 0; c < pl->size; c++)
             {
                 *((pl->p_linea) + (((pl->po) + i)->x) + c) = !(pl->val_def);
@@ -132,9 +137,11 @@ void MoveObject(linea_t * pl){
 void ObjectSpawner(unsigned int spawn_chance, unsigned int size, unsigned int num_cur_obj, linea_t * pl){
     static int spawned = 0;
     static int timeBuffer = 0;
-    if(spawned == 0 && num_cur_obj < 4){
-
-        if (rand()%spawn_chance == 0){
+    if(spawned == 0){
+        if(num_cur_obj == 0){
+            CreateObject(pl);
+        }
+        else if (rand()%spawn_chance == 0){
             CreateObject(pl);
         }
         spawned = 1;

@@ -3,8 +3,8 @@
 #include <stdint.h>
 #define IZQ -1
 #define DER 1
-#define HEIGHT 10
-#define WIDTH 10
+#define HEIGHT 20
+#define WIDTH 13
 
 typedef struct {
     int8_t x; //posicion x (desde izquierda)
