@@ -107,7 +107,7 @@ int main (void) {
 		pl = CreateWorld(HEIGHT, WIDTH);
 
 		//creo instancias de objetos
-		int i;
+		//int i;
 		/*
 		for(i = 1 ; i < 19 ; i++){
 			pthread_create(&(tid[i]), NULL, line, &(tnum[i]));
