@@ -22,6 +22,8 @@ int keyPressed = 0;
 linea_t * pl;
 rana_t rana = {.posx=WIDTH/2, .posy=0, .vidas=3};
 
+int flag = 0;
+
 int main (void) {
 
 		ALLEGRO_DISPLAY * display = NULL;
@@ -90,10 +92,15 @@ int main (void) {
 
 		al_clear_to_color(al_color_name("black"));
 
+		pl = CreateWorld(HEIGHT, WIDTH);
+
+		//creo instancias de objetos
+		//CreateObject(pl+3);
+
 		pthread_create(&tid1, NULL, line3, NULL);
 
 		//pthread_join(tid1, NULL);
-        pl = CreateWorld(HEIGHT, WIDTH);
+
 
         for (int i = 0; i < HEIGHT; i++)
         {
@@ -138,15 +145,19 @@ int main (void) {
                     }
                     al_draw_filled_ellipse(rana.posx*GSIZE + GSIZE/2, DISPLAY_Y-(rana.posy*GSIZE) - GSIZE/2, GSIZE/2, GSIZE/2, al_color_name("pink"));
 
-                    for(int i = 0 ; i < HEIGHT ; i++){
-                        for(int c = 0 ; c < (pl+i)->cant_obj ; c++){
+					
+					for(int i = 0 ; i < HEIGHT ; i++){
+						for(int c = 0 ; c < (pl+i)->cant_obj ; c++){
 							int xvalue = ((((pl+i)->po)+c)->x) < 0 ? 0 : (((pl+i)->po)+c)->x ;
-							int maxvalue = (xvalue + pl->size) > WIDTH ? WIDTH : (xvalue + pl->size);
-
-                            al_draw_filled_rectangle(xvalue * GSIZE, i*GSIZE, maxvalue * GSIZE, (i+1)*GSIZE,al_color_name("white"));
-                        }
-                    }
-                    al_flip_display();
+							int maxvalue = (((((pl+i)->po)+c)->x) + (pl+i)->size) > WIDTH ? WIDTH : (((((pl+i)->po)+c)->x) + (pl+i)->size);
+							printf("size: %d, x: %d, xval: %d, maxval: %d\n", (pl+i)->size, ((((pl+i)->po)+c)->x), xvalue, maxvalue);
+							al_draw_filled_rectangle(xvalue * GSIZE, i*GSIZE, maxvalue * GSIZE, (i+1)*GSIZE,al_color_name("white"));
+						}
+					}
+					
+					
+					al_flip_display();
+                    
 		    	}
 				else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
 					do_exit = true;
@@ -198,32 +209,20 @@ void * line3(){
     int v = (linea)->v;
 	int size = linea->size; 
 
-	printf("dir: %d, v: %d, size: %d\n", dir, v, size);
-
 	ALLEGRO_EVENT_QUEUE * queue;
     ALLEGRO_TIMER * timer = al_create_timer(1.0/v);
 	queue = al_create_event_queue();
 	al_register_event_source(queue, al_get_timer_event_source(timer));
     al_start_timer(timer);
     
-    ObjectSpawner(v, size, linea->cant_obj, linea);
+	//printf("dir: %d, v: %d, size: %d, x: %d\n", dir, v, size, linea->po->x);
 
-	int counter = 0;
-	int flag = 0 ;
 	while(1){
 		ALLEGRO_EVENT ev;
 		if(al_get_next_event(queue, &ev)){
             if(ev.type == ALLEGRO_EVENT_TIMER){
+				ObjectSpawner(v*2, size, linea->cant_obj, linea);
                 
-				if(counter > 6 && flag == 0){
-					DestroyObject(linea);
-					flag = 1;
-				}
-				counter++;
-
-				//ObjectSpawner(v*2, size, linea->cant_obj, linea);
-
-                /*
 				MoveObject(linea);
             
                 switch (dir)
@@ -240,7 +239,7 @@ void * line3(){
                         printf("destory");
                     }
                 }
-				*/
+				
             }
 		}
 	}
@@ -248,3 +247,4 @@ void * line3(){
 
 
 //que pasa cuando no hay objetos con el realloc. Hacer la logica de crear y borrar
+//hacer que apenas arranque cree los obstaculos, como para que esten inicializados

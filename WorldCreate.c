@@ -74,6 +74,7 @@ void FreeWorldData(linea_t * pl, unsigned int h){
         free((pl+i)->po);
     }
     free(pl);
+    printf("segment reached");
 }
 
 //funcion crear instancia de objeto
@@ -82,6 +83,7 @@ void CreateObject(linea_t * pl){
     int s = pl->cant_obj;
     (po+s)->val = !(pl->val_def);
     (po+s)->x = (pl->dir == DER ? 1-pl->size : WIDTH-1); // si direccion es derecha arranca en 0 si no al final
+    printf("X: %d\n",(po+s)->x);
     (pl->cant_obj)++;
     pl->po = realloc(po, (pl->cant_obj)+1);
     if(pl->po == NULL){
@@ -95,6 +97,9 @@ void DestroyObject(linea_t * pl){
     ShiftArr(pl->po, (pl->po)+(pl->cant_obj), (pl->po)+(pl->cant_obj), *((pl->po)+(pl->cant_obj)));
     objeto_t * po = pl->po;
     pl->po = realloc(po, (pl->cant_obj));
+    if(pl->po == NULL){
+        printf("ERROR CON REALLOC EN DESTROY");
+    }
     (pl->cant_obj)--;
 }
 
@@ -113,7 +118,7 @@ void MoveObject(linea_t * pl){
         {
             ((pl->po) + i)->x += vel * dir;
 
-            for (c = 0; i < pl->size; i++)
+            for (c = 0; c < pl->size; c++)
             {
                 *((pl->p_linea) + (((pl->po) + i)->x) + c) = !(pl->val_def);
             }
