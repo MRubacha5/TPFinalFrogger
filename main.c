@@ -1,5 +1,5 @@
 /*codigo para allegro*/
-#include "Objetos.h"
+#include "../Backend/Objetos.h"
 #include "Rana.h"
 #include <stdlib.h>
 #include <allegro5/allegro.h>
