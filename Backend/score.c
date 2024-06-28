@@ -149,7 +149,7 @@ uint16_t ct_score (uint8_t y, uint8_t t_time, uint8_t time, uint8_t lines, uint8
 		score += in_game_score(y);
 		if (lvlend)
 		{
-			score += time_bonus(t_time,time, lines);
+			//score += time_bonus(t_time,time, lines);
 		}
 	}
 	else 
@@ -167,18 +167,21 @@ uint16_t ct_score (uint8_t y, uint8_t t_time, uint8_t time, uint8_t lines, uint8
 static uint16_t in_game_score (uint8_t y){
 	
 	static uint8_t yMax;
-	static uint16_t sc;
+	uint16_t sc;
 	
-	if (y>=yMax) //si la posicion de la rana es mayor a una alcanzada previamente, el puntaje se incrementa
+	if (y>yMax) //si la posicion de la rana es mayor a una alcanzada previamente, el puntaje se incrementa
 	{
 		sc = 10;
 		yMax = y;
+		//printf ("%u   %u \n", y, yMax);
+
 	}
-	else if (y == 0) //Solo puede darse al principio de cada vida o nivel 
+	else if (y == 0) //solo al principio de cada nivel/vida
 	{
 		yMax = 0;
-		sc = 0;
-	}	
+	} 
+	else sc = 0;
+
 	return sc;
 }
 

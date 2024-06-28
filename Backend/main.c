@@ -1,6 +1,7 @@
 /*codigo para allegro*/
 #include "Objetos.h"
 #include "Rana.h"
+#include "score.h"
 #include <stdlib.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -16,6 +17,8 @@
 #define DISPLAY_X (GSIZE*WIDTH)
 #define DISPLAY_Y (GSIZE*HEIGHT)
 
+#define TIME 45 //cant de tiempo en segundos para pasar el nivel
+
 void * line();
 
 int do_exit = 0;
@@ -28,6 +31,7 @@ int tnum[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 
 
 int flag = 0;
 int contadores[HEIGHT];
+uint16_t inscreenscore;
 
 
 int main (void) {
@@ -40,6 +44,8 @@ int main (void) {
 		ALLEGRO_BITMAP * background;
 
 		pthread_t tid[HEIGHT];
+		
+		uint8_t time_left = 20; //hardcodeado solo para probar funcion  
 
 		if(!al_init()){
 		    	fprintf(stderr, "failed to initialize allegro!\n");
@@ -130,13 +136,14 @@ int main (void) {
 						al_draw_bitmap(background, 0, 0, 0);
 
 						if(keyPressed){
-							printf("%d", rana.posy);
+							//printf("%d", rana.posy);
 						}
 						keyPressed = 0;
 						
 						al_draw_filled_ellipse(rana.posx*GSIZE + GSIZE/2, DISPLAY_Y-(rana.posy*GSIZE) - GSIZE/2, GSIZE/2, GSIZE/2, al_color_name("pink"));
 
-						
+						//al_fwrite16le(background, inscreenscore);
+
 						
 						
 						for(int i = 0 ; i < HEIGHT ; i++){
@@ -189,6 +196,10 @@ int main (void) {
                         case ALLEGRO_KEY_UP:
                             MoveRana(&rana, UP);
                             keyPressed = 1;
+							//Cada vez que va para arriba se fija si se debe inc score
+							inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
+							printf ("%u\n",inscreenscore);
+
                             break;
                         case ALLEGRO_KEY_LEFT:
                             MoveRana(&rana, LEFT);
