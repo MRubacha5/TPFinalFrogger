@@ -27,6 +27,7 @@ int main(void)
 	dcoord_t pos = {DISP_MAX_X>>1 , DISP_MAX_Y>>1};	//pos es la posición actual, empieza en el centro de la matriz
 	joyinfo_t coord = {0,0,J_NOPRESS};							//coordenadas medidas del joystick
 	CreateObject(pl+3);
+    printf("x obj: %d", (pl+3)->po->x);
     do
 	{
         difference = clock() - before;
@@ -34,8 +35,11 @@ int main(void)
 
         if(msec > (1/FPS)*1000){
             disp_update();	//Actualiza el display con el contenido del buffer
-            printf("trabajo\n");
             MoveObject(pl+3);
+            for(int j = 0 ; j < 10 ; j++){
+                printf("%d\t", *(((pl+3)->p_linea)+j));
+            }
+            printf("\n\n");
             coord = joy_read();	//Guarda las coordenadas medidas
             disp_clear();
             int i, c;
