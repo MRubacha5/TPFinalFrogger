@@ -33,7 +33,7 @@ int main(void)
         difference = clock() - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
 
-        if(msec > (1/FPS)*1000){
+        if(msec > (1)*1000){ //falta el /FPS
             disp_update();	//Actualiza el display con el contenido del buffer
             MoveObject(pl+3);
             for(int j = 0 ; j < 10 ; j++){
@@ -48,7 +48,7 @@ int main(void)
                 for(c = 0 ; c < 10 ; c++){
                     pos.x = c;
                     pos.y = i;
-                    disp_write(pos, !(linea->val_def));
+                    disp_write(pos, *((linea->p_linea)+c));
                 }
             }
             before = clock();
