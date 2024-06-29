@@ -20,12 +20,13 @@ int main(void)
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	CreateObject(pl+3);
     printf("x obj: %d", (pl+3)->po->x);
+    MoveObject(pl+3);
     do
 	{
         difference = clock() - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
 
-        //MoveObject(pl+3);
+        
         
 
         if(msec > (1/FPS)*1000){ //falta el /FPS
