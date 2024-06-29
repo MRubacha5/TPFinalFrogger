@@ -29,23 +29,23 @@ int main(void)
         msec = difference * 1000 / CLOCKS_PER_SEC;
         dsec = (((lap_time - ini) * 10 / CLOCKS_PER_SEC));
 
-        if(msec > (1/FPS)*1000){ //falta el /FPS
+        if(msec > (1)*1000){ //falta el /FPS
             
             int i, c;
 
             for(i = 0 ; i < 16 ; i++){
-
-                if((pl+i)->cant_obj > 0 && dsec % (10/((pl+i)->v)) == 0){
-                    MoveObject(pl+i);
-                }
-
                 linea_t * linea = pl+i;
+
+                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
+                    MoveObject(linea);
+                    printf("Se movio: Linea: %d, X: %d, V: %d\n", i, linea->po->x, linea->v);
+                }
+                
                 for(c = 0 ; c < 10 ; c++){
-                    printf("%d\t", *(((pl+i)->p_linea)+c));
+                    printf("%d\t", *(((linea)->p_linea)+c));
                 }
                 printf("\n");
             }
-            printf("Pos x: %d, size of obj: %d\n", (pl+3)->po->x, (pl+3)->size);
             printf("\n\n");
             before = clock();
         }

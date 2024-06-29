@@ -43,7 +43,7 @@ void MoveObject(linea_t * pl){
         {
             *((pl->p_linea) + i) = pl->val_def;
         }    
-        for (i = 0; i < cobjs; i++)
+        for (i = 0 ; i < cobjs ; i++)
         {
             ((pl->po) + i)->x += dir;
 
@@ -51,13 +51,13 @@ void MoveObject(linea_t * pl){
             {
             case DER:
                 if((pl)->po->x >= WIDTH){
-                    DestroyObject(pl);
+                    //DestroyObject(pl);
                     //printf("destory");
                 }
                 break;
             case IZQ:
                 if((pl)->po->x + (pl)->size - 1 < 0){
-                    DestroyObject(pl);
+                    //DestroyObject(pl);
                     //printf("destory");
                 }
             }
