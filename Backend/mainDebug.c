@@ -17,7 +17,7 @@ int main(void)
     clock_t before = clock();   //agarro tiempo antes de arrancar
     clock_t lap_time;
     clock_t difference = 0;
-    int msec = 0, sec = 0;
+    int msec = 0, dsec = 0;
     linea_t * pl = CreateWorld(16, 10);
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	CreateObject(pl+3);
@@ -27,14 +27,18 @@ int main(void)
         lap_time = clock();
         difference = lap_time - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
-        sec = (((lap_time - before) * 1000 / CLOCKS_PER_SEC) * 1000);
+        dsec = (((lap_time - ini) * 10 / CLOCKS_PER_SEC));
 
         if(msec > (1/FPS)*1000){ //falta el /FPS
-
-            
             
             int i, c;
+
             for(i = 0 ; i < 16 ; i++){
+
+                if((pl+i)->cant_obj > 0 && dsec % (10/((pl+i)->v)) == 0){
+                    MoveObject(pl+i);
+                }
+
                 linea_t * linea = pl+i;
                 for(c = 0 ; c < 10 ; c++){
                     printf("%d\t", *(((pl+i)->p_linea)+c));
