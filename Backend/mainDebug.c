@@ -13,24 +13,25 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs.
 
 int main(void)
 {
-    clock_t before = clock(); //agarro tiempo antes de arrancar
+    clock_t ini = clock();      //clock inicial
+    clock_t before = clock();   //agarro tiempo antes de arrancar
+    clock_t lap_time;
     clock_t difference = 0;
-    int msec = 0;
+    int msec = 0, sec = 0;
     linea_t * pl = CreateWorld(16, 10);
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	CreateObject(pl+3);
-    
-    //MoveObject(pl+3);
+
     do
 	{
-        difference = clock() - before;
+        lap_time = clock();
+        difference = lap_time - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
-
-        
-        
+        sec = (((lap_time - before) * 1000 / CLOCKS_PER_SEC) * 1000);
 
         if(msec > (1/FPS)*1000){ //falta el /FPS
 
+            
             
             int i, c;
             for(i = 0 ; i < 16 ; i++){
