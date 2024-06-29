@@ -19,8 +19,8 @@ int main(void)
     linea_t * pl = CreateWorld(16, 10);
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	CreateObject(pl+3);
-    printf("x obj: %d", (pl+3)->po->x);
-    MoveObject(pl+3);
+    
+    //MoveObject(pl+3);
     do
 	{
         difference = clock() - before;
@@ -40,7 +40,7 @@ int main(void)
                 }
                 printf("\n");
             }
-            printf("Pos x: %d\n", (pl+3)->po->x);
+            printf("Pos x: %d, size of obj: %d\n", (pl+3)->po->x, (pl+3)->size);
             printf("\n\n");
             before = clock();
         }

@@ -87,7 +87,14 @@ void CreateObject(linea_t * pl){
     (po+s)->val = !(pl->val_def);
     (po+s)->x = (pl->dir == DER ? 1-pl->size : WIDTH-1); // si direccion es derecha arranca en 0 si no al final
     (pl->cant_obj)++;
-    *((pl->p_linea)+(po+s)->x) = !(pl->val_def);
+    switch (pl->dir)
+    {
+    case DER:
+        *((pl->p_linea)) = !(pl->val_def);
+        break;
+    case IZQ:
+        *((pl->p_linea)+WIDTH-1) = !(pl->val_def);
+    }
 }
 
 //funcion destroyobjects --> hace falta un flip array por si cambia la direccion del movimiento
