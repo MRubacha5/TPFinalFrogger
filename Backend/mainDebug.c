@@ -25,11 +25,8 @@ int main(void)
         difference = clock() - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
 
-        MoveObject(pl+3);
-        MoveObject(pl+3);
-        MoveObject(pl+3);
-        MoveObject(pl+3);
-        MoveObject(pl+3);
+        //MoveObject(pl+3);
+        
 
         if(msec > (1/FPS)*1000){ //falta el /FPS
 
@@ -42,6 +39,7 @@ int main(void)
                 }
                 printf("\n");
             }
+            printf("Pos x: %d\n", (pl+3)->po->x);
             printf("\n\n");
             before = clock();
         }
