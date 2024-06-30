@@ -28,7 +28,11 @@ int main(void)
 	disp_clear();									//limpia todo el display
 	dcoord_t pos = {DISP_MAX_X>>1 , DISP_MAX_Y>>1};	//pos es la posición actual, empieza en el centro de la matriz
 	joyinfo_t coord = {0,0,J_NOPRESS};							//coordenadas medidas del joystick
-	CreateObject(pl+3);
+	
+    CreateObject(pl+1);
+    CreateObject(pl+2);
+    CreateObject(pl+3);
+    CreateObject(pl+4);
 
     do
 	{
@@ -54,7 +58,7 @@ int main(void)
                 for(c = 0 ; c < 10 ; c++){
                     pos.x = c;
                     pos.y = i;
-                    disp_write(pos, *((linea->p_linea)+c));
+                    disp_write(pos, !(*((linea->p_linea)+c)));
                 }
                 printf("\n");
             }
