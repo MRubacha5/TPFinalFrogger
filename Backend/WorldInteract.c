@@ -51,13 +51,13 @@ void MoveObject(linea_t * pl){
             {
             case DER:
                 if((pl)->po->x >= WIDTH){
-                    //DestroyObject(pl);
+                    DestroyObject(pl);
                     //printf("destory");
                 }
                 break;
             case IZQ:
                 if((pl)->po->x + (pl)->size - 1 < 0){
-                    //DestroyObject(pl);
+                    DestroyObject(pl);
                     //printf("destory");
                 }
             }
