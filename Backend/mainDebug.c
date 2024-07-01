@@ -44,14 +44,13 @@ int main(void)
                 if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
                     MoveObject(linea);
                     printf("Se movio: Linea: %d, X: %d, V: %d", i, linea->po->x, linea->v);
-                }
+                } 
                 printf("\n");
             }
             printf("\n\n");
             before = clock();
         }
 		
-
 		
 	} while(1);	//termina si se presiona el switch
 	

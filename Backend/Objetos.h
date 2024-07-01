@@ -6,6 +6,7 @@
 #define HEIGHT 16
 #define WIDTH 10
 
+
 typedef struct {
     int8_t x; //posicion x (desde izquierda)
     uint8_t val; //valor de la linea negada
@@ -27,5 +28,6 @@ void ShiftArr(objeto_t * ppri, objeto_t * pult, objeto_t * pstage ,objeto_t copi
 void CreateObject(linea_t * pl);
 void DestroyObject(linea_t * pl);
 void MoveObject(linea_t * pl);
+void LoopObject(objeto_t* pobj,linea_t* plinea);
 void ObjectSpawner(unsigned int difficulty, unsigned int size, unsigned int num_cur_obj, linea_t * pl);
 #endif //OBJETOS_H
