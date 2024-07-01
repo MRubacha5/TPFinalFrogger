@@ -36,13 +36,14 @@ int main(void)
             for(i = 0 ; i < 16 ; i++){
                 linea_t * linea = pl+i;
 
-                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
-                    MoveObject(linea);
-                    printf("Se movio: Linea: %d, X: %d, V: %d\n", i, linea->po->x, linea->v);
-                }
-                
                 for(c = 0 ; c < 10 ; c++){
                     printf("%d\t", *(((linea)->p_linea)+c));
+                }
+                
+
+                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
+                    MoveObject(linea);
+                    printf("Se movio: Linea: %d, X: %d, V: %d", i, linea->po->x, linea->v);
                 }
                 printf("\n");
             }
