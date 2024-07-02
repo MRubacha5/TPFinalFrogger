@@ -59,6 +59,7 @@ int main(void)
         lap_time = clock();
         difference = lap_time - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
+        int i, c;
 
         if(msec > (1/FPS)*1000){ //falta el /FPS
             disp_update();	//Actualiza el display con el contenido del buffer
@@ -68,58 +69,50 @@ int main(void)
             switch (screen)
             {
             case MENU:
-                int i, j;
                 for(i = 0 ; i < 16 ; i++){
-                    for (j = 0 ; j < 16 ; j++){
-                        pos.x = j;
+                    for (c = 0 ; c < 16 ; c++){
+                        pos.x = c;
                         pos.y = i;
-                        disp_write(pos, mainMenu[i][j]);
+                        disp_write(pos, mainMenu[i][c]);
                     }
                 }
                 break;
-            
-            default:
-                break;
-            }
+            case GAME:
+                fpsCounter++;
+                if(fpsCounter >= FPS){
+                    fpsCounter = 0;
+                }
+                for(i = 0 ; i < 16 ; i++){
+                    linea_t * linea = pl+i;
 
-
-            fpsCounter++;
-            if(fpsCounter >= FPS){
-                fpsCounter = 0;
-            }
-
-            int i, c;
-
-            for(i = 0 ; i < 16 ; i++){
-                linea_t * linea = pl+i;
-
-                if(linea->cant_obj > 0){
-                    switch (linea->v)
-                    {
-                    case 1:
-                        if(fpsCounter == 0){
-                            MoveObject(linea);
+                    if(linea->cant_obj > 0){
+                        switch (linea->v)
+                        {
+                        case 1:
+                            if(fpsCounter == 0){
+                                MoveObject(linea);
+                            }
+                            break;
+                        case 2:
+                            if(fpsCounter == FPS/2 || fpsCounter == 0){
+                                MoveObject(linea);
+                            }
+                            break;
+                        case 3:
+                            if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
+                                MoveObject(linea);
+                            }
                         }
-                        break;
-                    case 2:
-                        if(fpsCounter == FPS/2 || fpsCounter == 0){
-                            MoveObject(linea);
-                        }
-                        break;
-                    case 3:
-                        if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
-                            MoveObject(linea);
-                        }
+                        
                     }
                     
+                    for(c = 0 ; c < 10 ; c++){
+                        pos.x = c;
+                        pos.y = i;
+                        disp_write(pos, !(*((linea->p_linea)+c)));
+                    }
                 }
-                
-                for(c = 0 ; c < 10 ; c++){
-                    pos.x = c;
-                    pos.y = i;
-                    disp_write(pos, !(*((linea->p_linea)+c)));
-                }
-            }
+            }      
             before = clock();
         }
 		
