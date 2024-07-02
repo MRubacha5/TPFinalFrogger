@@ -56,6 +56,7 @@ void MoveObject(linea_t * pl){
         {
             ((pl->po) + i)->x += dir; //los muevo en su direccion correspondiente (***FALTA AGREGAR MULTIPLICADOR DE VELOCIDAD***)
 
+
             switch (dir) // Analizo si se fueron del tablero para llamar a LoopObject. Solo llamo si el objeto entero ya salio de la pantalla
             {
             case DER:
@@ -76,9 +77,9 @@ void MoveObject(linea_t * pl){
 
             for (c = 0; c < pl->size; c++)// itero por el ancho del objeto
             {
-                int temp = pl->po->x;
-                *((pl->p_linea) + (((pl->po) + i)->x) + c) = !(pl->val_def);// muevo los valores booleanos del objeto a la nueva posicion x
-                pl->po->x=temp;
+                int temp = ((pl->po) + i)->x;
+                *((pl->p_linea) + ((((pl->po) + i)->x) + c)) = !(pl->val_def);// muevo los valores booleanos del objeto a la nueva posicion x
+                ((pl->po) + i)->x=temp;
             }
 
         }
@@ -93,10 +94,12 @@ void MoveObject(linea_t * pl){
 void LoopObject (objeto_t* pobj, linea_t* plinea){
     switch(plinea->dir){ //En base a la direccion de movimiento decido donde mover el x del objeto 
         case(DER):
-            pobj->x = 1- plinea->size; //Reinicio el objeto del lado izquierdo
+            pobj->x = 1- plinea->size; 
+            printf(" Loop DER");//Reinicio el objeto del lado izquierdo
             break;
         case(IZQ):
-            pobj->x = WIDTH;//Reinicio el objeto del lado derecho 
+            pobj->x = WIDTH;
+            printf(" Loop IZQ");//Reinicio el objeto del lado derecho 
         break;
     }
     return;

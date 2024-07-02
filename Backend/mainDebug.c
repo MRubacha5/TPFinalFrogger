@@ -21,10 +21,10 @@ int main(void)
     linea_t * pl = CreateWorld(16, 10);
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	CreateObject(pl+3);
-    CreateObject(pl+10);
-    CreateObject(pl+6);
+    //CreateObject(pl+10);
+    //CreateObject(pl+6);
     CreateObject(pl+3);
-    CreateObject(pl+6);
+    //CreateObject(pl+6);
 
     do
 	{

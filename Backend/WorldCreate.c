@@ -85,16 +85,8 @@ void CreateObject(linea_t * pl){
     objeto_t * po = pl->po;
     int s = pl->cant_obj;
     (po+s)->val = !(pl->val_def);
-    (po+s)->x = (pl->dir == DER ? 1-pl->size - (1+pl->size)*pl->cant_obj: WIDTH-1 + ((pl->size)+1) * pl->cant_obj); // si direccion es derecha arranca en 0 si no al final
+    (po+s)->x = (pl->dir == DER ? -pl->size - (1+pl->size)*pl->cant_obj: WIDTH + ((pl->size)+1) * pl->cant_obj); // si direccion es derecha arranca en 0 si no al final
     (pl->cant_obj)++;
-    switch (pl->dir)
-    {
-    case DER:
-        *((pl->p_linea)) = !(pl->val_def);
-        break;
-    case IZQ:
-        *((pl->p_linea)+WIDTH-1) = !(pl->val_def);
-    }
 }
 
 /********************
