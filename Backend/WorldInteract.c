@@ -32,7 +32,7 @@ objeto_t* Collisions(rana_t* prana, linea_t* world){
         //cualquier otra funcion que se deba llamar cuando la rana muere
     }
     if(col_obj->val && !(linea_actual->val_def)){//Si el objeto esta flotando en el agua
-       MoveRana(prana,linea_actual->dir);
+       MoveRana(prana,linea_actual->dir,world);
     }
     return col_obj;
 }

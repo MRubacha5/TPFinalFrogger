@@ -23,6 +23,8 @@ int main(void)
 	CreateObject(pl+3);
     CreateObject(pl+10);
     CreateObject(pl+6);
+    CreateObject(pl+3);
+    CreateObject(pl+6);
 
     do
 	{
@@ -45,7 +47,7 @@ int main(void)
 
                 if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
                     
-                    //printf("Se movio: Linea: %d, X: %d, V: %d", i, linea->po->x, linea->v);
+                    printf("Se movio: Linea: %d, X: %d, V: %d", i, linea->po->x, linea->v);
                     MoveObject(linea);
                 } 
                 printf("\n");

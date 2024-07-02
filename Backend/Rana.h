@@ -1,6 +1,7 @@
 #ifndef RANA_H
 #define RANA_H
 #include <stdint.h>
+#include "Objetos.h"
 enum ARROW_KEYS {UP, DOWN, LEFT, RIGHT};
 #define POSX_INI 5
 #define POSY_INI 0
