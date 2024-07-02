@@ -57,7 +57,7 @@ int main(void)
     clock_t ini = clock();
     clock_t lap_time;
     int msec = 0;
-    linea_t * pl;;
+    linea_t * pl;
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	
 	joy_init();										//inicializa el joystick
