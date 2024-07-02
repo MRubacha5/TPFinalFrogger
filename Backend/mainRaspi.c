@@ -56,6 +56,9 @@ int main(void)
                     flagMoveObject = 1;
                 }
                 
+                if((dsec % (int)(10/(linea->v))) != 0){
+                    flagMoveObject = 0;
+                }
                 
                 for(c = 0 ; c < 10 ; c++){
                     pos.x = c;
