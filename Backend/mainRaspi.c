@@ -50,6 +50,7 @@ int main(void)
 
                 if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
                     MoveObject(linea);
+                    printf("\ndsec: %d\n", dsec);
                 }
                 
                 for(c = 0 ; c < 10 ; c++){
