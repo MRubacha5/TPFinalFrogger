@@ -19,7 +19,7 @@ int main(void)
     clock_t difference = 0;
     clock_t ini = clock();
     clock_t lap_time;
-    int msec = 0, dsec = 0;
+    int msec = 0;
     linea_t * pl = CreateWorld(16, 10);
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	
@@ -31,33 +31,46 @@ int main(void)
 	
     CreateObject(pl+3);
 
-    int flagMoveObject = 0;
+    int fpsCounter = 0;
 
     do
 	{
         lap_time = clock();
         difference = lap_time - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
-        dsec = (((lap_time - ini) * 10 / CLOCKS_PER_SEC));
-
+        
         if(msec > (1/FPS)*1000){ //falta el /FPS
             disp_update();	//Actualiza el display con el contenido del buffer
             coord = joy_read();	//Guarda las coordenadas medidas
             disp_clear();
-            
+            fpsCounter++;
+            if(fpsCounter >= FPS){
+                fpsCounter = 0;
+            }
             int i, c;
 
             for(i = 0 ; i < 16 ; i++){
                 linea_t * linea = pl+i;
 
-                if(linea->cant_obj > 0 && (dsec % (int)(10/(linea->v))) == 0 && !flagMoveObject){
-                    MoveObject(linea);
-                    printf("\ndsec: %d\n", dsec);
-                    flagMoveObject = 1;
-                }
-                
-                if((dsec % (int)(10/(linea->v))) != 0){
-                    flagMoveObject = 0;
+                if(linea->cant_obj > 0){
+                    switch (linea->v)
+                    {
+                    case 1:
+                        if(fpsCounter == 0){
+                            MoveObject(linea);
+                        }
+                        break;
+                    case 2:
+                        if(fpsCounter == FPS/2 || fpsCounter == 0){
+                            MoveObject(linea);
+                        }
+                        break;
+                    case 3:
+                        if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
+                            MoveObject(linea);
+                        }
+                    }
+                    
                 }
                 
                 for(c = 0 ; c < 10 ; c++){
