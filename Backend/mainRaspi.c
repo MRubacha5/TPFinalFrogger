@@ -12,6 +12,26 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs.
 
 #define FPS 60
 #define THRESHOLD 40	//Límite a partir del cual se mueve el LED encendido
+#define MENU 0
+#define GAME 1
+#define PAUSE 2
+
+int mainMenu[16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                        {0,1,0,0,0,1,0,1,0,1,1,0,1,0,1,0},
+                        {0,1,1,1,0,1,0,1,1,1,1,1,1,0,1,0},
+                        {0,0,0,1,0,1,0,1,0,1,1,1,0,0,1,0},
+                        {0,1,1,1,0,1,0,1,0,1,1,0,1,0,1,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,1,1,1,0,1,0,1,0,1,1,1,0,1,1,1},
+                        {0,1,0,1,0,1,0,1,0,0,1,0,0,0,1,0},
+                        {0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,0},
+                        {0,0,0,1,0,1,0,1,0,0,1,0,0,0,1,0},
+                        {0,0,0,1,0,1,1,1,0,1,1,1,0,0,1,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
 int main(void)
 {
@@ -19,7 +39,7 @@ int main(void)
     clock_t difference = 0;
     clock_t ini = clock();
     clock_t lap_time;
-    int msec = 0, dsec = 0;
+    int msec = 0;
     linea_t * pl = CreateWorld(16, 10);
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	
@@ -31,41 +51,135 @@ int main(void)
 	
     CreateObject(pl+3);
 
+    int fpsCounter = 0;
+    int screen = MENU;
+
+    int joyMoved = 0;
+    int joyValue = -1;
+
+    int optionSelected = 0;
+
+    int do_exit = 0;
+
     do
 	{
         lap_time = clock();
         difference = lap_time - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
-        dsec = (((lap_time - ini) * 10 / CLOCKS_PER_SEC));
+        int i, c;
+
+
 
         if(msec > (1/FPS)*1000){ //falta el /FPS
             disp_update();	//Actualiza el display con el contenido del buffer
             coord = joy_read();	//Guarda las coordenadas medidas
             disp_clear();
-            
-            int i, c;
 
-            for(i = 0 ; i < 16 ; i++){
-                linea_t * linea = pl+i;
+            if(coord.y > THRESHOLD && !joyMoved){
+                joyValue = UP;
+                joyMoved = 1;
+            }
+            else if(coord.y < -THRESHOLD && !joyMoved) {
+                joyValue = DOWN;
+                joyMoved = 1;
+            }
+            else if(coord.x > THRESHOLD && !joyMoved){
+                joyValue = RIGHT;
+                joyMoved = 1;
+            }
+            else if (coord.x < -THRESHOLD && !joyMoved){
+                joyValue = LEFT;
+                joyMoved = 1;
+            }
 
-                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
-                    MoveObject(linea);
+            if(coord.x < THRESHOLD && coord.x > -THRESHOLD && coord.y < THRESHOLD && coord.y > -THRESHOLD){
+                joyMoved = 0;
+            }
+
+            switch (screen)
+            {
+            case MENU:
+                for(i = 0 ; i < 16 ; i++){
+                    for (c = 0 ; c < 16 ; c++){
+                        pos.x = c;
+                        pos.y = i;
+                        disp_write(pos, mainMenu[i][c]);
+                    }
                 }
                 
-                for(c = 0 ; c < 10 ; c++){
-                    pos.x = c;
-                    pos.y = i;
-                    disp_write(pos, !(*((linea->p_linea)+c)));
+                for(i=(optionSelected?8:0) ; i < (optionSelected?16:8) ; i++){
+                    for(c = 0 ; c < 16 ; c++){
+                        pos.x = c;
+                        pos.y = i;
+                        disp_write(pos, !mainMenu[i][c]);
+                    }
                 }
-                printf("\n");
-            }
-            printf("\n\n");
+
+                if(joyMoved){
+                    if(joyValue == UP){
+                        optionSelected = 0;
+                    }
+                    if(joyValue == DOWN){
+                        optionSelected = 1;
+                    }
+                }
+
+                if(coord.sw == J_NOPRESS){
+                    if(optionSelected == 0){
+                        screen = GAME;
+                    }
+                    else if (optionSelected == 1){
+                        do_exit = 1;
+                    }
+                }
+                
+                break;
+            case GAME:
+                fpsCounter++;
+                if(fpsCounter >= FPS){
+                    fpsCounter = 0;
+                }
+                for(i = 0 ; i < 16 ; i++){
+                    linea_t * linea = pl+i;
+
+                    if(linea->cant_obj > 0){
+                        switch (linea->v)
+                        {
+                        case 1:
+                            if(fpsCounter == 0){
+                                MoveObject(linea);
+                            }
+                            break;
+                        case 2:
+                            if(fpsCounter == FPS/2 || fpsCounter == 0){
+                                MoveObject(linea);
+                            }
+                            break;
+                        case 3:
+                            if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
+                                MoveObject(linea);
+                            }
+                        }
+                        
+                    }
+                    
+                    for(c = 0 ; c < 10 ; c++){
+                        pos.x = c;
+                        pos.y = i;
+                        disp_write(pos, !(*((linea->p_linea)+c)));
+                    }
+                }
+                if(coord.sw == J_NOPRESS){
+                    do_exit = 1;
+                }
+                break;
+            }      
             before = clock();
         }
 		
 
 		
-	} while( coord.sw == J_NOPRESS );	//termina si se presiona el switch
+	} while(!do_exit);	//termina si se presiona el switch
 	
 	//Borro el display al salir
 	disp_clear();
