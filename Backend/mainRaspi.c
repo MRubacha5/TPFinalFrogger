@@ -193,6 +193,7 @@ int main(void)
                         screen = MENU;
                     }
                 }
+                break;
             case GAME:
                 fpsCounter++;
                 if(fpsCounter >= FPS){
