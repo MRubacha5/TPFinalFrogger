@@ -2,7 +2,7 @@
 #include "Objetos.h"
 
 
-void MoveRana(rana_t* prana, uint8_t dir, linea_t pl){
+void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
     switch (dir)
     {
     case UP:
@@ -19,7 +19,7 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t pl){
         break;
     }
 
-    *(((pl+(prana->posy))->p_linea)+prana->posx) = 
+    *(((pl+(prana->posy))->p_linea)+prana->posx);
    
 }
 

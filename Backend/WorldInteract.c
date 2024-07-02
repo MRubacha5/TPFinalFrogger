@@ -101,3 +101,4 @@ void LoopObject (objeto_t* pobj, linea_t* plinea){
     }
     return;
 }
+
