@@ -59,13 +59,15 @@ void MoveObject(linea_t * pl){
             switch (dir) // Analizo si se fueron del tablero para llamar a LoopObject. Solo llamo si el objeto entero ya salio de la pantalla
             {
             case DER:
+                printf(" AVANZA DER");
                 if(((pl->po)+i)->x > WIDTH){
                     
                     LoopObject((pl->po)+i, pl);
                 }
                 break;
             case IZQ:
-                if(((pl->po)+i)->x + (pl)->size - 1 < 0){
+                printf(" AVANZA IZQ");
+                if((((pl->po)+i)->x) + ((pl)->size) - 1 < 0){
                     
                     LoopObject((pl->po)+i, pl);
                 }
@@ -74,7 +76,9 @@ void MoveObject(linea_t * pl){
 
             for (c = 0; c < pl->size; c++)// itero por el ancho del objeto
             {
+                int temp = pl->po->x;
                 *((pl->p_linea) + (((pl->po) + i)->x) + c) = !(pl->val_def);// muevo los valores booleanos del objeto a la nueva posicion x
+                pl->po->x=temp;
             }
         }
     }
