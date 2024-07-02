@@ -97,7 +97,11 @@ void CreateObject(linea_t * pl){
     }
 }
 
-//funcion destroyobjects --> hace falta un flip array por si cambia la direccion del movimiento
+/********************
+ * Funciones viejas *
+ * ******************
+ 
+
 void DestroyObject(linea_t * pl){
     ShiftArr(pl->po, (pl->po)+(pl->cant_obj), (pl->po)+(pl->cant_obj), *((pl->po)+(pl->cant_obj)));
     (pl->cant_obj)--;
@@ -141,3 +145,5 @@ void ShiftArr(objeto_t * ppri, objeto_t * pult, objeto_t * pstage ,objeto_t copi
 
 
 //en el agua siempre tiene que haber algo para pasar, no siempre random
+
+*/
