@@ -59,6 +59,8 @@ int main(void)
 
     int optionSelected = 0;
 
+    int do_exit = 0;
+
     do
 	{
         lap_time = clock();
@@ -120,7 +122,15 @@ int main(void)
                     if(joyValue == DOWN){
                         optionSelected = 1;
                     }
-                    joyMoved = 0;
+                }
+
+                if(coord.sw == J_NOPRESS){
+                    if(optionSelected == 0){
+                        screen = GAME;
+                    }
+                    else if (optionSelected == 1){
+                        do_exit = 1;
+                    }
                 }
                 
                 break;
@@ -159,13 +169,17 @@ int main(void)
                         disp_write(pos, !(*((linea->p_linea)+c)));
                     }
                 }
+                if(coord.sw == J_NOPRESS){
+                    do_exit = 1;
+                }
+                break;
             }      
             before = clock();
         }
 		
 
 		
-	} while( coord.sw == J_NOPRESS );	//termina si se presiona el switch
+	} while(!do_exit);	//termina si se presiona el switch
 	
 	//Borro el display al salir
 	disp_clear();
