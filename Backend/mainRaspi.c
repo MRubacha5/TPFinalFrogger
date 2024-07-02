@@ -31,6 +31,8 @@ int main(void)
 	
     CreateObject(pl+3);
 
+    int flagMoveObject = 0;
+
     do
 	{
         lap_time = clock();
@@ -48,9 +50,13 @@ int main(void)
             for(i = 0 ; i < 16 ; i++){
                 linea_t * linea = pl+i;
 
-                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
+                if(linea->cant_obj > 0 && dsec % !(10/(linea->v)) && !flagMoveObject){
                     MoveObject(linea);
                     printf("\ndsec: %d\n", dsec);
+                    flagMoveObject = 1;
+                }
+                if((10/(linea->v))){
+                    flagMoveObject = 0;
                 }
                 
                 for(c = 0 ; c < 10 ; c++){
