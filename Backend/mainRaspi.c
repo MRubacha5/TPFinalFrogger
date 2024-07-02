@@ -75,7 +75,7 @@ int main(void)
                     for (c = 0 ; c < 16 ; c++){
                         pos.x = c;
                         pos.y = i;
-                        disp_write(pos, mainMenu[i][c]);
+                        disp_write(pos, !mainMenu[i][c]);
                     }
                 }
                 
@@ -83,14 +83,14 @@ int main(void)
                     for(c = 0 ; c < 16 ; c++){
                         pos.x = c;
                         pos.y = i;
-                        disp_write(pos, !mainMenu[i][c]);
+                        disp_write(pos, mainMenu[i][c]);
                     }
                 }
 
                 if(coord.y > THRESHOLD){
                     optionSelected = 0;
                 }
-                else if(coord.x < -THRESHOLD) {
+                else if(coord.y < -THRESHOLD) {
                     optionSelected = 1;
                 }
                 
