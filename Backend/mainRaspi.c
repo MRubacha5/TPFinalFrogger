@@ -50,12 +50,12 @@ int main(void)
             for(i = 0 ; i < 16 ; i++){
                 linea_t * linea = pl+i;
 
-                if(linea->cant_obj > 0 && dsec % !(10/(linea->v)) && !flagMoveObject){
+                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0 && !flagMoveObject){
                     MoveObject(linea);
                     printf("\ndsec: %d\n", dsec);
                     flagMoveObject = 1;
                 }
-                if((10/(linea->v))){
+                if(dsec % (10/(linea->v))){
                     flagMoveObject = 0;
                 }
                 
@@ -64,9 +64,7 @@ int main(void)
                     pos.y = i;
                     disp_write(pos, !(*((linea->p_linea)+c)));
                 }
-                printf("\n");
             }
-            printf("\n\n");
             before = clock();
         }
 		
