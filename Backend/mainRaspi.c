@@ -54,6 +54,9 @@ int main(void)
     int fpsCounter = 0;
     int screen = MENU;
 
+    int joyMoved = 0;
+    int joyValue = -1;
+
     int optionSelected = 0;
 
     do
@@ -63,10 +66,33 @@ int main(void)
         msec = difference * 1000 / CLOCKS_PER_SEC;
         int i, c;
 
+
+
         if(msec > (1/FPS)*1000){ //falta el /FPS
             disp_update();	//Actualiza el display con el contenido del buffer
             coord = joy_read();	//Guarda las coordenadas medidas
             disp_clear();
+
+            if(coord.y > THRESHOLD && !joyMoved){
+                joyValue = UP;
+                joyMoved = 1;
+            }
+            else if(coord.y < -THRESHOLD && !joyMoved) {
+                joyValue = DOWN;
+                joyMoved = 1;
+            }
+            else if(coord.x > THRESHOLD && !joyMoved){
+                joyValue = RIGHT;
+                joyMoved = 1;
+            }
+            else if (coord.x < -THRESHOLD && !joyMoved){
+                joyValue = LEFT;
+                joyMoved = 1;
+            }
+
+            if(coord.x < THRESHOLD && coord.x > -THRESHOLD && coord.y < THRESHOLD && coord.y > -THRESHOLD){
+                joyMoved = 0;
+            }
 
             switch (screen)
             {
@@ -75,23 +101,26 @@ int main(void)
                     for (c = 0 ; c < 16 ; c++){
                         pos.x = c;
                         pos.y = i;
-                        disp_write(pos, !mainMenu[i][c]);
-                    }
-                }
-                
-                for(i=(optionSelected?9:2) ; i < (optionSelected?14:7) ; i++){
-                    for(c = 0 ; c < 16 ; c++){
-                        pos.x = c;
-                        pos.y = i;
                         disp_write(pos, mainMenu[i][c]);
                     }
                 }
-
-                if(coord.y > THRESHOLD){
-                    optionSelected = 0;
+                
+                for(i=(optionSelected?8:0) ; i < (optionSelected?16:8) ; i++){
+                    for(c = 0 ; c < 16 ; c++){
+                        pos.x = c;
+                        pos.y = i;
+                        disp_write(pos, !mainMenu[i][c]);
+                    }
                 }
-                else if(coord.y < -THRESHOLD) {
-                    optionSelected = 1;
+
+                if(joyMoved){
+                    if(joyValue == UP){
+                        optionSelected = 0;
+                    }
+                    if(joyValue == DOWN){
+                        optionSelected = 1;
+                    }
+                    joyMoved = 0;
                 }
                 
                 break;
