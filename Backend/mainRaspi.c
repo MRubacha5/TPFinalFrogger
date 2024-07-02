@@ -50,12 +50,12 @@ int main(void)
             for(i = 0 ; i < 16 ; i++){
                 linea_t * linea = pl+i;
 
-                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0 && !flagMoveObject){
+                if(linea->cant_obj > 0 && (dsec % (int)(10/(linea->v))) == 0 && !flagMoveObject){
                     MoveObject(linea);
                     printf("\ndsec: %d\n", dsec);
                     flagMoveObject = 1;
                 }
-                if(dsec % (10/(linea->v))){
+                if((dsec % (int)(10/(linea->v))) != 0){
                     flagMoveObject = 0;
                 }
                 
