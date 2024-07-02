@@ -12,6 +12,26 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs.
 
 #define FPS 60
 #define THRESHOLD 40	//Límite a partir del cual se mueve el LED encendido
+#define MENU 0
+#define GAME 1
+#define PAUSE 2
+
+int mainMenu[16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                        {0,1,0,0,0,1,0,1,0,1,1,0,1,0,1,0},
+                        {0,1,1,1,0,1,0,1,1,1,1,1,1,0,1,0},
+                        {0,0,0,1,0,1,0,1,0,1,1,1,0,0,1,0},
+                        {0,1,1,1,0,1,0,1,0,1,1,0,1,0,1,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,1,1,1,1,0,1,1,1,1,1,1,1,0,0,0},
+                        {0,1,0,1,1,0,1,0,1,0,0,1,0,0,0,0},
+                        {0,1,1,1,1,0,1,0,1,0,0,1,0,0,0,0},
+                        {0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,0},
+                        {0,0,0,1,1,1,1,1,1,1,0,1,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
 int main(void)
 {
@@ -32,21 +52,42 @@ int main(void)
     CreateObject(pl+3);
 
     int fpsCounter = 0;
+    int screen = MENU;
 
     do
 	{
         lap_time = clock();
         difference = lap_time - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
-        
+
         if(msec > (1/FPS)*1000){ //falta el /FPS
             disp_update();	//Actualiza el display con el contenido del buffer
             coord = joy_read();	//Guarda las coordenadas medidas
             disp_clear();
+
+            switch (screen)
+            {
+            case MENU:
+                int i, j;
+                for(i = 0 ; i < 16 ; i++){
+                    for (j = 0 ; j < 16 ; j++){
+                        pos.x = j;
+                        pos.y = i;
+                        disp_write(pos, mainMenu[i][j]);
+                    }
+                }
+                break;
+            
+            default:
+                break;
+            }
+
+
             fpsCounter++;
             if(fpsCounter >= FPS){
                 fpsCounter = 0;
             }
+
             int i, c;
 
             for(i = 0 ; i < 16 ; i++){
