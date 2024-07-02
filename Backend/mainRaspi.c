@@ -33,6 +33,23 @@ int mainMenu[16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
+int pauseMenu[16][16]= {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,1,1,1,0,1,0,0,0,1,1,1,0,1,0,1},
+                        {0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,1},
+                        {0,1,1,1,0,1,0,0,0,1,1,1,0,0,1,0},
+                        {0,1,0,0,0,1,0,0,0,1,0,1,0,0,1,0},
+                        {0,1,0,0,0,1,1,1,0,1,0,1,0,0,1,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1},
+                        {0,1,1,1,0,1,0,0,0,1,0,1,0,1,0,1},
+                        {0,1,0,1,0,1,1,0,0,1,0,1,0,1,0,1},
+                        {0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,1},
+                        {0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+
 int main(void)
 {
     clock_t before = clock(); //agarro tiempo antes de arrancar
@@ -141,6 +158,41 @@ int main(void)
                 }
                 
                 break;
+            case PAUSE:
+                for(i = 0 ; i < 16 ; i++){
+                    for (c = 0 ; c < 16 ; c++){
+                        pos.x = c;
+                        pos.y = i;
+                        disp_write(pos, pauseMenu[i][c]);
+                    }
+                }
+                
+                for(i=(optionSelected?8:0) ; i < (optionSelected?16:8) ; i++){
+                    for(c = 0 ; c < 16 ; c++){
+                        pos.x = c;
+                        pos.y = i;
+                        disp_write(pos, !pauseMenu[i][c]);
+                    }
+                }
+
+                if(joyMoved){
+                    if(joyValue == UP){
+                        optionSelected = 0;
+                    }
+                    if(joyValue == DOWN){
+                        optionSelected = 1;
+                    }
+                }
+
+                if(coord.sw == J_PRESS && joyPressed == 0){
+                    joyPressed = 1;
+                    if(optionSelected == 0){
+                        screen = GAME;
+                    }
+                    else if (optionSelected == 1){
+                        screen = MENU;
+                    }
+                }
             case GAME:
                 fpsCounter++;
                 if(fpsCounter >= FPS){
@@ -178,7 +230,7 @@ int main(void)
                 }
                 if(coord.sw == J_PRESS && joyPressed == 0){
                     joyPressed = 1;
-                    do_exit = 1;
+                    screen = PAUSE;
                 }
                 break;
             }      
