@@ -56,6 +56,7 @@ int main(void)
 
     int joyMoved = 0;
     int joyValue = -1;
+    int joyPressed = 0;
 
     int optionSelected = 0;
 
@@ -96,6 +97,11 @@ int main(void)
                 joyMoved = 0;
             }
 
+            if(coord.sw == J_NOPRESS){
+                joyPressed = 0;
+            }
+            
+
             switch (screen)
             {
             case MENU:
@@ -124,7 +130,8 @@ int main(void)
                     }
                 }
 
-                if(coord.sw == J_NOPRESS){
+                if(coord.sw == J_PRESS && joyPressed == 0){
+                    joyPressed = 1;
                     if(optionSelected == 0){
                         screen = GAME;
                     }
@@ -169,7 +176,8 @@ int main(void)
                         disp_write(pos, !(*((linea->p_linea)+c)));
                     }
                 }
-                if(coord.sw == J_NOPRESS){
+                if(coord.sw == J_PRESS && joyPressed == 0){
+                    joyPressed = 1;
                     do_exit = 1;
                 }
                 break;
