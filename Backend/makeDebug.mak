@@ -1,5 +1,5 @@
 test: mainDebug.o Rana.o WorldCreate.o WorldInteract.o
-	gcc -o test mainDebug.o Rana.o WorldCreate.o WorldInteract.o
+	gcc -o test mainDebug.o Rana.o WorldCreate.o WorldInteract.o -g
 mainDebug.o: mainDebug.c Rana.h Objetos.h
 	gcc -c mainDebug.c -Wall
 Rana.o: Rana.c Rana.h Objetos.h

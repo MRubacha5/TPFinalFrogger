@@ -21,7 +21,8 @@ int main(void)
     linea_t * pl = CreateWorld(16, 10);
     rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
 	CreateObject(pl+3);
-    //CreateObject(pl+8);
+    CreateObject(pl+10);
+    CreateObject(pl+6);
 
     do
 	{
@@ -43,8 +44,9 @@ int main(void)
                 
 
                 if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
-                    MoveObject(linea);
+                    
                     printf("Se movio: Linea: %d, X: %d, V: %d", i, linea->po->x, linea->v);
+                    MoveObject(linea);
                 } 
                 printf("\n");
             }

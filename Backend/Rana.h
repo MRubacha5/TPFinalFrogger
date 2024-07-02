@@ -14,4 +14,4 @@ typedef struct{
 void MoveRana(rana_t* prana, uint8_t dir);
 void RestarVidas(rana_t* pRana);
 
-#endif
+#endif //RANA_H

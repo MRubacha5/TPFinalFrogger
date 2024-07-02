@@ -88,10 +88,12 @@ void MoveObject(linea_t * pl){
 void LoopObject (objeto_t* pobj, linea_t* plinea){
     switch(plinea->dir){ //En base a la direccion de movimiento decido donde mover el x del objeto 
         case(DER):
-            pobj->x = 1- plinea->size; //Reinicio el objeto del lado izquierdo
+            pobj->x = - plinea->size; 
+            printf(" Loop DER");//Reinicio el objeto del lado izquierdo
             break;
         case(IZQ):
-            pobj->x = WIDTH;//Reinicio el objeto del lado derecho 
+            pobj->x = WIDTH;
+            printf(" Loop IZQ");//Reinicio el objeto del lado derecho 
         break;
     }
     return;
