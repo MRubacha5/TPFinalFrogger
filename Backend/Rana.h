@@ -11,7 +11,7 @@ typedef struct{
     int8_t posy;
 } rana_t;
 
-void MoveRana(rana_t* prana, uint8_t dir);
+void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl);
 void RestarVidas(rana_t* pRana);
 
 #endif //RANA_H
