@@ -37,24 +37,23 @@ objeto_t* Collisions(rana_t* prana, linea_t* world){
     return col_obj;
 }
 
-/********************************************************************************************************************
+/**************************************************************************************************************************
     Funcion mover objetos: Recibe la linea en la que debe mover los objetos y los mueve 
     como valores booleanos (negando el valor del terreno donde estan) a lo largo de la linea.
     Se encarga de llamar a LoopObject para asegurarse que los objetos regresen a la pantalla una vez que se fueron.
-*********************************************************************************************************************/
+    NO SE ENCARGA DE LA VELOCIDAD. De eso se encarga la funcion que llame a MoveObject al alterar la frecuencia de llamados
+***************************************************************************************************************************/
 void MoveObject(linea_t * pl){
-    if(pl->cant_obj > 0){
-        int cobjs = pl->cant_obj; 
-        int vel = pl->v;
+    if(pl->cant_obj > 0){ 
         int dir = pl->dir;
         int i, c;
         for (i = 0; i < WIDTH; i++)// recorro la linea
         {
             *((pl->p_linea) + i) = pl->val_def; // asigno valor default (1 para tierra y 0 para agua)
         }    
-        for (i = 0 ; i < cobjs ; i++)// recorro la cantidad de objetos en la linea
+        for (i = 0 ; i < pl->cant_obj ; i++)// recorro la cantidad de objetos en la linea
         {
-            ((pl->po) + i)->x += dir; //los muevo en su direccion correspondiente (***FALTA AGREGAR MULTIPLICADOR DE VELOCIDAD***)
+            ((pl->po) + i)->x += dir; //los muevo en su direccion correspondiente 
 
 
             switch (dir) // Analizo si se fueron del tablero para llamar a LoopObject. Solo llamo si el objeto entero ya salio de la pantalla
@@ -78,7 +77,7 @@ void MoveObject(linea_t * pl){
             for (c = 0; c < pl->size; c++)// itero por el ancho del objeto
             {
                 int temp = ((pl->po) + i)->x;
-                *((pl->p_linea) + ((((pl->po) + i)->x) + c)) = !(pl->val_def);// muevo los valores booleanos del objeto a la nueva posicion x
+                (*pl).p_linea[((((pl->po) + i)->x) + c)] = !(pl->val_def);// muevo los valores booleanos del objeto a la nueva posicion x
                 ((pl->po) + i)->x=temp;
             }
 

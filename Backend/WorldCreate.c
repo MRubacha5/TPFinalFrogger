@@ -82,10 +82,9 @@ void CreateObject(linea_t * pl){
     if(pl->cant_obj == 4){
         return;
     }
-    objeto_t * po = pl->po;
     int s = pl->cant_obj;
-    (po+s)->val = !(pl->val_def);
-    (po+s)->x = (pl->dir == DER ? -pl->size - (1+pl->size)*pl->cant_obj: WIDTH + ((pl->size)+1) * pl->cant_obj); // si direccion es derecha arranca en 0 si no al final
+    (pl->po+s)->val = !(pl->val_def);
+    (pl->po+s)->x = (pl->dir == DER ? -pl->size - (1+pl->size)*pl->cant_obj: WIDTH + ((pl->size)+1) * pl->cant_obj); // si direccion es derecha arranca en 0 si no al final
     (pl->cant_obj)++;
 }
 
