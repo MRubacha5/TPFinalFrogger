@@ -65,8 +65,6 @@ int main(void)
 	disp_clear();									//limpia todo el display
 	dcoord_t pos = {DISP_MAX_X>>1 , DISP_MAX_Y>>1};	//pos es la posición actual, empieza en el centro de la matriz
 	joyinfo_t coord = {0,0,J_NOPRESS};							//coordenadas medidas del joystick
-	
-    CreateObject(pl+3);
 
     int fpsCounter = 0;
     int screen = MENU;
@@ -151,6 +149,7 @@ int main(void)
                     joyPressed = 1;
                     if(optionSelected == 0){
                         pl = CreateWorld(16, 10);
+                        CreateObject(pl+3);
                         screen = GAME;
                     }
                     else if (optionSelected == 1){

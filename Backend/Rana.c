@@ -18,9 +18,13 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
         prana->posx--;
         break;
     }
+}
 
-    *(((pl+(prana->posy))->p_linea)+prana->posx);
-   
+void UpdateRanaData(rana_t * prana, linea_t * pl){
+    if((prana->posx) > 15 || (prana->posx) < 0){
+        RestarVidas(prana);
+    }
+    *(((pl+(prana->posy))->p_linea)+(prana->posx)) = 1;
 }
 
 void RestarVidas(rana_t* pRana){
