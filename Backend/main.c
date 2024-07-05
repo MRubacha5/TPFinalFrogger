@@ -27,6 +27,7 @@ void * line();
 
 int do_exit = 0;
 int keyPressed = 0;
+int keyPressedValue = 0;
 
 linea_t * pl;
 rana_t rana = {.posx=WIDTH/2, .posy=0, .vidas=3};
@@ -46,8 +47,6 @@ int main (void) {
 		ALLEGRO_TIMER * timer;
 		ALLEGRO_BITMAP * background;
 
-		pthread_t tid[HEIGHT];
-		
 		uint8_t time_left = 20; //hardcodeado solo para probar funcion  
 
 		if(!al_init()){
@@ -115,15 +114,13 @@ int main (void) {
 
 		al_clear_to_color(al_color_name("black"));
 
-		pl = CreateWorld(HEIGHT, WIDTH);
-		CreateObject(pl+3);
-		CreateObject(pl+4);
-		CreateObject(pl+5);
-
         al_flip_display();
 
+		int mouse_x=0;
+		int mouse_y=0;
+		int leftClick = 0;
 		int fpsCounter = 0;
-		int screen = GAME;
+		int screen = MENU;
 		int optionSelected = 0;
 		int i, c;
 
@@ -143,7 +140,55 @@ int main (void) {
 					switch (screen)
 					{
 					case MENU:
-						/* code */
+						al_clear_to_color(al_color_name("black"));
+						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("white"));
+						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("white"));
+						if(mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8){
+							if(mouse_y > DISPLAY_Y/8 && mouse_y < DISPLAY_Y*3/8){
+								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("grey"));
+								if(leftClick){
+									leftClick = 0;
+									screen = GAME;
+									pl = CreateWorld(HEIGHT, WIDTH);
+									CreateObject(pl+3);
+								}
+							}
+							else if(mouse_y > DISPLAY_Y*5/8 && mouse_y < DISPLAY_Y*7/8){
+								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("grey"));
+								if(leftClick){
+									leftClick = 0;
+									do_exit = 1;
+								}
+							}
+						}
+						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "START");
+						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, "QUIT");
+						al_flip_display();
+						break;
+					case PAUSE:
+						al_clear_to_color(al_color_name("black"));
+						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("white"));
+						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("white"));
+						if(mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8){
+							if(mouse_y > DISPLAY_Y/8 && mouse_y < DISPLAY_Y*3/8){
+								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("grey"));
+								if(leftClick){
+									leftClick = 0;
+									screen = GAME;
+								}
+							}
+							else if(mouse_y > DISPLAY_Y*5/8 && mouse_y < DISPLAY_Y*7/8){
+								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("grey"));
+								if(leftClick){
+									leftClick = 0;
+									FreeWorldData(pl, HEIGHT);
+									screen = MENU;
+								}
+							}
+						}
+						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "CONTINUE");
+						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, "MENU");
+						al_flip_display();
 						break;
 					case GAME:
 						if(fpsCounter >= FPS){
@@ -197,9 +242,9 @@ int main (void) {
 							}
 						}
 						
+						
+
 						fpsCounter++;
-						break;
-					case PAUSE:
 						break;
 					}
 					
@@ -212,49 +257,58 @@ int main (void) {
 					do_exit = true;
 		    	}
 				else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN){
-					//leftClick = 1;
+					leftClick = 1;
 				}
 				else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP){
-					//leftClick = 0;
+					leftClick = 0;
 				}
 				else if(ev.type == ALLEGRO_EVENT_MOUSE_AXES){
-					//x = (ev.mouse.x / (DISPLAY_X/COL)) + 1;
-					//y = (ev.mouse.y / (DISPLAY_Y/ROW)) + 1;
+					mouse_x = ev.mouse.x;
+					mouse_y = ev.mouse.y;
 		    	}
                 else if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
+					
+					if(screen == GAME){
+						switch(ev.keyboard.keycode){
+							case ALLEGRO_KEY_ESCAPE:
+								screen = PAUSE;
+								break;
+							case ALLEGRO_KEY_DOWN:
+								//MoveRana(&rana, DOWN);
+								
+								break;
+							case ALLEGRO_KEY_UP:
+								//MoveRana(&rana, UP);
+								
+								//Cada vez que va para arriba se fija si se debe inc score
+								//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
+								//printf ("%u\n",inscreenscore);
 
-                    switch(ev.keyboard.keycode){
-                        case ALLEGRO_KEY_DOWN:
-                            //MoveRana(&rana, DOWN);
-                            keyPressed = 1;
-                            break;
-                        case ALLEGRO_KEY_UP:
-                            //MoveRana(&rana, UP);
-                            keyPressed = 1;
-							//Cada vez que va para arriba se fija si se debe inc score
-							inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
-							printf ("%u\n",inscreenscore);
+								break;
+							case ALLEGRO_KEY_LEFT:
+								//MoveRana(&rana, LEFT);
+								
+								break;
+							case ALLEGRO_KEY_RIGHT:
+								//MoveRana(&rana, RIGHT);
+								
+								break;
 
-                            break;
-                        case ALLEGRO_KEY_LEFT:
-                            //MoveRana(&rana, LEFT);
-                            keyPressed = 1;
-                            break;
-                        case ALLEGRO_KEY_RIGHT:
-                            //MoveRana(&rana, RIGHT);
-                            keyPressed = 1;
-                            break;
-
-                    }
+						}
+					
+					}
+					else if(screen == PAUSE && ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE){
+							screen = GAME;
+					}
 			    }
 		    }
 		}
-        FreeWorldData(pl, HEIGHT);
 		al_destroy_display(display);
 		al_destroy_bitmap(background);
 		al_destroy_event_queue(event_queue);
 		al_destroy_font(font);
 		al_destroy_timer(timer);
+		FreeWorldData(pl, HEIGHT);
 
 	return 0;
 }

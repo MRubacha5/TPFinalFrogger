@@ -191,6 +191,7 @@ int main(void)
                     }
                     else if (optionSelected == 1){
                         screen = MENU;
+                        FreeWorldData(pl, 16);
                     }
                 }
                 break;
