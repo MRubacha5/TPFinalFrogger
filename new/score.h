@@ -1,9 +1,19 @@
 #ifndef SCORE_H 
 #define SCORE_H
+
+
+/*******************************************************************************
+ * HEADERS
+ ******************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+
+/*******************************************************************************
+ * PROTOTIPOS DE FUNCIONES
+ ******************************************************************************/
 
 uint16_t ct_score (uint8_t y,uint8_t t_time, uint8_t time, uint8_t lines, uint8_t vidas, uint8_t lvlend);
 // pos y , Tiempo total nivel, tiempo sobrante, cant de lineas nivel, vidas, lvlend(valor booleano)
@@ -27,4 +37,4 @@ ZZZ  08600
 ...  00000
 */
 
-#endif//SCORE_H
+#endif //SCORE_H
