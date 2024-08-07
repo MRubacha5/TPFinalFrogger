@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <time.h>
 
-linea_t map[HEIGHT];
 int vidas = 3;
 
 void createMap(linea_t * p){ 
@@ -22,19 +21,19 @@ void createMap(linea_t * p){
         }
         for(c = 0 ; c < linea->cant_obj ; c++){
             if(i <= HEIGHT/2){
-                if(linea->dir = DER){
-                    (linea->po)[c] = (c = 0)?(0 - rand()%5):((linea->po)[c-1]-linea->size-rand()%5); //modificar 5 para spawn rate
+                if(linea->dir == DER){
+                    (linea->po)[c] = (c == 0)?(0 - rand()%5):((linea->po)[c-1]-linea->size-rand()%5); //modificar 5 para spawn rate
                 }
-                else if(linea->dir = IZQ){
-                    (linea->po)[c] = (c = 0)?(WIDTH + rand()%5):((linea->po)[c-1]+linea->size+rand()%5); //modificar 5 para spawn rate
+                else if(linea->dir == IZQ){
+                    (linea->po)[c] = (c == 0)?(WIDTH + rand()%5):((linea->po)[c-1]+linea->size+rand()%5); //modificar 5 para spawn rate
                 }
             }
             else{
-                if(linea->dir = DER){
-                    (linea->po)[c] = (c = 0)?(0 - rand()%3):((linea->po)[c-1]-linea->size-rand()%3); //modificar 3 para spawn rate
+                if(linea->dir == DER){
+                    (linea->po)[c] = (c == 0)?(0 - rand()%3):((linea->po)[c-1]-linea->size-rand()%3); //modificar 3 para spawn rate
                 }
-                else if(linea->dir = IZQ){
-                    (linea->po)[c] = (c = 0)?(WIDTH + rand()%3):((linea->po)[c-1]+linea->size+rand()%3); //modificar 3 para spawn rate
+                else if(linea->dir == IZQ){
+                    (linea->po)[c] = (c == 0)?(WIDTH + rand()%3):((linea->po)[c-1]+linea->size+rand()%3); //modificar 3 para spawn rate
                 }
             }
             
@@ -60,6 +59,9 @@ void moveLine(linea_t * pl){
                     pl->po[j] = WIDTH; //reiniciar el objeto al principio
                 }
                 break;
+        }
+        for(i=0 ; i<WIDTH; i++){
+            (pl->plinea)[i] = pl->val_def;
         }
         for(i = 0; i < WIDTH; i++){ //recorre las posiciones de la linea
             if(i==pl->po[j]){ // si hay un objeto que comienza en la posicion
