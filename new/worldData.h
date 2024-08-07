@@ -45,6 +45,6 @@ void createMap(linea_t * p);
  * @brief Se ocupa de mover todos los objetos en el mundo. NO TIENE EN CUENTA LA VELOCIDAD Y DEBERA SER LLAMADA ACORDEMENTE
  * @param plinea Puntero a la linea en cuestion
 */
-void moveLinea(linea_t * plinea);
+void moveLine(linea_t * plinea);
 
 #endif //WORLDDATA_H

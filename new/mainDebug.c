@@ -4,13 +4,13 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs.
 */
 //Como compilar: gcc testLibraries.c disdrv.o joydrv.o -Wall -o testLibs
 #include <stdio.h>
-#include "Objetos.h"
-#include "Rana.h"
 #include <time.h>
 #include "worldData.h"
 
 #define FPS 60
 #define THRESHOLD 40	//Límite a partir del cual se mueve el LED encendido
+
+linea_t map[HEIGHT];
 
 int main(void)
 {
@@ -19,6 +19,8 @@ int main(void)
     clock_t lap_time;
     clock_t difference = 0;
     int msec = 0, dsec = 0;
+
+    createMap(map);
 
     do
 	{
@@ -32,17 +34,16 @@ int main(void)
             int i, c;
 
             for(i = 0 ; i < 16 ; i++){
-                linea_t * linea = pl+i;
+                linea_t * linea = map+i;
 
                 for(c = 0 ; c < 10 ; c++){
-                    printf("%d\t", *(((linea)->p_linea)+c));
+                    printf("%d\t", *(((linea)->plinea)+c));
                 }
                 
 
-                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){
-                    
-                    printf("Se movio: Linea: %d, X: %d, V: %d", i, linea->po->x, linea->v);
-                    MoveObject(linea);
+                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){      
+                    moveLine(linea);
+                    printf("Se movio: Linea: %d, X: %d, V: %d", i, linea->po[0], linea->v);
                 } 
                 printf("\n");
             }
