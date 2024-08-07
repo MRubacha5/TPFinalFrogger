@@ -42,27 +42,25 @@ void createMap(linea_t * p){
     }
 }
 
-void moveWorld(linea_t * pmundo){
-    int i , j;
-    for(i = 0; i<HEIGHT; i++){ //recorre las lineas del mundo
-        for(j = 0; j < pmundo[i].cant_obj; j++){ //recorre los objetos de la linea
-            
-            switch(pmundo[i].dir){ // mueve los objetos en base a la direccion de la linea
-                case DER:
-                    pmundo[i].po[j] += 1; 
-                    if(pmundo[i].po[j] > WIDTH){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
-                        pmundo[i].po[j] = 0; //reiniciar el objeto al principio
-                    }
-                    break;
+void moveLine(linea_t * plinea){
+    int j;
+    for(j = 0; j < plinea->cant_obj; j++){ //recorre los objetos de la linea
+        
+        switch(plinea->dir){ // mueve los objetos en base a la direccion de la linea
+            case DER:
+                plinea->po[j] += 1; 
+                if(plinea->po[j] > WIDTH){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
+                    plinea->po[j] = -plinea->size; //reiniciar el objeto al principio
+                }
+                break;
 
-                case IZQ:
-                    pmundo[i].po[j] -= 1; 
-                    if(pmundo[i].po[j] < 0){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
-                        pmundo[i].po[j] = WIDTH; //reiniciar el objeto al principio
-                    }
-                    break;
-            }
-                
+            case IZQ:
+                plinea->po[j] -= 1; 
+                if(plinea->po[j] < 0){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
+                    plinea->po[j] = WIDTH; //reiniciar el objeto al principio
+                }
+                break;
         }
+            
     }
 }

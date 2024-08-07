@@ -35,4 +35,16 @@ typedef struct{
  * PROTOTIPOS DE FUNCIONES
  ******************************************************************************/
 
+/**
+ * @brief Inicializa el mapa con las distintas propiedades que deben tener sus lineas
+ * @param p Puntero a la primera linea del mapa
+*/
+void createMap(linea_t * p);
+
+/**
+ * @brief Se ocupa de mover todos los objetos en el mundo. NO TIENE EN CUENTA LA VELOCIDAD Y DEBERA SER LLAMADA ACORDEMENTE
+ * @param plinea Puntero a la linea en cuestion
+*/
+void moveLinea(linea_t * plinea);
+
 #endif //WORLDDATA_H
