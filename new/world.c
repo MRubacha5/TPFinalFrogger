@@ -15,7 +15,7 @@ void createMap(linea_t * p){
         linea->size = 3;
         linea->v = 1;
         linea->val_def = (i <= HEIGHT/2)?1:0; // 1 es piso 0 es agua
-
+        //Hay que setear los valores de la linea de mas arriba con 2 para los lugares donde la rana tiene que ir
         for(c = 0 ; c < WIDTH ; c++){
             (linea->plinea)[c] = linea->val_def;
         }
@@ -60,7 +60,7 @@ void moveLine(linea_t * pl){
                 }
                 break;
         }
-        for(i=0 ; i<WIDTH; i++){
+        /*for(i=0 ; i<WIDTH; i++){
             (pl->plinea)[i] = pl->val_def;
         }
         for(i = 0; i < WIDTH; i++){ //recorre las posiciones de la linea
@@ -69,6 +69,7 @@ void moveLine(linea_t * pl){
                      pl->plinea[k] = !pl->val_def;
                 }
             }
-        }
+        }  REHACER EL ALGORITMO QUE LOOPEA LOS OBJETOS */
+
     }
 }
