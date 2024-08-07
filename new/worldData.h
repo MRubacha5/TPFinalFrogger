@@ -27,8 +27,8 @@ typedef struct{
     int8_t v; //velocidad de los objectos
     uint8_t val_def; //valor default de la linea. 0 es agua y 1 es tierra
     uint8_t cant_obj; //cantidad maxima de objetos que hay cargada en un momento 
-    int po[MAX_OBJ]; //arreglo que guarda posicion x de los objetos en la linea
-    uint8_t plinea[WIDTH]; //Arreglo
+    int po[MAX_OBJ]; //arreglo que guarda posicion x mas a la izquierda de los objetos en la linea
+    uint8_t plinea[WIDTH]; //arreglo que contiene los valores de cada posicion en el mapa (1 si la rana puede estar en ellos, 0 si no y 2 si es un lilypad)
 } linea_t;
 
 /*******************************************************************************
