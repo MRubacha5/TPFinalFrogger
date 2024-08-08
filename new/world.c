@@ -55,21 +55,24 @@ void moveLine(linea_t * pl){
 
             case IZQ:
                 pl->po[j] -= 1; 
-                if(pl->po[j] < 0){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
+                if(pl->po[j] < 1-pl->size){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
                     pl->po[j] = WIDTH; //reiniciar el objeto al principio
                 }
                 break;
         }
-        /*for(i=0 ; i<WIDTH; i++){
+        for(i=0 ; i<WIDTH; i++){
             (pl->plinea)[i] = pl->val_def;
         }
         for(i = 0; i < WIDTH; i++){ //recorre las posiciones de la linea
-            if(i==pl->po[j]){ // si hay un objeto que comienza en la posicion
-                for(int k = 0; k < pl->size; k++){ // asigna el valor opuesto al default para todo el size del objeto
-                     pl->plinea[k] = !pl->val_def;
+            if(i>=pl->po[j]&&i<=pl->po[j]+pl->size-1){ // si hay un objeto en la posicion i (no necesariamente el comienzo de un objeto)
+                i = pl->po[j]; //seteo i al principio del objeto
+                int k;
+                for(k = 0; k < pl->size; k++){ // asigna el valor opuesto al default para todo el size del objeto
+                     pl->plinea[i+k] = !pl->val_def;
                 }
+                i = pl->po[j]+k;//seteo i al final del objeto como para evitar que i vuelva a evaluar este objeto
             }
-        }  REHACER EL ALGORITMO QUE LOOPEA LOS OBJETOS */
+        }  
 
     }
 }
