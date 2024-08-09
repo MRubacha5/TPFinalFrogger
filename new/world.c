@@ -19,6 +19,7 @@ void createMap(linea_t * p){
         for(c = 0 ; c < WIDTH ; c++){
             (linea->plinea)[c] = linea->val_def;
         }
+
         for(c = 0 ; c < linea->cant_obj ; c++){
             if(i <= HEIGHT/2){
                 if(linea->dir == DER){
@@ -43,6 +44,9 @@ void createMap(linea_t * p){
 
 void moveLine(linea_t * pl){
     int i, j;
+    for(i=0 ; i<WIDTH; i++){
+            (pl->plinea)[i] = pl->val_def;
+        }
     for(j = 0; j < pl->cant_obj; j++){ //recorre los objetos de la linea
         
         switch(pl->dir){ // mueve los objetos en base a la direccion de la linea
@@ -75,4 +79,5 @@ void moveLine(linea_t * pl){
         }  
 
     }
+
 }

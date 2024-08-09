@@ -43,7 +43,7 @@ int main(void)
 
                 if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){      
                     moveLine(linea);
-                    printf("Se movio: Linea: %d, X: %d, V: %d", i, linea->po[0], linea->v);
+                    printf("Se movio: Linea: %d, X: %d,%d,%d,%d,%d, V: %d", i, linea->po[0],linea->po[1],linea->po[2],linea->po[3],linea->po[4] ,linea->v);
                 } 
                 printf("\n");
             }
