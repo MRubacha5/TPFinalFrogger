@@ -10,7 +10,7 @@ void createMap(linea_t * p){
     srand(time(NULL));
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
-        linea->cant_obj = (i==0||i==HEIGHT/2||i==HEIGHT-1)?0:5;
+        linea->cant_obj = (i==0||i==HEIGHT/2||i==HEIGHT-1)?0:3;
         linea->dir = (rand()%2?DER:IZQ);
         linea->size = 3;
         linea->v = 1;
@@ -52,37 +52,48 @@ void createMap(linea_t * p){
 }
 
 void moveLine(linea_t * pl){
-    int i, j;
+    int i, j, c;
     for(i=0 ; i<WIDTH; i++){
-            (pl->plinea)[i] = pl->val_def;
-        }
+        (pl->plinea)[i] = pl->val_def;
+    }
     for(j = 0; j < pl->cant_obj; j++){ //recorre los objetos de la linea
         
         switch(pl->dir){ // mueve los objetos en base a la direccion de la linea
             case DER:
-                pl->po[j] += 1; 
+                (pl->po)[j] += 1; 
                 if(pl->po[j] > WIDTH){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
-                    pl->po[j] = -pl->size; //reiniciar el objeto al principio
+                    pl->po[j] = 0 - (pl->size); //reiniciar el objeto al principio
                 }
                 break;
 
             case IZQ:
-                pl->po[j] -= 1; 
-                if(pl->po[j] < 1-pl->size){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
-                    pl->po[j] = WIDTH; //reiniciar el objeto al principio
+                (pl->po)[j] -= 1; 
+                if((pl->po)[j] < 1-(pl->size)){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
+                    (pl->po)[j] = WIDTH; //reiniciar el objeto al principio
                 }
                 break;
         }
+        
+        int posx = (pl->po)[j];
+        for(c = 0 ; c < pl->size ; c++){ //cambio la pos x y las siguientes size posiciones al valor  del obj
+            if(posx+c >= 0 && posx+c < WIDTH){ //verifico que quiero modificar un valor dentro del rango de valores modificables
+                (pl->plinea)[posx+c] = !(pl->val_def);
+            }
+        }
+
+
+        /*
         for(i = 0; i < WIDTH; i++){ //recorre las posiciones de la linea
-            if(i>=pl->po[j]&&i<=pl->po[j]+pl->size-1){ // si hay un objeto en la posicion i (no necesariamente el comienzo de un objeto)
-                i = pl->po[j]; //seteo i al principio del objeto
+            if(i>=(pl->po)[j]&&i<=(pl->po)[j]+(pl->size)-1){ // si hay un objeto en la posicion i (no necesariamente el comienzo de un objeto)
+                i = (pl->po)[j]; //seteo i al principio del objeto
                 int k;
                 for(k = 0; k < pl->size; k++){ // asigna el valor opuesto al default para todo el size del objeto
-                     pl->plinea[i+k] = !pl->val_def;
+                    (pl->plinea)[i+k] = !(pl->val_def);
                 }
-                i = pl->po[j]+k;//seteo i al final del objeto como para evitar que i vuelva a evaluar este objeto
+                i = (pl->po)[j]+k;//seteo i al final del objeto como para evitar que i vuelva a evaluar este objeto
             }
         }  
+        */
 
     }
 

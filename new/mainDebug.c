@@ -33,10 +33,10 @@ int main(void)
             
             int i, c;
 
-            for(i = 0 ; i < 16 ; i++){
+            for(i = 0 ; i < HEIGHT ; i++){
                 linea_t * linea = map+i;
 
-                for(c = 0 ; c < 10 ; c++){
+                for(c = 0 ; c < WIDTH ; c++){
                     printf("%d\t", *(((linea)->plinea)+c));
                 }
                 
