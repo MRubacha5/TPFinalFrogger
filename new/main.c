@@ -1,6 +1,5 @@
 /*codigo para allegro*/
-#include "Objetos.h"
-#include "Rana.h"
+#include "worldData.h"
 #include "score.h"
 #include <stdlib.h>
 #include <allegro5/allegro.h>
@@ -9,7 +8,6 @@
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_image.h>
 #include <stdio.h>
-#include <pthread.h>
 
 #define GSIZE 50
 #define FPS 60
@@ -29,15 +27,11 @@ int do_exit = 0;
 int keyPressed = 0;
 int keyPressedValue = 0;
 
-linea_t * pl;
-rana_t rana = {.posx=WIDTH/2, .posy=0, .vidas=3};
-
-int tnum[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
-
 int flag = 0;
 int contadores[HEIGHT];
 uint16_t inscreenscore;
 
+linea_t map[HEIGHT];
 
 int main (void) {
 
@@ -124,6 +118,8 @@ int main (void) {
 		int optionSelected = 0;
 		int i, c;
 
+		createMap(map);
+
 		while(!do_exit){
 
 			ALLEGRO_EVENT ev;
@@ -131,11 +127,6 @@ int main (void) {
 			if(al_get_next_event(event_queue, &ev)){
 
 				if(ev.type == ALLEGRO_EVENT_TIMER){
-					
-					//al_draw_bitmap(background, 0, 0, 0);
-					//al_fwrite16le(background, inscreenscore);
-
-					
 
 					switch (screen)
 					{
@@ -149,8 +140,7 @@ int main (void) {
 								if(leftClick){
 									leftClick = 0;
 									screen = GAME;
-									pl = CreateWorld(HEIGHT, WIDTH);
-									CreateObject(pl+3);
+									createMap(map);
 								}
 							}
 							else if(mouse_y > DISPLAY_Y*5/8 && mouse_y < DISPLAY_Y*7/8){
@@ -181,7 +171,6 @@ int main (void) {
 								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("grey"));
 								if(leftClick){
 									leftClick = 0;
-									FreeWorldData(pl, HEIGHT);
 									screen = MENU;
 								}
 							}
@@ -195,55 +184,65 @@ int main (void) {
 							fpsCounter = 0;
 						}
 						for (i = 0; i < HEIGHT; i++){
-							linea_t * linea = pl+i;
 
+							linea_t * linea = map+i;
+							
+							for(c = 0 ; c < WIDTH ; c++){
+								if(i == 0){
+									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("grey"));
+								}
+								else if(i < HEIGHT/2){
+									if((linea->plinea)[c] == 0){
+										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("yellow"));
+									}
+									else if ((linea->plinea)[c] == 1){
+										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("black"));
+									}
+								}
+								else if (i == HEIGHT/2){
+									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("grey"));
+								}
+								else if(i > HEIGHT/2 && i != HEIGHT-1){
+									if((linea->plinea)[c] == 0){
+										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("blue"));
+									}
+									else if ((linea->plinea)[c] == 1){
+										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("brown"));
+									}
+								}
+								else if(i == HEIGHT-1){
+									if((linea->plinea)[c] == 0){
+										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("green"));
+									}
+									else if ((linea->plinea)[c] == 1){
+										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("blue"));
+									}
+								}
+								
+							}
+
+							/* esto es para modificar el movimient segun la velocidad */
 							if(linea->cant_obj > 0){
 								switch (linea->v)
 								{
 								case 1:
 									if(fpsCounter == 0){
-										MoveObject(linea);
+										moveLine(linea);
 									}
 									break;
 								case 2:
 									if(fpsCounter == FPS/2 || fpsCounter == 0){
-										MoveObject(linea);
+										moveLine(linea);
 									}
 									break;
 								case 3:
 									if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
-										MoveObject(linea);
+										moveLine(linea);
 									}
 								}
-							}
-
-							for(c = 0 ; c < WIDTH ; c++){
-								if(i <= HEIGHT/2){
-									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("blue"));
-									
-									for(int j = 0 ; j<linea->cant_obj ; j++){
-										for(int m = 0 ; m<linea->size ; m++){
-											ALLEGRO_COLOR color;
-											if(m == 0 || m == linea->size-1){
-												color = al_color_name("brown");
-											}
-											else{
-												color = al_color_name("yellow");
-											}
-
-											al_draw_filled_rectangle((((linea->po)+j)->x+m) * GSIZE, i*GSIZE, ((linea->po+j)->x+m+1) * GSIZE, (i+1)*GSIZE,color);
-										}
-									}
-								}
-								else{
-									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("black"));
-								}
-								
 							}
 						}
 						
-						
-
 						fpsCounter++;
 						break;
 					}
@@ -308,7 +307,6 @@ int main (void) {
 		al_destroy_event_queue(event_queue);
 		al_destroy_font(font);
 		al_destroy_timer(timer);
-		FreeWorldData(pl, HEIGHT);
 
 	return 0;
 }
