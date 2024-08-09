@@ -7,7 +7,7 @@ int vidas = 3;
 
 void createMap(linea_t * p){ 
     int i, c;
-
+    srand(time(NULL));
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
         linea->cant_obj = (i==0||i==HEIGHT/2||i==HEIGHT-1)?0:3;
@@ -38,6 +38,14 @@ void createMap(linea_t * p){
                 }
             }
             
+        }
+    }
+    for(i = 1 ; i <= WIDTH ; i++){
+        if(i%3==0){
+            (p+HEIGHT-1)->plinea[i] = 1;
+        }
+        else{
+            (p+HEIGHT-1)->plinea[i] = 0;
         }
     }
 }
