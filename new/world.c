@@ -10,7 +10,7 @@ void createMap(linea_t * p){
     srand(time(NULL));
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
-        linea->cant_obj = (i==0||i==HEIGHT/2||i==HEIGHT-1)?0:3;
+        linea->cant_obj = (i==0||i==HEIGHT/2||i==HEIGHT-1)?0:5;
         linea->dir = (rand()%2?DER:IZQ);
         linea->size = 3;
         linea->v = 1;
@@ -24,24 +24,24 @@ void createMap(linea_t * p){
         for(c = 0 ; c < linea->cant_obj ; c++){
             if(i <= HEIGHT/2){
                 if(linea->dir == DER){
-                    (linea->po)[c] = (c == 0)?(0 - rand()%5):((linea->po)[c-1]-linea->size-rand()%5); //modificar 5 para spawn rate
+                    (linea->po)[c] = (c == 0)?(0 - rand()%5-1):((linea->po)[c-1]-linea->size-rand()%5-1); //modificar 5 para spawn rate
                 }
                 else if(linea->dir == IZQ){
-                    (linea->po)[c] = (c == 0)?(WIDTH + rand()%5):((linea->po)[c-1]+linea->size+rand()%5); //modificar 5 para spawn rate
+                    (linea->po)[c] = (c == 0)?(WIDTH + rand()%5+1):((linea->po)[c-1]+linea->size+rand()%5+1); //modificar 5 para spawn rate
                 }
             }
             else{
                 if(linea->dir == DER){
-                    (linea->po)[c] = (c == 0)?(0 - rand()%3):((linea->po)[c-1]-linea->size-rand()%3); //modificar 3 para spawn rate
+                    (linea->po)[c] = (c == 0)?(0 - rand()%3-1):((linea->po)[c-1]-linea->size-rand()%3-1); //modificar 3 para spawn rate
                 }
                 else if(linea->dir == IZQ){
-                    (linea->po)[c] = (c == 0)?(WIDTH + rand()%3):((linea->po)[c-1]+linea->size+rand()%3); //modificar 3 para spawn rate
+                    (linea->po)[c] = (c == 0)?(WIDTH + rand()%3+1):((linea->po)[c-1]+linea->size+rand()%3+1); //modificar 3 para spawn rate
                 }
             }
             
         }
     }
-    for(i = 1 ; i <= WIDTH ; i++){
+    for(i = 0 ; i < WIDTH ; i++){
         if(i%3==0){
             (p+HEIGHT-1)->plinea[i] = 1;
         }
@@ -72,9 +72,6 @@ void moveLine(linea_t * pl){
                     pl->po[j] = WIDTH; //reiniciar el objeto al principio
                 }
                 break;
-        }
-        for(i=0 ; i<WIDTH; i++){
-            (pl->plinea)[i] = pl->val_def;
         }
         for(i = 0; i < WIDTH; i++){ //recorre las posiciones de la linea
             if(i>=pl->po[j]&&i<=pl->po[j]+pl->size-1){ // si hay un objeto en la posicion i (no necesariamente el comienzo de un objeto)
