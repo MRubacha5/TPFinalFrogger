@@ -15,11 +15,12 @@ void createMap(linea_t * p){
         linea->size = 3;
         linea->v = 1;
         linea->val_def = (i <= HEIGHT/2)?1:0; // 1 es piso 0 es agua
-        //Hay que setear los valores de la linea de mas arriba con 2 para los lugares donde la rana tiene que ir
         for(c = 0 ; c < WIDTH ; c++){
             (linea->plinea)[c] = linea->val_def;
         }
-
+        for(c = 0 ; c < 5 ; c++){
+            (linea->po)[c] = 0;
+        }
         for(c = 0 ; c < linea->cant_obj ; c++){
             if(i <= HEIGHT/2){
                 if(linea->dir == DER){
