@@ -81,19 +81,7 @@ void moveLine(linea_t * pl){
             }
         }
 
-
-        /*
-        for(i = 0; i < WIDTH; i++){ //recorre las posiciones de la linea
-            if(i>=(pl->po)[j]&&i<=(pl->po)[j]+(pl->size)-1){ // si hay un objeto en la posicion i (no necesariamente el comienzo de un objeto)
-                i = (pl->po)[j]; //seteo i al principio del objeto
-                int k;
-                for(k = 0; k < pl->size; k++){ // asigna el valor opuesto al default para todo el size del objeto
-                    (pl->plinea)[i+k] = !(pl->val_def);
-                }
-                i = (pl->po)[j]+k;//seteo i al final del objeto como para evitar que i vuelva a evaluar este objeto
-            }
-        }  
-        */
+        
 
     }
 
