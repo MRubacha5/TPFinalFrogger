@@ -20,7 +20,7 @@ int main(void)
     clock_t difference = 0;
     int msec = 0, dsec = 0;
 
-    createMap(map);
+    createMap(map,1);
 
     do
 	{
@@ -33,7 +33,7 @@ int main(void)
             
             int i, c;
 
-            for(i = 0 ; i < HEIGHT ; i++){
+            for(i = HEIGHT-1 ; i >= 0 ; i--){
                 linea_t * linea = map+i;
 
                 for(c = 0 ; c < WIDTH ; c++){
@@ -54,5 +54,6 @@ int main(void)
 		
 	} while(1);	//termina si se presiona el switch
 	
+    
 	//Borro el display al salir
 }

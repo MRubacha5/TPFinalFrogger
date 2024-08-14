@@ -16,13 +16,14 @@ enum ARROW_KEYS {UP, DOWN, LEFT, RIGHT};
 #define POSX_INI (WIDTH/2)
 #define POSY_INI (HEIGHT-1)
 
-
 /*******************************************************************************
  * ESTRUCTURAS Y TIPOS DE DATOS
  ******************************************************************************/
 
-typedef struct{
-    uint8_t estado; //estado de actividad de la rana. 1 si puede ser controlada y 0 si ya llego al final y no puede ser controlada 
+typedef struct{ 
+    //Saque estado, no es necesario
+    // Agrego Direccion a la rana
+    int8_t dir; //Direccion en la que mira. Se usa para el sprite
     int8_t posx;
     int8_t posy;
 } rana_t;
@@ -52,4 +53,10 @@ void RanaCollisions(rana_t * prana, linea_t * pl);
 */
 void RestarVidas(rana_t * pRana);
 
+/**
+* @brief Desarrolla el protocolo al haber entregado la rana y devuelve un numero != de 0 si todas las ranas ya estan entregadas.
+* @param pRana Se pide para reiniciar la posicion de la rana.
+* @param pl puntero a linea para poder leer y modificar el mapa.
+*/
+int8_t Ganar (rana_t * pRana, linea_t * pl);
 #endif //RANA_H

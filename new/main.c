@@ -118,7 +118,7 @@ int main (void) {
 		int optionSelected = 0;
 		int i, c;
 
-		createMap(map);
+		createMap(map,1);
 
 		while(!do_exit){
 
@@ -140,7 +140,7 @@ int main (void) {
 								if(leftClick){
 									leftClick = 0;
 									screen = GAME;
-									createMap(map);
+									createMap(map,1);
 								}
 							}
 							else if(mouse_y > DISPLAY_Y*5/8 && mouse_y < DISPLAY_Y*7/8){
@@ -183,7 +183,7 @@ int main (void) {
 						if(fpsCounter >= FPS){
 							fpsCounter = 0;
 						}
-						for (i = 0; i < HEIGHT; i++){
+						for (i = 0; i < HEIGHT ; i++){
 
 							linea_t * linea = map+i;
 							

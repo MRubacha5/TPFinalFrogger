@@ -3,9 +3,65 @@
 #include <stdio.h>
 #include <time.h>
 
+/*****************************************************************************
+ * PRESETS MAPAS --> definimos presets de velocidad, cantidad objetos y tamano
+ *****************************************************************************/
+ 
+ //Dificulty 0
+ 
+ linea_t agua0[] =  {   {.size = 4, .cant_obj = 2, .v = 2},
+                        {.size = 4, .cant_obj = 2, .v = 1},
+                        {.size = 3, .cant_obj = 3, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 2},
+                        {.size = 2, .cant_obj = 5, .v = 1},
+                        {.size = 2, .cant_obj = 4, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2}};
+ 
+linea_t piso0[] =  {    {.size = 1, .cant_obj = 5, .v = 1},
+                        {.size = 1, .cant_obj = 4, .v = 1},
+                        {.size = 1, .cant_obj = 3, .v = 2},
+                        {.size = 2, .cant_obj = 3, .v = 1},
+                        {.size = 2, .cant_obj = 2, .v = 2}};
+
+ //Dificulty 1
+ 
+ linea_t agua1[] =  {   {.size = 5, .cant_obj = 1, .v = 2},
+                        {.size = 4, .cant_obj = 2, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2},
+                        {.size = 2, .cant_obj = 4, .v = 1}};
+ 
+linea_t piso1[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
+                        {.size = 1, .cant_obj = 6, .v = 1},
+                        {.size = 1, .cant_obj = 5, .v = 1},
+                        {.size = 1, .cant_obj = 4, .v = 2},
+                        {.size = 2, .cant_obj = 4, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2},
+                        {.size = 1, .cant_obj = 2, .v = 3}};
+
+ //Dificulty 2
+ 
+ linea_t agua2[] =  {   {.size = 5, .cant_obj = 1, .v = 2},
+                        {.size = 4, .cant_obj = 2, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2},
+                        {.size = 2, .cant_obj = 4, .v = 1}};
+ 
+linea_t piso2[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
+                        {.size = 1, .cant_obj = 6, .v = 1},
+                        {.size = 1, .cant_obj = 5, .v = 1},
+                        {.size = 1, .cant_obj = 4, .v = 2},
+                        {.size = 2, .cant_obj = 4, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2},
+                        {.size = 1, .cant_obj = 2, .v = 3}};         
+
+/*******************************************************************************/
+
 int vidas = 3;
 
-void createMap(linea_t * p){ 
+void createMap(linea_t * p, int difficulty){ 
     int i, c;
     srand(time(NULL));
     for(i = 0 ; i < HEIGHT ; i++){
@@ -14,7 +70,7 @@ void createMap(linea_t * p){
         linea->dir = (rand()%2?DER:IZQ);
         linea->size = 3;
         linea->v = 1;
-        linea->val_def = (i <= HEIGHT/2)?1:0; // 1 es piso 0 es agua
+        linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; // 1 es piso 0 es agua
         for(c = 0 ; c < WIDTH ; c++){
             (linea->plinea)[c] = linea->val_def;
         }
@@ -42,7 +98,7 @@ void createMap(linea_t * p){
         }
     }
     for(i = 0 ; i < WIDTH ; i++){
-        if(i%3==0){
+        if(i%3==1){
             (p+HEIGHT-1)->plinea[i] = 1;
         }
         else{

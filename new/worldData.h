@@ -14,8 +14,15 @@
 #define IZQ -1
 #define DER 1
 #define HEIGHT 16
-#define WIDTH 10
+#define WIDTH 12
 #define MAX_OBJ 5
+
+//Constantes de logica para las interacciones en el mapa
+#define UNSAFE 0
+#define SAFE 1
+#define RANA_VAL 2
+#define WIN_FREE 3
+#define WIN_OCC 4
 
 /*******************************************************************************
  * ESTRUCTURAS Y TIPOS DE DATOS
@@ -38,8 +45,9 @@ typedef struct{
 /**
  * @brief Inicializa el mapa con las distintas propiedades que deben tener sus lineas
  * @param p Puntero a la primera linea del mapa
+ * @param difficulty Entero que determina la dificultad. Modifica algunos parametros en la generacion
 */
-void createMap(linea_t * p);
+void createMap(linea_t * p, int difficulty);
 
 /**
  * @brief Se ocupa de mover todos los objetos en el mundo. NO TIENE EN CUENTA LA VELOCIDAD Y DEBERA SER LLAMADA ACORDEMENTE
