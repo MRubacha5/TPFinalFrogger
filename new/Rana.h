@@ -14,7 +14,7 @@
 
 enum ARROW_KEYS {UP, DOWN, LEFT, RIGHT};
 #define POSX_INI (WIDTH/2)
-#define POSY_INI (HEIGHT-1)
+#define POSY_INI (0)
 
 /*******************************************************************************
  * ESTRUCTURAS Y TIPOS DE DATOS
@@ -39,6 +39,13 @@ typedef struct{
  * @param pl linea en la que se encuentra la rana
 */
 void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl);
+
+/** 
+* @brief Inicializa (PERO NO DEFINE) la rana en el mapa que se le indique con su posicion y direccion inicial
+* @param map mapa donde estara la rana
+* @param pRana rana a inicializar
+*/
+void spawnRana(linea_t* map, rana_t* pRana);
 
 /**
  * @brief Se ocupa de que la rana interactue con el mundo. Tanto para morir si colisiona con algo fatal como para moverse si esta encima de algo como un tronco

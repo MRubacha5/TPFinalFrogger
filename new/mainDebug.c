@@ -6,11 +6,14 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs.
 #include <stdio.h>
 #include <time.h>
 #include "worldData.h"
+#include "Rana.h"
 
 #define FPS 60
 #define THRESHOLD 40	//Límite a partir del cual se mueve el LED encendido
 
 linea_t map[HEIGHT];
+rana_t rana;
+rana_t * pRana = &rana;
 
 int main(void)
 {
@@ -19,8 +22,10 @@ int main(void)
     clock_t lap_time;
     clock_t difference = 0;
     int msec = 0, dsec = 0;
-
+ 
     createMap(map,1);
+    spawnRana(map,pRana); //inicializa la rana
+    
 
     do
 	{
@@ -37,11 +42,11 @@ int main(void)
                 linea_t * linea = map+i;
 
                 for(c = 0 ; c < WIDTH ; c++){
-                    printf("%d\t", *(((linea)->plinea)+c));
+                    printf("%d\t", (((linea)->plinea)[c]));
                 }
                 
 
-                if(linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0){      
+                if((linea->cant_obj > 0 && dsec % (10/(linea->v)) == 0 )|| pRana->posy == i){      
                     moveLine(linea);
                     printf("Se movio: Linea: %d, X: %d,%d,%d,%d,%d, V: %d", i, linea->po[0],linea->po[1],linea->po[2],linea->po[3],linea->po[4] ,linea->v);
                 } 

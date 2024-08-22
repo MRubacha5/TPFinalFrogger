@@ -109,8 +109,12 @@ void createMap(linea_t * p, int difficulty){
 
 void moveLine(linea_t * pl){
     int i, j, c;
+ 
     for(i=0 ; i<WIDTH; i++){
-        (pl->plinea)[i] = pl->val_def;
+        if((pl->plinea)[i] != RANA_VAL){
+            (pl->plinea)[i] = pl->val_def;
+        }
+
     }
     for(j = 0; j < pl->cant_obj; j++){ //recorre los objetos de la linea
         
