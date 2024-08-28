@@ -8,6 +8,7 @@
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_image.h>
 #include <stdio.h>
+#include "Rana.h"
 
 #define GSIZE 50
 #define FPS 60
@@ -32,6 +33,8 @@ int contadores[HEIGHT];
 uint16_t inscreenscore;
 
 linea_t map[HEIGHT];
+rana_t rana;
+rana_t * pRana = &rana;
 
 int main (void) {
 
@@ -93,7 +96,7 @@ int main (void) {
         }
 
 		if(!al_init_image_addon()){
-			printf("falied to inicialize image\n");
+			printf("failed to inicialize image\n");
 			return -1;
 		}
 
@@ -118,7 +121,6 @@ int main (void) {
 		int optionSelected = 0;
 		int i, c;
 
-		createMap(map,1);
 
 		while(!do_exit){
 
@@ -141,6 +143,7 @@ int main (void) {
 									leftClick = 0;
 									screen = GAME;
 									createMap(map,1);
+									spawnRana(map, pRana);
 								}
 							}
 							else if(mouse_y > DISPLAY_Y*5/8 && mouse_y < DISPLAY_Y*7/8){
@@ -192,10 +195,10 @@ int main (void) {
 									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("grey"));
 								}
 								else if(i < HEIGHT/2){
-									if((linea->plinea)[c] == 0){
+									if((linea->plinea)[c] == UNSAFE){
 										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("yellow"));
 									}
-									else if ((linea->plinea)[c] == 1){
+									else if ((linea->plinea)[c] == SAFE){
 										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("black"));
 									}
 								}
@@ -203,20 +206,23 @@ int main (void) {
 									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("grey"));
 								}
 								else if(i > HEIGHT/2 && i != HEIGHT-1){
-									if((linea->plinea)[c] == 0){
+									if((linea->plinea)[c] == UNSAFE){
 										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("blue"));
 									}
-									else if ((linea->plinea)[c] == 1){
+									else if ((linea->plinea)[c] == SAFE){
 										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("brown"));
 									}
 								}
 								else if(i == HEIGHT-1){
-									if((linea->plinea)[c] == 0){
+									if((linea->plinea)[c] == UNSAFE){
 										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("green"));
 									}
-									else if ((linea->plinea)[c] == 1){
+									else if ((linea->plinea)[c] == SAFE){
 										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("blue"));
 									}
+								}
+								if((linea->plinea)[c] == RANA_VAL){
+									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("orange"));
 								}
 								
 							}

@@ -18,12 +18,7 @@
 #define MAX_OBJ 5
 
 //Constantes de logica para las interacciones en el mapa
-#define UNSAFE 0
-#define SAFE 1
-#define RANA_VAL 2
-#define WIN_FREE 3
-#define WIN_OCC 4
-
+enum {UNSAFE, SAFE, RANA_VAL, WIN_FREE, WIN_OCC};
 /*******************************************************************************
  * ESTRUCTURAS Y TIPOS DE DATOS
  ******************************************************************************/
@@ -35,7 +30,7 @@ typedef struct{
     uint8_t val_def; //valor default de la linea. 0 es agua y 1 es tierra
     uint8_t cant_obj; //cantidad maxima de objetos que hay cargada en un momento 
     int po[MAX_OBJ]; //arreglo que guarda posicion x mas a la izquierda de los objetos en la linea
-    uint8_t plinea[WIDTH]; //arreglo que contiene los valores de cada posicion en el mapa (1 si la rana puede estar en ellos, 0 si no y 2 si es un lilypad)
+    uint8_t plinea[WIDTH]; //arreglo que contiene los valores de cada posicion en el mapa acorde a las constantes de logica
 } linea_t;
 
 /*******************************************************************************
