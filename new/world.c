@@ -3,29 +3,34 @@
 #include <stdio.h>
 #include <time.h>
 
+#define LEVELPOSIBILITIES 7
+
 /*****************************************************************************
  * PRESETS MAPAS --> definimos presets de velocidad, cantidad objetos y tamano
  *****************************************************************************/
  
  //Dificulty 0
  
- linea_t agua0[] =  {   {.size = 4, .cant_obj = 2, .v = 2},
-                        {.size = 4, .cant_obj = 2, .v = 1},
-                        {.size = 3, .cant_obj = 3, .v = 2},
+ linea_t agua0[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
+                        {.size = 4, .cant_obj = 1, .v = 1},
                         {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 2, .cant_obj = 5, .v = 1},
+                        {.size = 3, .cant_obj = 2, .v = 2},
                         {.size = 2, .cant_obj = 4, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 1},
                         {.size = 2, .cant_obj = 3, .v = 2}};
  
-linea_t piso0[] =  {    {.size = 1, .cant_obj = 5, .v = 1},
-                        {.size = 1, .cant_obj = 4, .v = 1},
+linea_t piso0[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 3, .v = 1},
                         {.size = 1, .cant_obj = 3, .v = 2},
-                        {.size = 2, .cant_obj = 3, .v = 1},
+                        {.size = 2, .cant_obj = 2, .v = 1},
                         {.size = 2, .cant_obj = 2, .v = 2}};
 
  //Dificulty 1
  
  linea_t agua1[] =  {   {.size = 5, .cant_obj = 1, .v = 2},
+                        {.size = 5, .cant_obj = 1, .v = 2},
                         {.size = 4, .cant_obj = 2, .v = 2},
                         {.size = 3, .cant_obj = 2, .v = 2},
                         {.size = 3, .cant_obj = 2, .v = 1},
@@ -43,6 +48,7 @@ linea_t piso1[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
  //Dificulty 2
  
  linea_t agua2[] =  {   {.size = 5, .cant_obj = 1, .v = 2},
+                        {.size = 5, .cant_obj = 1, .v = 2},
                         {.size = 4, .cant_obj = 2, .v = 2},
                         {.size = 3, .cant_obj = 2, .v = 2},
                         {.size = 3, .cant_obj = 2, .v = 1},
@@ -59,6 +65,9 @@ linea_t piso2[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
 
 /*******************************************************************************/
 
+linea_t *aguaPresets[] = {agua0, agua1, agua2};
+linea_t *pisoPresets[] = {piso0, piso1, piso2};
+
 int vidas = 3;
 
 void createMap(linea_t * p, int difficulty){ 
@@ -66,11 +75,23 @@ void createMap(linea_t * p, int difficulty){
     srand(time(NULL));
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
-        linea->cant_obj = (i==0||i==HEIGHT/2||i==HEIGHT-1)?0:3;
+
+        int linePreset = rand()%LEVELPOSIBILITIES;
+
+        if(i<HEIGHT/2 && i != 0){
+            *(linea) = pisoPresets[difficulty][linePreset];
+        }
+        else if(i > HEIGHT/2 && i != HEIGHT-1){
+            *(linea) = aguaPresets[difficulty][linePreset];
+        }
+        else{
+            linea->cant_obj = 0;
+        }
+
         linea->dir = (rand()%2?DER:IZQ);
-        linea->size = 3;
-        linea->v = 1;
+        
         linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; // 1 es piso 0 es agua
+
         for(c = 0 ; c < WIDTH ; c++){
             (linea->plinea)[c] = linea->val_def;
         }
@@ -80,18 +101,18 @@ void createMap(linea_t * p, int difficulty){
         for(c = 0 ; c < linea->cant_obj ; c++){
             if(i <= HEIGHT/2){
                 if(linea->dir == DER){
-                    (linea->po)[c] = (c == 0)?(0 - rand()%5-1):((linea->po)[c-1]-linea->size-rand()%5-1); //modificar 5 para spawn rate
+                    (linea->po)[c] = (c == 0)?(-1):((linea->po)[c-1]-linea->size-rand()%5-1); //modificar 5 para spawn rate
                 }
                 else if(linea->dir == IZQ){
-                    (linea->po)[c] = (c == 0)?(WIDTH + rand()%5+1):((linea->po)[c-1]+linea->size+rand()%5+1); //modificar 5 para spawn rate
+                    (linea->po)[c] = (c == 0)?(WIDTH + 1):((linea->po)[c-1]+linea->size+rand()%5+1); //modificar 5 para spawn rate
                 }
             }
             else{
                 if(linea->dir == DER){
-                    (linea->po)[c] = (c == 0)?(0 - rand()%3-1):((linea->po)[c-1]-linea->size-rand()%3-1); //modificar 3 para spawn rate
+                    (linea->po)[c] = (c == 0)?(-1):((linea->po)[c-1]-linea->size-rand()%3-1); //modificar 3 para spawn rate
                 }
                 else if(linea->dir == IZQ){
-                    (linea->po)[c] = (c == 0)?(WIDTH + rand()%3+1):((linea->po)[c-1]+linea->size+rand()%3+1); //modificar 3 para spawn rate
+                    (linea->po)[c] = (c == 0)?(WIDTH + 1):((linea->po)[c-1]+linea->size+rand()%3+1); //modificar 3 para spawn rate
                 }
             }
             
