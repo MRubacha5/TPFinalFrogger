@@ -279,11 +279,11 @@ int main (void) {
 								screen = PAUSE;
 								break;
 							case ALLEGRO_KEY_DOWN:
-								//MoveRana(&rana, DOWN);
+								MoveRana(pRana, DOWN, map+rana.posy);
 								
 								break;
 							case ALLEGRO_KEY_UP:
-								//MoveRana(&rana, UP);
+								MoveRana(pRana, UP, map+rana.posy);
 								
 								//Cada vez que va para arriba se fija si se debe inc score
 								//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
@@ -291,11 +291,11 @@ int main (void) {
 
 								break;
 							case ALLEGRO_KEY_LEFT:
-								//MoveRana(&rana, LEFT);
+								MoveRana(pRana, LEFT, map+rana.posy);
 								
 								break;
 							case ALLEGRO_KEY_RIGHT:
-								//MoveRana(&rana, RIGHT);
+								MoveRana(pRana, RIGHT, map+rana.posy);
 								
 								break;
 
