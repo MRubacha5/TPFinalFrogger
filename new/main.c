@@ -221,6 +221,7 @@ int main (void) {
 										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("blue"));
 									}
 								}
+								
 								if((linea->plinea)[c] == RANA_VAL){
 									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("orange"));
 								}

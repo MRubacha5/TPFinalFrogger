@@ -14,22 +14,25 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
     switch (dir)
     {
     case UP:
-
+        (pl)->plinea[prana->posx] = pl->val_def;
         prana->posy++;
         (pl+1)->plinea[prana->posx] = RANA_VAL;
+        
         break;
     case DOWN:
-
+        (pl)->plinea[prana->posx] = pl->val_def;
         prana->posy--;
         (pl-1)->plinea[prana->posx] = RANA_VAL;
+        
         break;
     case RIGHT:
-
+        (pl)->plinea[prana->posx] = pl->val_def;
         prana->posx++;
         (pl)->plinea[prana->posx] = RANA_VAL;
+        
         break;
     case LEFT:
-
+        (pl)->plinea[prana->posx] = pl->val_def;
         prana->posx--;
         (pl)->plinea[prana->posx] = RANA_VAL;
         break;
