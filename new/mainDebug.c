@@ -23,7 +23,7 @@ int main(void)
     clock_t difference = 0;
     int msec = 0, dsec = 0;
  
-    createMap(map,1);
+    createMap(map,2);
     spawnRana(map,pRana); //inicializa la rana
     
 

@@ -9,9 +9,9 @@
  * PRESETS MAPAS --> definimos presets de velocidad, cantidad objetos y tamano
  *****************************************************************************/
  
- //Dificulty 0
+ //Dificulty 1
  
- linea_t agua0[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
+ linea_t agua1[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
                         {.size = 4, .cant_obj = 1, .v = 1},
                         {.size = 3, .cant_obj = 2, .v = 2},
                         {.size = 3, .cant_obj = 2, .v = 2},
@@ -19,31 +19,13 @@
                         {.size = 2, .cant_obj = 3, .v = 1},
                         {.size = 2, .cant_obj = 3, .v = 2}};
  
-linea_t piso0[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
+linea_t piso1[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
                         {.size = 1, .cant_obj = 0, .v = 1},
                         {.size = 1, .cant_obj = 0, .v = 1},
                         {.size = 1, .cant_obj = 3, .v = 1},
                         {.size = 1, .cant_obj = 3, .v = 2},
                         {.size = 2, .cant_obj = 2, .v = 1},
                         {.size = 2, .cant_obj = 2, .v = 2}};
-
- //Dificulty 1
- 
- linea_t agua1[] =  {   {.size = 5, .cant_obj = 1, .v = 2},
-                        {.size = 5, .cant_obj = 1, .v = 2},
-                        {.size = 4, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1}};
- 
-linea_t piso1[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
-                        {.size = 1, .cant_obj = 6, .v = 1},
-                        {.size = 1, .cant_obj = 5, .v = 1},
-                        {.size = 1, .cant_obj = 4, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2},
-                        {.size = 1, .cant_obj = 2, .v = 3}};
 
  //Dificulty 2
  
@@ -61,7 +43,25 @@ linea_t piso2[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
                         {.size = 1, .cant_obj = 4, .v = 2},
                         {.size = 2, .cant_obj = 4, .v = 1},
                         {.size = 2, .cant_obj = 3, .v = 2},
-                        {.size = 1, .cant_obj = 2, .v = 3}};         
+                        {.size = 1, .cant_obj = 2, .v = 3}};
+
+ //Dificulty 0
+ 
+ linea_t agua0[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
+                        {.size = 4, .cant_obj = 1, .v = 1},
+                        {.size = 3, .cant_obj = 2, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 2},
+                        {.size = 2, .cant_obj = 4, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2}};
+ 
+linea_t piso0[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 2, .v = 1},
+                        {.size = 1, .cant_obj = 2, .v = 2},
+                        {.size = 2, .cant_obj = 2, .v = 1},
+                        {.size = 2, .cant_obj = 1, .v = 2}};         
 
 /*******************************************************************************/
 
@@ -95,7 +95,7 @@ void createMap(linea_t * p, int difficulty){
         for(c = 0 ; c < WIDTH ; c++){
             (linea->plinea)[c] = linea->val_def;
         }
-        for(c = 0 ; c < 5 ; c++){
+        for(c = 0 ; c < MAX_OBJ ; c++){
             (linea->po)[c] = 0;
         }
         for(c = 0 ; c < linea->cant_obj ; c++){
@@ -120,7 +120,7 @@ void createMap(linea_t * p, int difficulty){
     }
     for(i = 0 ; i < WIDTH ; i++){
         if(i%3==1){
-            (p+HEIGHT-1)->plinea[i] = 1;
+            (p+HEIGHT-1)->plinea[i] = WIN_FREE;
         }
         else{
             (p+HEIGHT-1)->plinea[i] = 0;

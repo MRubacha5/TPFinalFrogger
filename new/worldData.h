@@ -15,7 +15,7 @@
 #define DER 1
 #define HEIGHT 16
 #define WIDTH 12
-#define MAX_OBJ 5
+#define MAX_OBJ 10
 
 //Constantes de logica para las interacciones en el mapa
 enum {UNSAFE, SAFE, RANA_VAL, WIN_FREE, WIN_OCC};
