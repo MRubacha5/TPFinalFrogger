@@ -142,7 +142,7 @@ int main (void) {
 								if(leftClick){
 									leftClick = 0;
 									screen = GAME;
-									createMap(map,1);
+									createMap(map,0);
 									spawnRana(map, pRana);
 								}
 							}
@@ -248,6 +248,7 @@ int main (void) {
 									}
 								}
 							}
+							RanaCollisions(pRana, &map[pRana->posy]);
 						}
 						
 						fpsCounter++;

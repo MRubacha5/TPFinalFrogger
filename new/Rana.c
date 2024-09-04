@@ -44,8 +44,30 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
     if((prana->posx) > WIDTH || (prana->posx) < 0){ //Resta vidas si la rana se va por un costado del mapa
         RestarVidas(prana);
     }
-
-
+        int i,j;
+    switch(pl->val_def){
+        case UNSAFE:
+            uint8_t isAlive = 0;
+            for(i = 0; i < pl->cant_obj; i++){
+                for(j = 0; j < pl->size; j++){
+                    if(prana->posx != (pl->po[i])+j){
+                        isAlive = 1;
+                    }
+                }
+            }
+            break;
+        case SAFE:
+            for(i = 0; i < pl->cant_obj; i++){
+                for(j = 0; j < pl->size; j++){
+                    if(prana->posx == (pl->po[i])+j){
+                        RestarVidas(prana);
+                    }
+                }
+            }
+        
+        default:
+            break;
+    }
 
     
 }
