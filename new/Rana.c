@@ -20,10 +20,11 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
         
         break;
     case DOWN:
-        (pl)->plinea[prana->posx] = pl->val_def;
-        prana->posy--;
-        (pl-1)->plinea[prana->posx] = RANA_VAL;
-        
+        if(prana->posy){
+            (pl)->plinea[prana->posx] = pl->val_def;
+            prana->posy--;
+            (pl-1)->plinea[prana->posx] = RANA_VAL;
+        }
         break;
     case RIGHT:
         (pl)->plinea[prana->posx] = pl->val_def;
@@ -47,16 +48,18 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
         int i,j;
     switch(pl->val_def){
         case UNSAFE:
-            uint8_t isAlive = 0;
+            uint8_t isFloating = 0;
             for(i = 0; i < pl->cant_obj; i++){
                 for(j = 0; j < pl->size; j++){
-                    if(prana->posx != (pl->po[i])+j){
-                        isAlive = 1;
+                    if(prana->posx == (pl->po[i])+j){
+                        isFloating = 1;
                     }
                 }
             }
-            if(!isAlive){
+            if(!isFloating){
                 RestarVidas(prana);
+            } else{
+
             }
             break;
         case SAFE:

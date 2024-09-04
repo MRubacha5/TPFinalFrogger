@@ -142,7 +142,7 @@ int main (void) {
 								if(leftClick){
 									leftClick = 0;
 									screen = GAME;
-									createMap(map,2);
+									createMap(map,0);
 									spawnRana(map, pRana);
 								}
 							}
