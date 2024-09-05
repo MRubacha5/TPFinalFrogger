@@ -6,7 +6,8 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs.
 #include <stdio.h>
 #include <time.h>
 #include "worldData.h"
-#include "Rana.h"
+#include "rana.h"
+#include "movement.h"
 
 #define FPS 60
 #define THRESHOLD 40	//Límite a partir del cual se mueve el LED encendido
@@ -23,7 +24,7 @@ int main(void)
     clock_t difference = 0;
     int msec = 0, dsec = 0;
  
-    createMap(map,2);
+    createMap(map,0);
     spawnRana(map,pRana); //inicializa la rana
     
 

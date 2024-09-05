@@ -1,14 +1,24 @@
-/*codigo para allegro*/
-#include "worldData.h"
-#include "score.h"
+/*******************************************************************************
+ * HEADERS
+ ******************************************************************************/
+
 #include <stdlib.h>
+#include <stdio.h>
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_image.h>
-#include <stdio.h>
-#include "Rana.h"
+
+#include "worldData.h"
+#include "score.h"
+#include "rana.h"
+#include "movement.h"
+
+/*******************************************************************************
+ * CONSTANTES CON DEFINE
+ ******************************************************************************/
 
 #define GSIZE 50
 #define FPS 60
@@ -20,7 +30,7 @@
 #define GAME 1
 #define PAUSE 2
 
-#define TIME 45 //cant de tiempo en segundos para pasar el nivel
+#define TIME 45 //cantidad de tiempo en segundos para pasar el nivel
 
 void * line();
 

@@ -1,5 +1,6 @@
-#include "Rana.h"
+#include "rana.h"
 #include "worldData.h"
+#include "movement.h"
 
 extern int vidas;
 

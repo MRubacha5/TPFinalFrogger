@@ -6,13 +6,13 @@
  ******************************************************************************/
 
 #include <stdint.h>
+
 #include "worldData.h"
 
 /*******************************************************************************
  * CONSTANTES
  ******************************************************************************/
 
-enum ARROW_KEYS {UP, DOWN, LEFT, RIGHT};
 #define POSX_INI (WIDTH/2)
 #define POSY_INI (0)
 
@@ -32,27 +32,12 @@ typedef struct{
  * PROTOTIPOS DE FUNCIONES
  ******************************************************************************/
 
-/**
- * @brief Mueve la rana (prana) en la direccion pedidad (dir). Se ocupa tambien de llamar a ranaCollisions
- * @param prana rana a mover
- * @param dir direccion en la que moverse
- * @param pl linea en la que se encuentra la rana
-*/
-void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl);
-
 /** 
 * @brief Inicializa (PERO NO DEFINE) la rana en el mapa que se le indique con su posicion y direccion inicial
 * @param map mapa donde estara la rana
 * @param pRana rana a inicializar
 */
 void spawnRana(linea_t* map, rana_t* pRana);
-
-/**
- * @brief Se ocupa de que la rana interactue con el mundo. Tanto para morir si colisiona con algo fatal como para moverse si esta encima de algo como un tronco
- * @param prana rana en cuestion
- * @param pl linea en la que se encuentra la rana
-*/
-void RanaCollisions(rana_t * prana, linea_t * pl);
 
 /**
  * @brief Resta una vida cuando es llamada. En caso de llegar a cero, se ocupa de accionar el game over.
@@ -66,4 +51,5 @@ void RestarVidas(rana_t * pRana);
 * @param pl puntero a linea para poder leer y modificar el mapa.
 */
 int8_t Ganar (rana_t * pRana, linea_t * pl);
+
 #endif //RANA_H

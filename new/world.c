@@ -1,7 +1,18 @@
-#include "worldData.h"
+/*******************************************************************************
+ * HEADERS
+ ******************************************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+
+#include "worldData.h"
+#include "movement.h"
+#include "rana.h"
+
+/*******************************************************************************
+ * CONSTANTES CON DEFINE
+ ******************************************************************************/
 
 #define LEVELPOSIBILITIES 7
 
@@ -9,43 +20,7 @@
  * PRESETS MAPAS --> definimos presets de velocidad, cantidad objetos y tamano
  *****************************************************************************/
  
- //Dificulty 1
- 
- linea_t agua1[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
-                        {.size = 4, .cant_obj = 1, .v = 1},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2}};
- 
-linea_t piso1[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 3, .v = 1},
-                        {.size = 1, .cant_obj = 3, .v = 2},
-                        {.size = 2, .cant_obj = 2, .v = 1},
-                        {.size = 2, .cant_obj = 2, .v = 2}};
-
- //Dificulty 2
- 
- linea_t agua2[] =  {   {.size = 5, .cant_obj = 1, .v = 2},
-                        {.size = 5, .cant_obj = 1, .v = 2},
-                        {.size = 4, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1}};
- 
-linea_t piso2[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
-                        {.size = 1, .cant_obj = 6, .v = 1},
-                        {.size = 1, .cant_obj = 5, .v = 1},
-                        {.size = 1, .cant_obj = 4, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2},
-                        {.size = 1, .cant_obj = 2, .v = 3}};
-
- //Dificulty 0
+ //Difficulty 0
  
  linea_t agua0[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
                         {.size = 4, .cant_obj = 1, .v = 1},
@@ -55,13 +30,50 @@ linea_t piso2[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
                         {.size = 2, .cant_obj = 3, .v = 1},
                         {.size = 2, .cant_obj = 3, .v = 2}};
  
-linea_t piso0[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
+ linea_t piso0[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
                         {.size = 1, .cant_obj = 0, .v = 1},
                         {.size = 1, .cant_obj = 0, .v = 1},
                         {.size = 1, .cant_obj = 2, .v = 1},
                         {.size = 1, .cant_obj = 2, .v = 2},
                         {.size = 2, .cant_obj = 2, .v = 1},
                         {.size = 2, .cant_obj = 1, .v = 2}};         
+
+ //Difficulty 1
+ 
+ linea_t agua1[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
+                        {.size = 4, .cant_obj = 1, .v = 1},
+                        {.size = 3, .cant_obj = 2, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 2},
+                        {.size = 2, .cant_obj = 4, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2}};
+ 
+ linea_t piso1[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 0, .v = 1},
+                        {.size = 1, .cant_obj = 3, .v = 1},
+                        {.size = 1, .cant_obj = 3, .v = 2},
+                        {.size = 2, .cant_obj = 2, .v = 1},
+                        {.size = 2, .cant_obj = 2, .v = 2}};
+
+ //Difficulty 2
+ 
+ linea_t agua2[] =  {   {.size = 5, .cant_obj = 1, .v = 2},
+                        {.size = 5, .cant_obj = 1, .v = 2},
+                        {.size = 4, .cant_obj = 2, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 2},
+                        {.size = 3, .cant_obj = 2, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2},
+                        {.size = 2, .cant_obj = 4, .v = 1}};
+ 
+ linea_t piso2[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
+                        {.size = 1, .cant_obj = 6, .v = 1},
+                        {.size = 1, .cant_obj = 5, .v = 1},
+                        {.size = 1, .cant_obj = 4, .v = 2},
+                        {.size = 2, .cant_obj = 4, .v = 1},
+                        {.size = 2, .cant_obj = 3, .v = 2},
+                        {.size = 1, .cant_obj = 2, .v = 3}};
+
 
 /*******************************************************************************/
 

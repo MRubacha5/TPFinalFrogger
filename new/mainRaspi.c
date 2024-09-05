@@ -4,11 +4,13 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs.
 */
 //Como compilar: gcc testLibraries.c disdrv.o joydrv.o -Wall -o testLibs
 #include <stdio.h>
+#include <time.h>
+
 #include "disdrv.h"
 #include "joydrv.h"
 #include "Objetos.h"
-#include "Rana.h"
-#include <time.h>
+#include "rana.h"
+#include "movement.h"
 
 #define FPS 60
 #define THRESHOLD 40	//Límite a partir del cual se mueve el LED encendido
@@ -58,7 +60,7 @@ int main(void)
     clock_t lap_time;
     int msec = 0;
     linea_t * pl;
-    rana_t rana = {.posx=10/2, .posy=0, .vidas=3};
+    rana_t rana = {.posx=10/2, .posy=0};
 	
 	joy_init();										//inicializa el joystick
 	disp_init();									//inicializa el display
@@ -227,7 +229,7 @@ int main(void)
                     for(c = 0 ; c < 10 ; c++){
                         pos.x = c;
                         pos.y = i;
-                        disp_write(pos, !(*((linea->p_linea)+c)));
+                        disp_write(pos, !(*((linea->plinea)+c)));
                     }
                 }
                 if(coord.sw == J_PRESS && joyPressed == 0){
