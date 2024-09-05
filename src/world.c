@@ -127,7 +127,6 @@ void createMap(linea_t * p, int difficulty){
                     (linea->po)[c] = (c == 0)?(WIDTH + 1):((linea->po)[c-1]+linea->size+rand()%3+1); //modificar 3 para spawn rate
                 }
             }
-            
         }
     }
     for(i = 0 ; i < WIDTH ; i++){
@@ -173,9 +172,5 @@ void moveLine(linea_t * pl){
                 (pl->plinea)[posx+c] = !(pl->val_def);
             }
         }
-
-        
-
     }
-
 }

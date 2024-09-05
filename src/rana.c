@@ -1,3 +1,7 @@
+/*******************************************************************************
+ * HEADERS
+ ******************************************************************************/
+
 #include "rana.h"
 #include "worldData.h"
 #include "movement.h"
@@ -43,7 +47,7 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
 }
 
 void RanaCollisions(rana_t * prana, linea_t * pl){
-    
+
     if((prana->posx) >= WIDTH || (prana->posx) < 0){ //Resta vidas si la rana se va por un costado del mapa
         RestarVidas(prana);
     }
