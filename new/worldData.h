@@ -11,8 +11,6 @@
  * CONSTANTES
  ******************************************************************************/
 
-#define IZQ -1
-#define DER 1
 #define HEIGHT 16
 #define WIDTH 12
 #define MAX_OBJ 10
@@ -43,11 +41,5 @@ typedef struct{
  * @param difficulty Entero que determina la dificultad. Modifica algunos parametros en la generacion
 */
 void createMap(linea_t * p, int difficulty);
-
-/**
- * @brief Se ocupa de mover todos los objetos en el mundo. NO TIENE EN CUENTA LA VELOCIDAD Y DEBERA SER LLAMADA ACORDEMENTE
- * @param plinea Puntero a la linea en cuestion
-*/
-void moveLine(linea_t * plinea);
 
 #endif //WORLDDATA_H
