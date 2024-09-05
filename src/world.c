@@ -139,15 +139,26 @@ void createMap(linea_t * p, int difficulty){
     }
 }
 
-void moveLine(linea_t * pl){
-    int i, j, c;
+void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
+    int j, c;
  
-    for(i=0 ; i<WIDTH; i++){
-        if((pl->plinea)[i] != RANA_VAL){
-            (pl->plinea)[i] = pl->val_def;
+    for(j=0 ; j<WIDTH; j++){
+        if((pl->plinea)[j] != RANA_VAL){
+            (pl->plinea)[j] = pl->val_def;
         }
 
     }
+    if(lineaPosY > HEIGHT/2 && lineaPosY == pRana->posy){
+        for(j=0; j < pl->cant_obj; j++){
+            for(c=0; c < pl->size; c++){
+                if(pRana->posx == (pl->po[j])+c){ //Si la rana esta parada en un tronco, se mueve con el 
+                            pRana->posx += pl->dir;
+                        }
+            }
+            
+        }   
+    } 
+
     for(j = 0; j < pl->cant_obj; j++){ //recorre los objetos de la linea
         
         switch(pl->dir){ // mueve los objetos en base a la direccion de la linea

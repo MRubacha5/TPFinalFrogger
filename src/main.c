@@ -244,17 +244,17 @@ int main (void) {
 								{
 								case 1:
 									if(fpsCounter == 0){
-										moveLine(linea);
+										moveLine(linea, i, pRana);
 									}
 									break;
 								case 2:
 									if(fpsCounter == FPS/2 || fpsCounter == 0){
-										moveLine(linea);
+										moveLine(linea, i, pRana);
 									}
 									break;
 								case 3:
 									if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
-										moveLine(linea);
+										moveLine(linea, i, pRana);
 									}
 								}
 							}

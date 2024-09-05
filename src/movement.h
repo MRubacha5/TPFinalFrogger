@@ -41,8 +41,10 @@ void RanaCollisions(rana_t * prana, linea_t * pl);
 
 /**
  * @brief Se ocupa de mover todos los objetos en el mundo. NO TIENE EN CUENTA LA VELOCIDAD Y DEBERA SER LLAMADA ACORDEMENTE
- * @param plinea Puntero a la linea en cuestion
+ * @param pl Puntero a la linea en cuestion
+ * @param lineaPosY Posicion Y de la linea en el mapa
+ * @param pRana Rana que esté activa en el momento del movimiento. Debe pasarse como para poder mover la rana si está subida a un tronco
 */
-void moveLine(linea_t * plinea);
+void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana);
 
 #endif //MOVEMENT_H
