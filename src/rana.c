@@ -43,24 +43,24 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
 }
 
 void RanaCollisions(rana_t * prana, linea_t * pl){
+    
     if((prana->posx) >= WIDTH || (prana->posx) < 0){ //Resta vidas si la rana se va por un costado del mapa
         RestarVidas(prana);
     }
         int i,j;
+
     switch(pl->val_def){
         case UNSAFE:
             uint8_t isFloating = 0;
             for(i = 0; i < pl->cant_obj; i++){
                 for(j = 0; j < pl->size; j++){
-                    if(prana->posx == (pl->po[i])+j){
+                    if(prana->posx == (pl->po[i])+j){ //Si la rana esta parada en un tronco
                         isFloating = 1;
                     }
                 }
             }
             if(!isFloating){
                 RestarVidas(prana);
-            } else{
-
             }
             break;
         case SAFE:
@@ -71,9 +71,6 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
                     }
                 }
             }
-        
-        default:
-            break;
     }
 
     

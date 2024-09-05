@@ -2,7 +2,8 @@
     "files.associations": {
         "stdint.h": "c",
         "objetos.h": "c",
-        "worlddata.h": "c"
+        "worlddata.h": "c",
+        "pthread.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
