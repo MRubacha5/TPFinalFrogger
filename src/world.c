@@ -134,7 +134,7 @@ void createMap(linea_t * p, int difficulty){
             (p+HEIGHT-1)->plinea[i] = WIN_FREE;
         }
         else{
-            (p+HEIGHT-1)->plinea[i] = 0;
+            (p+HEIGHT-1)->plinea[i] = UNSAFE;
         }
     }
 }
@@ -148,6 +148,7 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
         }
 
     }
+    
     if(lineaPosY > HEIGHT/2 && lineaPosY == pRana->posy){
         for(j=0; j < pl->cant_obj; j++){
             for(c=0; c < pl->size; c++){
@@ -155,7 +156,6 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
                             pRana->posx += pl->dir;
                         }
             }
-            
         }   
     } 
 
