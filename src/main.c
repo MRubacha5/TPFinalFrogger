@@ -202,41 +202,28 @@ int main (void) {
 							linea_t * linea = map+i;
 							
 							for(c = 0 ; c < WIDTH ; c++){
-								if(i == 0){
-									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("grey"));
-								}
-								else if(i < HEIGHT/2){
-									if((linea->plinea)[c] == UNSAFE){
-										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("yellow"));
-									}
-									else if ((linea->plinea)[c] == SAFE){
-										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("black"));
-									}
-								}
-								else if (i == HEIGHT/2){
-									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("grey"));
-								}
-								else if(i > HEIGHT/2 && i != HEIGHT-1){
-									if((linea->plinea)[c] == UNSAFE){
-										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("blue"));
-									}
-									else if ((linea->plinea)[c] == SAFE){
-										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("brown"));
-									}
-								}
-								else if(i == HEIGHT-1){
-									if((linea->plinea)[c] == UNSAFE){
-										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("green"));
-									}
-									else if ((linea->plinea)[c] == SAFE){
-										al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("blue"));
-									}
-								}
+								for(c = 0 ; c < WIDTH ; c++){
 								
-								if((linea->plinea)[c] == RANA_VAL){
-									al_draw_filled_rectangle(c * GSIZE, i*GSIZE, (c+1) * GSIZE, (i+1)*GSIZE,al_color_name("orange"));
+								if (i == 0) //posicion inicial
+								{
+									//imprimo piso
 								}
-								
+								else if(i > 0 && i < HEIGHT / 2){ //Calle
+									//imprimo calle si es 1
+									//imprimo auto si es 0
+								}
+								else if(i == HEIGHT/2){ //Pasto
+									//imprimo pasto
+								}					
+								else if(i > HEIGHT/2 && i < HEIGHT-1){ //Agua
+									//imprimo agua si es 0
+									//imprimo tronco si es 1
+								}
+								else if(i == HEIGHT - 1){
+									//imprimo lilypad si es 1;
+									//imprimo pasto si es 0
+								}		
+
 							}
 
 							/* esto es para modificar el movimient segun la velocidad */
