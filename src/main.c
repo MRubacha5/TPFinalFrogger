@@ -135,6 +135,7 @@ int main (void) {
 		while(!do_exit){
 
 			ALLEGRO_EVENT ev;
+			
 
 			if(al_get_next_event(event_queue, &ev)){
 
