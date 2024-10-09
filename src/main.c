@@ -226,8 +226,9 @@ int main (void) {
 
 							}
 
-							/* esto es para modificar el movimient segun la velocidad */
-							if(linea->cant_obj > 0){
+							/* esto es para modificar el movimiento segun la velocidad */
+							if(linea->cant_obj > 0)
+							{
 								switch (linea->v)
 								{
 								case 1:
@@ -255,9 +256,8 @@ int main (void) {
 					
 					al_flip_display();
 					
-										
-                    
-		    	}
+		    		}
+				}
 				else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
 					do_exit = true;
 		    	}
