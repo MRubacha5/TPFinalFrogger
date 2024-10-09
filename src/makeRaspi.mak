@@ -1,9 +1,9 @@
 # MAKE DESACTUALIZADO. ACTUALIZAR CUANDO LO VAYAMOS A USAR
 
-test: mainRaspi.o rana.o WorldCreate.o WorldInteract.o
-	gcc -o test mainRaspi.o rana.o WorldCreate.o WorldInteract.o joydrv.o disdrv.o
+froggerRaspi: mainRaspi.o rana.o WorldCreate.o WorldInteract.o
+	gcc -o froggerRaspi mainRaspi.o rana.o WorldCreate.o WorldInteract.o joydrv.o disdrv.o
 
-mainRaspi.o: mainRaspi.c rana.h Objetos.h
+mainRaspi.o: mainRaspi.c rana.h Objetos.h raspi.h
 	gcc -c mainRaspi.c -Wall
 
 rana.o: rana.c rana.h Objetos.h

@@ -1,4 +1,9 @@
 /*******************************************************************************
+ * DEFINE PARA ESPECIFICAR PLATAFORMA
+ ******************************************************************************/
+#define ALLEGRO
+
+/*******************************************************************************
  * HEADERS
  ******************************************************************************/
 
@@ -15,6 +20,8 @@
 #include "score.h"
 #include "rana.h"
 #include "movement.h"
+
+#include "platformConfig.h"
 
 /*******************************************************************************
  * CONSTANTES CON DEFINE
@@ -52,7 +59,6 @@ int main (void) {
 		ALLEGRO_FONT * font;
 		ALLEGRO_EVENT_QUEUE * event_queue;
 		ALLEGRO_TIMER * timer;
-		ALLEGRO_BITMAP * background;
 
 		uint8_t time_left = 20; //hardcodeado solo para probar funcion  
 
@@ -110,7 +116,14 @@ int main (void) {
 			return -1;
 		}
 
-		background = al_load_bitmap("background.jpg");
+		/*************** BITMAPS ******************************************/
+		ALLEGRO_BITMAP * car1 = NULL;
+		car1 = al_load_bitmap("/home/jrodriguezarias/git/TPFinalFrogger/assets/Sprites/frogLeapRight.png");
+
+		if(!car1){
+			printf("error loading image\n");
+			return -1;
+		}
 
 		al_register_event_source(event_queue, al_get_display_event_source(display));
 		al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -147,6 +160,7 @@ int main (void) {
 						al_clear_to_color(al_color_name("black"));
 						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("white"));
 						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("white"));
+						al_draw_bitmap(car1, 0, 0, 0);
 						if(mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8){
 							if(mouse_y > DISPLAY_Y/8 && mouse_y < DISPLAY_Y*3/8){
 								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("grey"));
@@ -247,6 +261,7 @@ int main (void) {
 									}
 								}
 							}
+
 							RanaCollisions(pRana, &map[pRana->posy]);
 						}
 						
@@ -288,6 +303,13 @@ int main (void) {
 								//Cada vez que va para arriba se fija si se debe inc score
 								//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
 								//printf ("%u\n",inscreenscore);
+								
+								//Cada vez que sube, luego de chequear colisiones, se fija si esa en la ultima linea
+
+								if (pRana->posy == (HEIGHT-1))
+								{
+									Ganar (pRana, map + (HEIGHT-1));
+								}
 
 								break;
 							case ALLEGRO_KEY_LEFT:
@@ -309,7 +331,7 @@ int main (void) {
 		    }
 		}
 		al_destroy_display(display);
-		al_destroy_bitmap(background);
+		al_destroy_bitmap(car1);
 		al_destroy_event_queue(event_queue);
 		al_destroy_font(font);
 		al_destroy_timer(timer);

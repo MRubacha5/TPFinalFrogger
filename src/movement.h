@@ -36,6 +36,7 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl);
  * @brief Se ocupa de que la rana interactue con el mundo. Tanto para morir si colisiona con algo fatal como para moverse si esta encima de algo como un tronco
  * @param prana rana en cuestion
  * @param pl linea en la que se encuentra la rana
+ * @param ranaWidth valor de ancho de la rana. Se utiliza para poder adaptar las colisiones a la plataforma que se utilice
 */
 void RanaCollisions(rana_t * prana, linea_t * pl);
 

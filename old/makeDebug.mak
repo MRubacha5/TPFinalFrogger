@@ -1,5 +1,5 @@
-test: mainDebug.o world.o rana.o
-	gcc -o test mainDebug.o world.o rana.o -g
+debug: mainDebug.o world.o rana.o
+	gcc -o debug mainDebug.o world.o rana.o -g
 
 mainDebug.o: mainDebug.c worldData.h movement.h
 	gcc -c mainDebug.c -Wall -g

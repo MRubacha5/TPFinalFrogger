@@ -142,6 +142,7 @@ static void fwr_sc (FILE* fp ,uint16_t arr[], int l, char plr [][4])
 
 
 uint16_t ct_score (uint8_t y, uint8_t t_time, uint8_t time, uint8_t lines, uint8_t vidas, uint8_t lvlend){
+	
 	static uint16_t score, finalscore;
 	
 	if (vidas != 0)
