@@ -116,14 +116,40 @@ int main (void) {
 			return -1;
 		}
 
-		/*************** BITMAPS ******************************************/
-		ALLEGRO_BITMAP * car1 = NULL;
-		car1 = al_load_bitmap("/home/jrodriguezarias/git/TPFinalFrogger/assets/Sprites/frogLeapRight.png");
-
-		if(!car1){
-			printf("error loading image\n");
-			return -1;
-		}
+		/*************** | BITMAPS | ******************************************/
+		ALLEGRO_BITMAP * car1_bitmap = al_load_bitmap("../assets/Sprites/car1.png");
+		ALLEGRO_BITMAP * car2_bitmap = al_load_bitmap("../assets/Sprites/car2.png");
+		ALLEGRO_BITMAP * car3_bitmap = al_load_bitmap("../assets/Sprites/car3.png");
+		ALLEGRO_BITMAP * car4_bitmap = al_load_bitmap("../assets/Sprites/car4.png");
+		ALLEGRO_BITMAP * crash1_bitmap = al_load_bitmap("../assets/Sprites/crash1.png");
+		ALLEGRO_BITMAP * crash2_bitmap = al_load_bitmap("../assets/Sprites/crash2.png");
+		ALLEGRO_BITMAP * crash3_bitmap = al_load_bitmap("../assets/Sprites/crash3.png");
+		ALLEGRO_BITMAP * death_bitmap = al_load_bitmap("../assets/Sprites/death.png");
+		ALLEGRO_BITMAP * drown1_bitmap = al_load_bitmap("../assets/Sprites/drown1.png");
+		ALLEGRO_BITMAP * drown2_bitmap = al_load_bitmap("../assets/Sprites/drown2.png");
+		ALLEGRO_BITMAP * drown3_bitmap = al_load_bitmap("../assets/Sprites/drown3.png");
+		ALLEGRO_BITMAP * frogIdleBack_bitmap = al_load_bitmap("../assets/Sprites/frogIdleBack.png");
+		ALLEGRO_BITMAP * frogIdleFwd_bitmap = al_load_bitmap("../assets/Sprites/frogIdleFwd.png");
+		ALLEGRO_BITMAP * frogIdleLeft_bitmap = al_load_bitmap("../assets/Sprites/frogIdleLeft.png");
+		ALLEGRO_BITMAP * frogIdleRight_bitmap = al_load_bitmap("../assets/Sprites/frogIdleRight.png");
+		ALLEGRO_BITMAP * frogLeapBack_bitmap = al_load_bitmap("../assets/Sprites/frogLeapBack.png");
+		ALLEGRO_BITMAP * frogLeapFwd_bitmap = al_load_bitmap("../assets/Sprites/frogLeapFwd.png");
+		ALLEGRO_BITMAP * frogLeapLeft_bitmap = al_load_bitmap("../assets/Sprites/frogLeapLeft.png");
+		ALLEGRO_BITMAP * frogLeapRight_bitmap = al_load_bitmap("../assets/Sprites/frogLeapRight.png");
+		ALLEGRO_BITMAP * frogWin_bitmap = al_load_bitmap("../assets/Sprites/frogWin.png");
+		ALLEGRO_BITMAP * grassWinFrame_bitmap = al_load_bitmap("../assets/Sprites/grassWinFrame.png");
+		ALLEGRO_BITMAP * grassWinSeparator_bitmap = al_load_bitmap("../assets/Sprites/grassWinSeparator.png");
+		ALLEGRO_BITMAP * logLeft_bitmap = al_load_bitmap("../assets/Sprites/logLeft.png");
+		ALLEGRO_BITMAP * logMiddle_bitmap = al_load_bitmap("../assets/Sprites/logMiddle.png");
+		ALLEGRO_BITMAP * logRight_bitmap = al_load_bitmap("../assets/Sprites/logRight.png");
+		ALLEGRO_BITMAP * purpleGrass_bitmap = al_load_bitmap("../assets/Sprites/purpleGrass.png");
+		ALLEGRO_BITMAP * titleE_bitmap = al_load_bitmap("../assets/Sprites/titleE.png");
+		ALLEGRO_BITMAP * titleF_bitmap = al_load_bitmap("../assets/Sprites/titleF.png");
+		ALLEGRO_BITMAP * titleG_bitmap = al_load_bitmap("../assets/Sprites/titleG.png");
+		ALLEGRO_BITMAP * titleO_bitmap = al_load_bitmap("../assets/Sprites/titleO.png");
+		ALLEGRO_BITMAP * titleR_bitmap = al_load_bitmap("../assets/Sprites/titleR.png");
+		ALLEGRO_BITMAP * truck_bitmap = al_load_bitmap("../assets/Sprites/truck.png");
+		/**************************************************************************/
 
 		al_register_event_source(event_queue, al_get_display_event_source(display));
 		al_register_event_source(event_queue, al_get_timer_event_source(timer));
@@ -160,7 +186,7 @@ int main (void) {
 						al_clear_to_color(al_color_name("black"));
 						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("white"));
 						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("white"));
-						al_draw_bitmap(car1, 0, 0, 0);
+						
 						if(mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8){
 							if(mouse_y > DISPLAY_Y/8 && mouse_y < DISPLAY_Y*3/8){
 								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("grey"));
@@ -211,34 +237,112 @@ int main (void) {
 						if(fpsCounter >= FPS){
 							fpsCounter = 0;
 						}
+
+						al_clear_to_color(al_color_name("black"));
+
 						for (i = 0; i < HEIGHT ; i++){
 
 							linea_t * linea = map+i;
 							
 							for(c = 0 ; c < WIDTH ; c++){
-								for(c = 0 ; c < WIDTH ; c++){
+								
 								
 								if (i == 0) //posicion inicial
 								{
 									//imprimo piso
+									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,10,10,
+									 c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 								}
 								else if(i > 0 && i < HEIGHT / 2){ //Calle
 									//imprimo calle si es 1
 									//imprimo auto si es 0
+									
+
+	
+									for (int obj = 0; obj < linea->cant_obj; obj++)
+									{
+										float objx = *(linea->po)+obj;
+
+										printf("%d objects in line %d\n",linea->cant_obj, i);
+										switch (linea->size)
+										{
+										case 1:
+											al_draw_scaled_bitmap(car1_bitmap,0,0,10,10,
+												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE, GSIZE, 0);
+											break;
+										case 2:
+											al_draw_scaled_bitmap(car2_bitmap,0,0,10,10,
+												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE * 2, GSIZE, 0);
+											break;
+										case 3:
+											al_draw_scaled_bitmap(car3_bitmap,0,0,10,10,
+												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE * 3, GSIZE, 0);
+											break;
+										case 4:
+											al_draw_scaled_bitmap(car4_bitmap,0,0,10,10,
+												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE * 4, GSIZE, 0);
+										default:
+											break;
+										}
+									}
+									
 								}
 								else if(i == HEIGHT/2){ //Pasto
 									//imprimo pasto
+									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,10,10,
+									 c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
+
 								}					
 								else if(i > HEIGHT/2 && i < HEIGHT-1){ //Agua
 									//imprimo agua si es 0
+									al_draw_filled_rectangle(c*GSIZE,(HEIGHT-i-1)*GSIZE,
+									(c+1)*GSIZE, (HEIGHT-i)*GSIZE, al_color_name("blue"));
 									//imprimo tronco si es 1
+									for (int obj = 0; obj < linea->cant_obj; obj++)
+									{
+										float objx = *(linea->po)+obj;
+										for (int size = 0; size < linea->size; size++)
+										{
+											if(size == 0){
+												al_draw_scaled_bitmap(logLeft_bitmap,0,0,10,10,
+									 				objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
+											}
+											else if (size == linea->size - 1){
+												al_draw_scaled_bitmap(logRight_bitmap,0,0,10,10,
+									 				(objx+size)*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
+											}
+											else{
+												al_draw_scaled_bitmap(logMiddle_bitmap,0,0,10,10,
+									 				(objx+size)*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
+											}
+										}
+									}
 								}
 								else if(i == HEIGHT - 1){
+									al_draw_filled_rectangle(c*GSIZE, (HEIGHT-i-1)*GSIZE,
+										(c+1)*GSIZE, (HEIGHT-i)*GSIZE, al_color_name("blue"));
 									//imprimo lilypad si es 1;
-									//imprimo pasto si es 0
+									if(linea->plinea[c] == WIN_FREE){
+										al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,10,10,
+									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
+									}
+									else if(linea->plinea[c] == UNSAFE){//imprimo pasto si es 0
+										al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,10,10,
+									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
+									}
+									else if(linea->plinea[c] == WIN_OCC){
+										al_draw_scaled_bitmap(frogWin_bitmap,0,0,10,10,
+									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
+									}
 								}		
 
 							}
+							
+
+							float ranax = pRana->posx;
+							float ranay = pRana->posy;
+							al_draw_scaled_bitmap(frogIdleFwd_bitmap,0,0,10,10,
+									 		ranax*GSIZE, (ranay-i-1) * GSIZE, GSIZE,GSIZE,0);
 
 							/* esto es para modificar el movimiento segun la velocidad */
 							if(linea->cant_obj > 0)
@@ -259,6 +363,9 @@ int main (void) {
 									if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
 										moveLine(linea, i, pRana);
 									}
+									break;
+								default:
+									break;
 								}
 							}
 
@@ -266,12 +373,8 @@ int main (void) {
 						}
 						
 						fpsCounter++;
-						break;
+						al_flip_display();
 					}
-					
-					al_flip_display();
-					
-		    		}
 				}
 				else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
 					do_exit = true;
@@ -331,7 +434,7 @@ int main (void) {
 		    }
 		}
 		al_destroy_display(display);
-		al_destroy_bitmap(car1);
+		al_destroy_bitmap(purpleGrass_bitmap);
 		al_destroy_event_queue(event_queue);
 		al_destroy_font(font);
 		al_destroy_timer(timer);
