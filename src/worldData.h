@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 #define HEIGHT 16
-#define WIDTH 12
+#define WIDTH 11
 #define MAX_OBJ 10
 
 //Constantes de logica para las interacciones en el mapa

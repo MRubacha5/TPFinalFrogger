@@ -9,6 +9,7 @@
 #include "worldData.h"
 #include "movement.h"
 #include "rana.h"
+#include "platformConfig.h"
 
 /*******************************************************************************
  * CONSTANTES CON DEFINE
@@ -104,9 +105,6 @@ void createMap(linea_t * p, int difficulty){
         
         linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; // 1 es piso 0 es agua
 
-        for(c = 0 ; c < WIDTH ; c++){
-            (linea->plinea)[c] = linea->val_def;
-        }
         for(c = 0 ; c < MAX_OBJ ; c++){
             (linea->po)[c] = 0;
         }
@@ -129,8 +127,10 @@ void createMap(linea_t * p, int difficulty){
             }
         }
     }
+
+    //UNICO USO DE PLINEA RESTANTE: Setea las posiciones de los espacios de victoria (CAMBIAR POR CONSTANTES WINPOS
     for(i = 0 ; i < WIDTH ; i++){
-        if(i%3==1){
+        if(i%2==0){//(WINPOS1 == i) || (WINPOS2 == i) || (WINPOS3 == i) || (WINPOS4 == i) || (WINPOS5 == i)){
             (p+HEIGHT-1)->plinea[i] = WIN_FREE;
         }
         else{
@@ -141,13 +141,6 @@ void createMap(linea_t * p, int difficulty){
 
 void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
     int j, c;
- 
-    for(j=0 ; j<WIDTH; j++){
-        if((pl->plinea)[j] != RANA_VAL){
-            (pl->plinea)[j] = pl->val_def;
-        }
-
-    }
     
     if(lineaPosY > HEIGHT/2 && lineaPosY == pRana->posy){
         for(j=0; j < pl->cant_obj; j++){
@@ -177,11 +170,5 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
                 break;
         }
         
-        int posx = (pl->po)[j];
-        for(c = 0 ; c < pl->size ; c++){ //cambio la pos x y las siguientes size posiciones al valor  del obj
-            if(posx+c >= 0 && posx+c < WIDTH){ //verifico que quiero modificar un valor dentro del rango de valores modificables
-                (pl->plinea)[posx+c] = !(pl->val_def);
-            }
-        }
     }
 }

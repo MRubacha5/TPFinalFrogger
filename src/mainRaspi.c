@@ -1,11 +1,6 @@
-/*******************************************************************************
- * DEFINE PARA ESPECIFICAR PLATAFORMA
- ******************************************************************************/
-#define RASPI
-
 /*
 testlibraries es un ejemplo de uso de las librerías disdrv y joydrv
-Permite mover con el joystick un LED encendido en la matriz de LEDs.
+Permite mover con el joystick un LED encendido en la matriz de LEDs
 */
 //Como compilar: gcc testLibraries.c disdrv.o joydrv.o -Wall -o testLibs
 #include <stdio.h>

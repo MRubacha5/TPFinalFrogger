@@ -1,9 +1,4 @@
 /*******************************************************************************
- * DEFINE PARA ESPECIFICAR PLATAFORMA
- ******************************************************************************/
-#define ALLEGRO
-
-/*******************************************************************************
  * HEADERS
  ******************************************************************************/
 
@@ -20,7 +15,6 @@
 #include "score.h"
 #include "rana.h"
 #include "movement.h"
-
 #include "platformConfig.h"
 
 /*******************************************************************************
@@ -54,12 +48,11 @@ rana_t rana;
 rana_t * pRana = &rana;
 
 int main (void) {
-
 		ALLEGRO_DISPLAY * display = NULL;
 		ALLEGRO_FONT * font;
 		ALLEGRO_EVENT_QUEUE * event_queue;
 		ALLEGRO_TIMER * timer;
-
+	
 		uint8_t time_left = 20; //hardcodeado solo para probar funcion  
 
 		if(!al_init()){
@@ -250,7 +243,7 @@ int main (void) {
 								if (i == 0) //posicion inicial
 								{
 									//imprimo piso
-									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,10,10,
+									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,16,16,
 									 c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 								}
 								else if(i > 0 && i < HEIGHT / 2){ //Calle
@@ -263,24 +256,24 @@ int main (void) {
 									{
 										float objx = *(linea->po)+obj;
 
-										printf("%d objects in line %d\n",linea->cant_obj, i);
+										//printf("%d objects in line %d\n",linea->cant_obj, i);
 										switch (linea->size)
 										{
 										case 1:
-											al_draw_scaled_bitmap(car1_bitmap,0,0,10,10,
-												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE, GSIZE, 0);
+											switch (linea->dir)
+											{
+											case IZQ:
+												al_draw_scaled_bitmap(car2_bitmap,0,0,16,16,
+													objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE, GSIZE, 0);
+											case DER:
+												al_draw_scaled_bitmap(car3_bitmap,0,0,16,16,
+													objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE, GSIZE, 0);
+											}
 											break;
 										case 2:
-											al_draw_scaled_bitmap(car2_bitmap,0,0,10,10,
+											al_draw_scaled_bitmap(truck_bitmap,0,0,32,16,
 												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE * 2, GSIZE, 0);
 											break;
-										case 3:
-											al_draw_scaled_bitmap(car3_bitmap,0,0,10,10,
-												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE * 3, GSIZE, 0);
-											break;
-										case 4:
-											al_draw_scaled_bitmap(car4_bitmap,0,0,10,10,
-												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE * 4, GSIZE, 0);
 										default:
 											break;
 										}
@@ -289,7 +282,7 @@ int main (void) {
 								}
 								else if(i == HEIGHT/2){ //Pasto
 									//imprimo pasto
-									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,10,10,
+									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,16,16,
 									 c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 
 								}					
@@ -304,34 +297,34 @@ int main (void) {
 										for (int size = 0; size < linea->size; size++)
 										{
 											if(size == 0){
-												al_draw_scaled_bitmap(logLeft_bitmap,0,0,10,10,
+												al_draw_scaled_bitmap(logLeft_bitmap,0,0,16,16,
 									 				objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 											}
 											else if (size == linea->size - 1){
-												al_draw_scaled_bitmap(logRight_bitmap,0,0,10,10,
+												al_draw_scaled_bitmap(logRight_bitmap,0,0,16,16,
 									 				(objx+size)*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 											}
 											else{
-												al_draw_scaled_bitmap(logMiddle_bitmap,0,0,10,10,
+												al_draw_scaled_bitmap(logMiddle_bitmap,0,0,16,16,
 									 				(objx+size)*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 											}
 										}
 									}
 								}
 								else if(i == HEIGHT - 1){
-									al_draw_filled_rectangle(c*GSIZE, (HEIGHT-i-1)*GSIZE,
-										(c+1)*GSIZE, (HEIGHT-i)*GSIZE, al_color_name("blue"));
+									al_draw_filled_rectangle(c*GSIZE, (HEIGHT-i)*GSIZE,
+										(c+1)*GSIZE, (HEIGHT-i-1)*GSIZE, al_color_name("blue"));
 									//imprimo lilypad si es 1;
 									if(linea->plinea[c] == WIN_FREE){
-										al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,10,10,
+										al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
 									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 									}
 									else if(linea->plinea[c] == UNSAFE){//imprimo pasto si es 0
-										al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,10,10,
+										al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,16,
 									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 									}
 									else if(linea->plinea[c] == WIN_OCC){
-										al_draw_scaled_bitmap(frogWin_bitmap,0,0,10,10,
+										al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
 									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
 									}
 								}		

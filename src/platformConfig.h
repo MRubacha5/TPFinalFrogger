@@ -8,12 +8,13 @@
      ******************************************************************************/
     #define RANAWIDTH 16
 
+
     //Coordenadas x de las posiciones de victoria
     #define WINPOS1 1
-    #define WINPOS2 2
-    #define WINPOS3 3
-    #define WINPOS4 4
-    #define WINPOS5 5
+    #define WINPOS2 3
+    #define WINPOS3 5
+    #define WINPOS4 7
+    #define WINPOS5 100
 
 //CONFIGURACIONES DE RASPI
 #else
@@ -23,12 +24,14 @@
     #define RANAWIDTH 0
 
     //Coordenadas x de las posiciones de victoria
-    #define WINPOS1 1
-    #define WINPOS2 2
-    #define WINPOS3 3
-    #define WINPOS4 4
-    #define WINPOS5 5
+    #define WINPOS1 0
+    #define WINPOS2 0
+    #define WINPOS3 0
+    #define WINPOS4 0
+    #define WINPOS5 0
 
+//#else 
+    //#error("No platform defined")
 #endif 
 
-#endif PLATFORMCONFIG_H
+#endif // PLATFORMCONFIG_H

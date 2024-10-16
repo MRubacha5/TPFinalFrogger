@@ -1,7 +1,7 @@
 # MAKE DESACTUALIZADO. ACTUALIZAR CUANDO LO VAYAMOS A USAR
 
 froggerRaspi: mainRaspi.o rana.o WorldCreate.o WorldInteract.o
-	gcc -o froggerRaspi mainRaspi.o rana.o WorldCreate.o WorldInteract.o joydrv.o disdrv.o
+	gcc -o froggerRaspi mainRaspi.o rana.o WorldCreate.o WorldInteract.o joydrv.o disdrv.o -D RASPI
 
 mainRaspi.o: mainRaspi.c rana.h Objetos.h raspi.h
 	gcc -c mainRaspi.c -Wall
