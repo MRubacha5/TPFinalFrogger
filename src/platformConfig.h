@@ -9,16 +9,20 @@
     #define RANAWIDTH 16
 
 
+    //Constantes graficas
+    #define GSIZEX 50
+    #define GSIZEY 50
+
     //Coordenadas x de las posiciones de victoria
-    #define WINPOS1 50
-    #define WINPOS2 150
-    #define WINPOS3 250
-    #define WINPOS4 350
-    #define WINPOS5 450
+    #define WINPOS1 25
+    #define WINPOS2 125
+    #define WINPOS3 225
+    #define WINPOS4 325
+    #define WINPOS5 425
 
 
 //CONFIGURACIONES DE RASPI
-#else
+#elif defined(RASPI)
     /*******************************************************************************
      * CONSTANTES
      ******************************************************************************/
@@ -31,8 +35,8 @@
     #define WINPOS4 0
     #define WINPOS5 0
 
-//#else 
-    //#error("No platform defined")
+#else 
+    #error("No platform defined")
 #endif 
 
 #endif // PLATFORMCONFIG_H

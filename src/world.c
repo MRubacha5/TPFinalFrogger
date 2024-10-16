@@ -17,27 +17,27 @@
 
 #define LEVELPOSIBILITIES 7
 
-/*****************************************************************************
- * PRESETS MAPAS --> definimos presets de velocidad, cantidad objetos y tamano
- *****************************************************************************/
+/**************************************************************************************************************
+ * PRESETS MAPAS --> 2 niveles hardcodeados; a partir del tercer nivel, se genera pseudo-aleatoriamente
+ *************************************************************************************************************/
  
  //Difficulty 0
  
- linea_t agua0[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
-                        {.size = 4, .cant_obj = 1, .v = 1},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2}};
+ linea_t agua0[] =  {   {.size = 4, .cant_obj = 1, .v = 2, .dir = DER},
+                        {.size = 4, .cant_obj = 1, .v = 1, .dir = DER},
+                        {.size = 3, .cant_obj = 2, .v = 2, .dir = IZQ},
+                        {.size = 3, .cant_obj = 2, .v = 2, .dir = DER},
+                        {.size = 2, .cant_obj = 4, .v = 1, .dir = IZQ},
+                        {.size = 2, .cant_obj = 3, .v = 1, .dir = DER},
+                        {.size = 2, .cant_obj = 3, .v = 2, .dir = IZQ}};
  
- linea_t piso0[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 2, .v = 1},
-                        {.size = 1, .cant_obj = 2, .v = 2},
-                        {.size = 2, .cant_obj = 2, .v = 1},
-                        {.size = 2, .cant_obj = 1, .v = 2}};         
+ linea_t piso0[] =  {    {.size = 1, .cant_obj = 3, .v = 1, .dir = DER},
+                        {.size = 1, .cant_obj = 2, .v = 2, .dir = DER},
+                        {.size = 1, .cant_obj = 3, .v = 1, .dir = IZQ},
+                        {.size = 1, .cant_obj = 2, .v = 3, .dir = DER},
+                        {.size = 1, .cant_obj = 2, .v = 2, .dir = DER},
+                        {.size = 2, .cant_obj = 2, .v = 1, .dir = IZQ},
+                        {.size = 2, .cant_obj = 1, .v = 2, .dir = IZQ}};         
 
  //Difficulty 1
  
@@ -85,25 +85,28 @@ int vidas = 3;
 
 void createMap(linea_t * p, int difficulty){ 
     int i, c;
-    srand(time(NULL));
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
 
-        int linePreset = rand()%LEVELPOSIBILITIES;
-
+        //Inicializo lineas
         if(i<HEIGHT/2 && i != 0){
-            *(linea) = pisoPresets[difficulty][linePreset];
+            *(linea) = pisoPresets[difficulty][i-1];
         }
         else if(i > HEIGHT/2 && i != HEIGHT-1){
-            *(linea) = aguaPresets[difficulty][linePreset];
+            *(linea) = aguaPresets[difficulty][i-1];
         }
         else{
             linea->cant_obj = 0;
         }
 
-        linea->dir = (rand()%2?DER:IZQ);
         
         linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; // 1 es piso 0 es agua
+
+         //Los camiones solo van a la izquierda
+        if (linea->size == 2 && i <= HEIGHT/2){
+            linea->dir = IZQ;
+        }
+
 
         for(c = 0 ; c < MAX_OBJ ; c++){
             (linea->po)[c] = 0;
@@ -147,14 +150,14 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
         switch(pl->dir){ // mueve los objetos en base a la direccion de la linea
             case DER:
                 (pl->po)[j] += 1; 
-                if(pl->po[j] > WIDTH){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
-                    pl->po[j] = 0 - (pl->size); //reiniciar el objeto al principio
+                if(pl->po[j] > WIDTH + GSIZEX*pl->size ){ 
+                    pl->po[j] = -GSIZEX*pl->size; //reiniciar el objeto al principio
                 }
                 break;
 
             case IZQ:
                 (pl->po)[j] -= 1; 
-                if((pl->po)[j] < 1-(pl->size)){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
+                if((pl->po)[j] < -GSIZEX*pl->size){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
                     (pl->po)[j] = WIDTH; //reiniciar el objeto al principio
                 }
                 break;

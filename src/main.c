@@ -21,9 +21,8 @@
  * CONSTANTES CON DEFINE
  ******************************************************************************/
 
-#define GSIZEX 50
-#define GSIZEY 50
-#define FPS 120
+
+#define FPS 60
 
 #define DISPLAY_X (WIDTH)
 #define DISPLAY_Y (800)
@@ -51,6 +50,7 @@ rana_t * pRana = &rana;
 extern int winPosStates[5];
 
 int main (void) {
+		srand(time(NULL));
 		ALLEGRO_DISPLAY * display = NULL;
 		ALLEGRO_FONT * font;
 		ALLEGRO_EVENT_QUEUE * event_queue;
@@ -265,11 +265,23 @@ int main (void) {
 										switch (linea->dir)
 										{
 										case IZQ:
-											al_draw_scaled_bitmap(car2_bitmap,0,0,16,16,
-												objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+											if (linea->v > 1){
+												al_draw_scaled_bitmap(car2_bitmap,0,0,16,16,
+													objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+											}
+											else{
+												al_draw_scaled_bitmap(car1_bitmap,0,0,16,16,
+													objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+											}
 										case DER:
-											al_draw_scaled_bitmap(car3_bitmap,0,0,16,16,
-												objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+											if (linea->v > 1){
+												al_draw_scaled_bitmap(car3_bitmap,0,0,16,16,
+													objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+											}
+											else{
+												al_draw_scaled_bitmap(car4_bitmap,0,0,16,16,
+													objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+											}
 										}
 										break;
 									case 2:
@@ -314,37 +326,41 @@ int main (void) {
 									WIDTH, (HEIGHT-i-1)*GSIZEY, al_color_name("blue"));
 
 								// Dibujo la ultima linea
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
-										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
-										WINPOS2, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
-										WINPOS3, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
-										WINPOS4, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
-										WINPOS5, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+										WINPOS2, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+										WINPOS3, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+										WINPOS4, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+										WINPOS5, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+									0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+									WINPOS5+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 
 								/// Dibujo ranas que ya llegaron
 								if(winPosStates[0] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+										WINPOS1+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[1] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS2, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+										WINPOS2+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[2] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS3, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+										WINPOS3+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[3] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS4, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+										WINPOS4+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[4] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS5, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+										WINPOS5+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								
 							}	
@@ -416,13 +432,6 @@ int main (void) {
 								//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
 								//printf ("%u\n",inscreenscore);
 								
-								//Cada vez que sube, luego de chequear colisiones, se fija si esa en la ultima linea
-								/*
-								if (pRana->posy == (HEIGHT-1))
-								{
-									Ganar (pRana, map + (HEIGHT-1));
-								}
-								*/
 								break;
 							case ALLEGRO_KEY_LEFT:
 								MoveRana(pRana, LEFT, map+rana.posy);

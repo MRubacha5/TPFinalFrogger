@@ -1,8 +1,8 @@
-froggerAllegro: main.o score.o world.o rana.o
+froggerAllegro: 
 	make -f makeAllegro.mak
 
-froggerRaspi: mainRaspi.o rana.o WorldCreate.o WorldInteract.o
+froggerRaspi:
 	make -f makeRaspi.mak
 
 clean:
-	rm -f *.o
+	rm -f *.o rm -r froggerAllegro -r froggerRaspi
