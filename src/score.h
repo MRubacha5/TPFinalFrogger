@@ -34,6 +34,19 @@ uint16_t ct_score (uint8_t y,uint8_t t_time, uint8_t time, uint8_t lines, uint8_
 */
 int max_scores (uint16_t fscore, char* filename,  char* alias); 
 
+/**
+*
+	@brief Returns 1 if fscore is on TOP 10 and 0 if it isnt
+	@param fscore id the final score
+	@param filename TOPSCORESLIST 
+*/
+
+
+/**
+* 
+    @brief Calculates final Score and returns 1 if 
+*/
+int gameOver (uint16_t fscore, char* filename);
 
 /*******************************************************************************
  * FORMATO DEL FILENAME

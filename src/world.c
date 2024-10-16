@@ -127,16 +127,6 @@ void createMap(linea_t * p, int difficulty){
             }
         }
     }
-
-    //UNICO USO DE PLINEA RESTANTE: Setea las posiciones de los espacios de victoria (CAMBIAR POR CONSTANTES WINPOS
-    for(i = 0 ; i < WIDTH ; i++){
-        if(i%2==0){//(WINPOS1 == i) || (WINPOS2 == i) || (WINPOS3 == i) || (WINPOS4 == i) || (WINPOS5 == i)){
-            (p+HEIGHT-1)->plinea[i] = WIN_FREE;
-        }
-        else{
-            (p+HEIGHT-1)->plinea[i] = UNSAFE;
-        }
-    }
 }
 
 void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){

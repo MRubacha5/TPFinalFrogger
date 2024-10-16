@@ -21,11 +21,12 @@
  * CONSTANTES CON DEFINE
  ******************************************************************************/
 
-#define GSIZE 50
-#define FPS 60
+#define GSIZEX 50
+#define GSIZEY 50
+#define FPS 120
 
-#define DISPLAY_X (GSIZE*WIDTH)
-#define DISPLAY_Y (GSIZE*HEIGHT)
+#define DISPLAY_X (WIDTH)
+#define DISPLAY_Y (800)
 
 #define MENU 0
 #define GAME 1
@@ -46,6 +47,8 @@ uint16_t inscreenscore;
 linea_t map[HEIGHT];
 rana_t rana;
 rana_t * pRana = &rana;
+
+extern int winPosStates[5];
 
 int main (void) {
 		ALLEGRO_DISPLAY * display = NULL;
@@ -161,7 +164,7 @@ int main (void) {
 		int fpsCounter = 0;
 		int screen = MENU;
 		int optionSelected = 0;
-		int i, c;
+		int i;
 
 
 		while(!do_exit){
@@ -236,126 +239,139 @@ int main (void) {
 						for (i = 0; i < HEIGHT ; i++){
 
 							linea_t * linea = map+i;
-							
-							for(c = 0 ; c < WIDTH ; c++){
 								
-								
-								if (i == 0) //posicion inicial
-								{
-									//imprimo piso
+							if (i == 0 || i == HEIGHT/2) //Pasto
+							{
+
+								if(i==HEIGHT/2){
+									al_draw_filled_rectangle(0,(HEIGHT-i-1)*GSIZEY,
+										WIDTH, (HEIGHT-i-1)*GSIZEY + GSIZEY*0.5, al_color_name("blue"));
+								}
+								for(int j = 0; j < WIDTH/GSIZEX; j++){
 									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,16,16,
-									 c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
+										j*GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
-								else if(i > 0 && i < HEIGHT / 2){ //Calle
-									//imprimo calle si es 1
-									//imprimo auto si es 0
-									
-
-	
-									for (int obj = 0; obj < linea->cant_obj; obj++)
-									{
-										float objx = *(linea->po)+obj;
-
-										//printf("%d objects in line %d\n",linea->cant_obj, i);
-										switch (linea->size)
-										{
-										case 1:
-											switch (linea->dir)
-											{
-											case IZQ:
-												al_draw_scaled_bitmap(car2_bitmap,0,0,16,16,
-													objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE, GSIZE, 0);
-											case DER:
-												al_draw_scaled_bitmap(car3_bitmap,0,0,16,16,
-													objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE, GSIZE, 0);
-											}
-											break;
-										case 2:
-											al_draw_scaled_bitmap(truck_bitmap,0,0,32,16,
-												objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE * 2, GSIZE, 0);
-											break;
-										default:
-											break;
-										}
-									}
-									
-								}
-								else if(i == HEIGHT/2){ //Pasto
-									//imprimo pasto
-									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,16,16,
-									 c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
-
-								}					
-								else if(i > HEIGHT/2 && i < HEIGHT-1){ //Agua
-									//imprimo agua si es 0
-									al_draw_filled_rectangle(c*GSIZE,(HEIGHT-i-1)*GSIZE,
-									(c+1)*GSIZE, (HEIGHT-i)*GSIZE, al_color_name("blue"));
-									//imprimo tronco si es 1
-									for (int obj = 0; obj < linea->cant_obj; obj++)
-									{
-										float objx = *(linea->po)+obj;
-										for (int size = 0; size < linea->size; size++)
-										{
-											if(size == 0){
-												al_draw_scaled_bitmap(logLeft_bitmap,0,0,16,16,
-									 				objx*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
-											}
-											else if (size == linea->size - 1){
-												al_draw_scaled_bitmap(logRight_bitmap,0,0,16,16,
-									 				(objx+size)*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
-											}
-											else{
-												al_draw_scaled_bitmap(logMiddle_bitmap,0,0,16,16,
-									 				(objx+size)*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
-											}
-										}
-									}
-								}
-								else if(i == HEIGHT - 1){
-									al_draw_filled_rectangle(c*GSIZE, (HEIGHT-i)*GSIZE,
-										(c+1)*GSIZE, (HEIGHT-i-1)*GSIZE, al_color_name("blue"));
-									//imprimo lilypad si es 1;
-									if(linea->plinea[c] == WIN_FREE){
-										al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
-									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
-									}
-									else if(linea->plinea[c] == UNSAFE){//imprimo pasto si es 0
-										al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,16,
-									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
-									}
-									else if(linea->plinea[c] == WIN_OCC){
-										al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-									 		c*GSIZE, (HEIGHT-i-1) * GSIZE, GSIZE,GSIZE,0);
-									}
-								}		
-
 							}
+							else if(i > 0 && i < HEIGHT / 2){ //Calle
 							
+								for (int obj = 0; obj < linea->cant_obj; obj++)
+								{
+									float objx = *(linea->po)+obj;
+
+									// Autos y Camiones
+									switch (linea->size)
+									{
+									case 1:
+										switch (linea->dir)
+										{
+										case IZQ:
+											al_draw_scaled_bitmap(car2_bitmap,0,0,16,16,
+												objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+										case DER:
+											al_draw_scaled_bitmap(car3_bitmap,0,0,16,16,
+												objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+										}
+										break;
+									case 2:
+										al_draw_scaled_bitmap(truck_bitmap,0,0,32,16,
+											objx, (HEIGHT-i-1) * GSIZEY, GSIZEX *2, GSIZEY, 0);
+										break;
+									default:
+										break;
+									}
+								}
+								
+							}					
+							else if(i > HEIGHT/2 && i < HEIGHT-1){  //Agua
+								//imprimo agua 
+								al_draw_filled_rectangle(0,(HEIGHT-i-1)*GSIZEY,
+								WIDTH, (HEIGHT-i)*GSIZEY, al_color_name("blue"));
+
+
+								//imprimo troncos
+								for (int obj = 0; obj < linea->cant_obj; obj++)
+								{
+									float objx = *(linea->po)+obj;
+									for (int size = 0; size < linea->size; size++)
+									{
+										if(size == 0){
+											al_draw_scaled_bitmap(logLeft_bitmap,0,0,16,16,
+												objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+										}
+										else if (size == linea->size - 1){
+											al_draw_scaled_bitmap(logRight_bitmap,0,0,16,16,
+												(objx+GSIZEX*size), (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+										}
+										else{
+											al_draw_scaled_bitmap(logMiddle_bitmap,0,0,16,16,
+												(objx+GSIZEX*size), (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+										}
+									}
+								}
+							}
+							else if(i == HEIGHT - 1){ //ultima linea
+								al_draw_filled_rectangle(0, (HEIGHT-i)*GSIZEY,
+									WIDTH, (HEIGHT-i-1)*GSIZEY, al_color_name("blue"));
+
+								// Dibujo la ultima linea
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
+										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
+										WINPOS2, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
+										WINPOS3, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
+										WINPOS4, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,16,16,
+										WINPOS5, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+
+								/// Dibujo ranas que ya llegaron
+								if(winPosStates[0] == WIN_OCC){
+									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
+										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								if(winPosStates[1] == WIN_OCC){
+									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
+										WINPOS2, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								if(winPosStates[2] == WIN_OCC){
+									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
+										WINPOS3, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								if(winPosStates[3] == WIN_OCC){
+									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
+										WINPOS4, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								if(winPosStates[4] == WIN_OCC){
+									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
+										WINPOS5, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								
+							}	
 
 							float ranax = pRana->posx;
 							float ranay = pRana->posy;
-							al_draw_scaled_bitmap(frogIdleFwd_bitmap,0,0,10,10,
-									 		ranax*GSIZE, (ranay-i-1) * GSIZE, GSIZE,GSIZE,0);
 
-							/* esto es para modificar el movimiento segun la velocidad */
+							al_draw_scaled_bitmap(frogIdleFwd_bitmap,0,0,10,10,
+									 		ranax*GSIZEX, (ranay-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+
+							/* movimiento de los objetos segun la velocidad */
 							if(linea->cant_obj > 0)
 							{
 								switch (linea->v)
 								{
 								case 1:
-									if(fpsCounter == 0){
+									if(fpsCounter %4 == 0){
 										moveLine(linea, i, pRana);
 									}
 									break;
 								case 2:
-									if(fpsCounter == FPS/2 || fpsCounter == 0){
+									if(fpsCounter%2 == 0){
 										moveLine(linea, i, pRana);
 									}
 									break;
 								case 3:
-									if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
-										moveLine(linea, i, pRana);
-									}
+									moveLine(linea, i, pRana);
 									break;
 								default:
 									break;
@@ -401,12 +417,12 @@ int main (void) {
 								//printf ("%u\n",inscreenscore);
 								
 								//Cada vez que sube, luego de chequear colisiones, se fija si esa en la ultima linea
-
+								/*
 								if (pRana->posy == (HEIGHT-1))
 								{
 									Ganar (pRana, map + (HEIGHT-1));
 								}
-
+								*/
 								break;
 							case ALLEGRO_KEY_LEFT:
 								MoveRana(pRana, LEFT, map+rana.posy);

@@ -29,6 +29,7 @@ static int compare_scores (uint16_t mscores[], uint16_t fscore); //devuelve posi
 static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore);
 static void str_swap_al (char plr [][4],  int nel, int rank, char* alias);
 
+int IsMax (uint16_t fscore, char* filename);
 
 /****************************************************************************************************/
 
@@ -92,6 +93,9 @@ int max_scores (uint16_t fscore, char* filename, char* alias)
 }
 
 
+
+
+
 static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore)
 {
 	//printf("entro\n");
@@ -109,6 +113,9 @@ static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore)
 	}
 	return;
 }
+
+
+
 
 
 static void str_swap_al (char plr [][4],  int nel, int rank, char* alias)
@@ -129,6 +136,9 @@ static void str_swap_al (char plr [][4],  int nel, int rank, char* alias)
 }
 
 
+
+
+
 static void fwr_sc (FILE* fp ,uint16_t arr[], int l, char plr [][4])
 {
 	fseek ( fp,0,SEEK_SET);
@@ -141,7 +151,12 @@ static void fwr_sc (FILE* fp ,uint16_t arr[], int l, char plr [][4])
 }
 
 
-uint16_t ct_score (uint8_t y, uint8_t t_time, uint8_t time, uint8_t lines, uint8_t vidas, uint8_t lvlend){
+
+
+
+
+uint16_t ct_score (uint8_t y, uint8_t t_time, uint8_t time, uint8_t lines, uint8_t vidas, uint8_t lvlend)
+{
 	
 	static uint16_t score, finalscore;
 	
@@ -165,7 +180,11 @@ uint16_t ct_score (uint8_t y, uint8_t t_time, uint8_t time, uint8_t lines, uint8
 }
 
 
-static uint16_t in_game_score (uint8_t y){
+
+
+
+static uint16_t in_game_score (uint8_t y)
+{
 	
 	static uint8_t yMax;
 	uint16_t sc;
@@ -187,6 +206,9 @@ static uint16_t in_game_score (uint8_t y){
 }
 
 
+
+
+
 static uint16_t time_bonus (uint8_t t_time,uint8_t time, uint8_t lines) //Bonus al ganar un nivel segun cuanto tiempo sobra
 {
 	uint16_t tb;
@@ -206,13 +228,44 @@ static uint16_t time_bonus (uint8_t t_time,uint8_t time, uint8_t lines) //Bonus 
 }
 
 
-/*void printarr (uint16_t arr[], int l, char plr [][4])
-{
-	int i;
-	for (i=0; i<l;i++)
-	{
-		printf("%s  %05u \n" ,plr [i], arr[i]);
 
+
+
+int IsMax (uint16_t fscore, char* filename)
+{
+	int rank,c,i=0;
+	uint16_t mscores [TOP] = {0,0,0,0,0,0,0,0,0,0};
+	FILE * fp;
+	fp = fopen(filename,"r+");
+	if (fp == NULL)
+	{
+		return-1;
+	} 
+	//creo un buffer y voy leyendo los scores de los mejores jugadores
+	unsigned int buf [TOP];
+	char players [4];
+    for (i=0;(fscanf(fp, "%*s %u ", buf) == 1) && (i<TOP); i++) //saltea 1er string (alias) y agarra el score
+	{	
+		//guardo los valores en el orden leido (mayor a menor) en mscores
+		mscores [i] = *buf;
+	}
+	fseek ( fp,0,SEEK_SET); //vuelvo al comienzo del archivo
+	rank = compare_scores (mscores, fscore );
+	if (rank < TOP)
+	{
+		return 1;
+	}
+	else 
+	{
+		return 0;
 	}
 }
-*/
+
+int gameOver (uint16_t fscore, char* filename)
+{
+	uint16_t score;
+	fscore = score;
+	int n = IsMax(score, filename);
+	return n;
+}
+

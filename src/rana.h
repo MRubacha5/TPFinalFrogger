@@ -24,8 +24,8 @@ typedef struct{
     //Saque estado, no es necesario
     // Agrego Direccion a la rana
     int8_t dir; //Direccion en la que mira. Se usa para el sprite
-    int8_t posx;
-    int8_t posy;
+    int16_t posx;
+    int16_t posy;
 } rana_t;
 
 /*******************************************************************************
@@ -41,15 +41,16 @@ void spawnRana(linea_t* map, rana_t* pRana);
 
 /**
  * @brief Resta una vida cuando es llamada. En caso de llegar a cero, se ocupa de accionar el game over.
- * @param pRana se pide para poder reiniciar la posicion de la rana en caso de que no haya game over. 
+ * @param pRana se pide para poder reiniciar la posicion de la rana en caso de que no haya game over.
+ * @param score the current score in case it dies and has to be included in top 10.
+ * @param filename score.txt, is a list of top 10 scores. 
 */
-void RestarVidas(rana_t * pRana);
+int RestarVidas(rana_t * pRana, int score, char *filename);
 
 /**
 * @brief Desarrolla el protocolo al haber entregado la rana y devuelve un numero != de 0 si todas las ranas ya estan entregadas.
 * @param pRana Se pide para reiniciar la posicion de la rana.
-* @param pl puntero a linea para poder leer y modificar el mapa.
 */
-int8_t Ganar (rana_t * pRana, linea_t * pl);
+int8_t Ganar (rana_t * pRana);
 
 #endif //RANA_H

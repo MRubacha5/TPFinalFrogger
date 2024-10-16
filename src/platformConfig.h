@@ -10,11 +10,12 @@
 
 
     //Coordenadas x de las posiciones de victoria
-    #define WINPOS1 1
-    #define WINPOS2 3
-    #define WINPOS3 5
-    #define WINPOS4 7
-    #define WINPOS5 100
+    #define WINPOS1 50
+    #define WINPOS2 150
+    #define WINPOS3 250
+    #define WINPOS4 350
+    #define WINPOS5 450
+
 
 //CONFIGURACIONES DE RASPI
 #else

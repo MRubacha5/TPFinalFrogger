@@ -6,47 +6,45 @@
 #include "worldData.h"
 #include "movement.h"
 #include "platformConfig.h"
+#include "score.h"
 
 /*******************************************************************************
  * MACROs PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES
  ******************************************************************************/
 #define ISCOLLIDING (((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + pl->size)) || ((prana->posx + RANAWIDTH >= pl->po[i]) && (prana->posx + RANAWIDTH <= pl->po[i] + pl->size)))
 #define WINS (WINPOS1 <= prana->posx + RANAWIDTH && WINPOS1 >= prana->posx) //FALTA REPETIR PARA TODAS LAS WINPOS
+#define STILLALIVE 10
+#define DEADTOP 1
+#define DEADNOTOP 0
+
+
+int winPosStates[5] = {WIN_OCC, WIN_FREE, WIN_FREE, WIN_FREE, WIN_FREE};
 extern int vidas;
 
 void spawnRana(linea_t* map, rana_t* pRana){
     pRana->posx = POSX_INI;
     pRana->posy = POSY_INI;
     pRana->dir = UP;
-    (map + pRana->posy)->plinea[pRana->posx] = RANA_VAL;
 }
 
 void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
     switch (dir)
     {
     case UP:
-        (pl)->plinea[prana->posx] = pl->val_def;
         prana->posy++;
-        (pl+1)->plinea[prana->posx] = RANA_VAL;
         
         break;
     case DOWN:
         if(prana->posy){
-            (pl)->plinea[prana->posx] = pl->val_def;
             prana->posy--;
-            (pl-1)->plinea[prana->posx] = RANA_VAL;
         }
         break;
     case RIGHT:
-        (pl)->plinea[prana->posx] = pl->val_def;
         prana->posx++;
-        (pl)->plinea[prana->posx] = RANA_VAL;
         
         break;
     case LEFT:
-        (pl)->plinea[prana->posx] = pl->val_def;
         prana->posx--;
-        (pl)->plinea[prana->posx] = RANA_VAL;
         break;
     }
 
@@ -55,9 +53,9 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
 void RanaCollisions(rana_t * prana, linea_t * pl){
 
     if(!(pl->val_def) && ((prana->posx) + RANAWIDTH >= WIDTH || (prana->posx) < 0)){ //La rana se muere si se va por un costado del agua
-        RestarVidas(prana);
+        RestarVidas(prana,0, "score.txt");
     }
-    int i,j;
+    int i;
 
     switch(pl->val_def){
         case UNSAFE:
@@ -65,7 +63,7 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
             if(prana->posy == HEIGHT)//Check for winning frog
             {
                 if(WINS)
-                Ganar(prana, pl);
+                Ganar(prana);
                 return;
             }
             else
@@ -79,7 +77,7 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
         
                 }
                 if(!isFloating){
-                    RestarVidas(prana);
+                    RestarVidas(prana,0,"score.txt");
                 }
             }
             break;
@@ -87,44 +85,59 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
         case SAFE:
             for(i = 0; i < pl->cant_obj; i++){
                 if(ISCOLLIDING){
-                    RestarVidas(prana);
+                    RestarVidas(prana,0,"score.txt");
                 }
             }
             break;
     }
-
     
 }
 
-void RestarVidas(rana_t* pRana){
+int RestarVidas(rana_t* pRana, int score, char* filename){
     //LLAMAR ANIMACION DE MUERTE CORRESPONDIENTE AL FRONTEND QUE SE ESTE USANDO
     vidas--;
     if(!vidas){
-        //game over
+        
+        int n = gameOver(score, filename);
+        return n;
+
     }
     else{ //si quedan vidas, reinicia la posicion de la rana
         pRana->posx = POSX_INI;
         pRana->posy = POSY_INI;
         pRana->dir = UP;
 
+        return 10;
     }
 }
 
-int8_t Ganar (rana_t* pRana, linea_t * pl){
-    int8_t i ,winningFlag = 0;
+int8_t Ganar (rana_t* pRana){
+    int8_t i ,winningFlag = 1;
 
-    ((pl+HEIGHT)-> plinea)[pRana -> posx] = WIN_OCC; 
-    //Asignar valor 4 a la posicion actual de la rana,ese valor marca que esa casilla esta ocupada x una rana entregada.
+    switch (pRana->posx)
+    {
+        case WINPOS1:
+            winPosStates[0] = WIN_OCC;
+        case WINPOS2:
+            winPosStates[1] = WIN_OCC;
+        case WINPOS3:
+            winPosStates[2] = WIN_OCC;
+        case WINPOS4:
+            winPosStates[3] = WIN_OCC;
+        case WINPOS5:
+            winPosStates[4] = WIN_OCC;
+        default:
+            break;
+
+    }
     
+    for(i=0; i < 5 ; i++){
 
-    for(i=0; i<WIDTH ; i++){
-
-        if(((pl+HEIGHT)->plinea)[i] != WIN_FREE) winningFlag = 1;
+        if(winPosStates[i] == WIN_FREE){
+            winningFlag = 0;
+        }
         
     }
-    //leer linea final, para ver si aun quedan posiciones donde entregar la rana
-    //si ya no quedan, asignar valor !0 a variable tipo int8_t (cambio Nivel)
-    //Si quedan solo resetear la posicion
     
     pRana->posx = POSX_INI;
     pRana->posy = POSY_INI;
