@@ -255,7 +255,7 @@ int main (void) {
 										j*GSIZEX, (HEIGHT-i) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
 							}
-							else if(i > 0 && i < HEIGHT / 2){ //Calle
+							else if(i > 0 && i < HEIGHT/2){ //Calle
 							
 								for (int obj = 0; obj < linea->cant_obj; obj++)
 								{
@@ -307,7 +307,7 @@ int main (void) {
 								//imprimo troncos
 								for (int obj = 0; obj < linea->cant_obj; obj++)
 								{
-									float objx = *(linea->po)+obj;
+									float objx = linea->po[obj];
 									for (int size = 0; size < linea->size; size++)
 									{
 										if(size == 0){

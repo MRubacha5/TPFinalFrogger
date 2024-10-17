@@ -23,16 +23,16 @@
  
  //Difficulty 0
  
- linea_t agua0[] =  {   {.size = 3, .cant_obj = 5, .v = 2, .po = {0, 200, 400, 600, 800}},
+ linea_t agua0[] =  {   {.size = 3, .cant_obj = 4, .v = 2, .po = {0, 200, 400, 600}},
                         {.size = 2, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 3, .cant_obj = 2, .v = 2, .po = {100, 500}},
+                        {.size = 6, .cant_obj = 2, .v = 2, .po = {100, 500}},
                         {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
                         {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
  
  linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 1, .cant_obj = 2, .v = 2, .po = {0, 5*GSIZEX}},
+                        {.size = 1, .cant_obj = 2, .v = 4, .po = {0, 4*GSIZEX}},
                         {.size = 2, .cant_obj = 2, .v = 1, .po = {0, 6*GSIZEX}}};         
 
  //Difficulty 1
@@ -156,7 +156,7 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
         switch(pl->dir){ // mueve los objetos en base a la direccion de la linea
             case DER:
                 (pl->po)[j] += 1; 
-                if(pl->po[j] > WIDTH + GSIZEX ){ 
+                if(pl->po[j] > WIDTH + GSIZEX){ 
                     pl->po[j] = -GSIZEX*pl->size; //reiniciar el objeto al principio
                 }
                 break;
