@@ -9,13 +9,11 @@
 #include "score.h"
 
 /*******************************************************************************
- * MACROs PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES
+ * MACROS PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES
  ******************************************************************************/
 #define ISCOLLIDING (((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + pl->size)) || ((prana->posx + RANAWIDTH >= pl->po[i]) && (prana->posx + RANAWIDTH <= pl->po[i] + pl->size)))
 #define WINS (WINPOS1 <= prana->posx + RANAWIDTH && WINPOS1 >= prana->posx) //FALTA REPETIR PARA TODAS LAS WINPOS
-#define STILLALIVE 10
-#define DEADTOP 1
-#define DEADNOTOP 0
+
 
 
 int winPosStates[5] = {WIN_OCC,WIN_OCC,WIN_OCC,WIN_FREE,WIN_OCC};

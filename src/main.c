@@ -312,15 +312,15 @@ int main (void) {
 									{
 										if(size == 0){
 											al_draw_scaled_bitmap(logLeft_bitmap,0,0,16,16,
-												objx, (HEIGHT-i-0.25) * GSIZEY, GSIZEX, GSIZEY, 0);
+												objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 										}
 										else if (size == linea->size - 1){
 											al_draw_scaled_bitmap(logRight_bitmap,0,0,16,16,
-												(objx+GSIZEX*size), (HEIGHT-i-0.25) * GSIZEY, GSIZEX,GSIZEY,0);
+												(objx+GSIZEX*size), (HEIGHT-i) * GSIZEY, GSIZEX,GSIZEY,0);
 										}
 										else{
 											al_draw_scaled_bitmap(logMiddle_bitmap,0,0,16,16,
-												(objx+GSIZEX*size), (HEIGHT-i-0.25) * GSIZEY, GSIZEX,GSIZEY,0);
+												(objx+GSIZEX*size), (HEIGHT-i) * GSIZEY, GSIZEX,GSIZEY,0);
 										}
 									}
 								}
@@ -384,11 +384,14 @@ int main (void) {
 								
 							}	
 
+							//Dibujo la rana
 							float ranax = pRana->posx;
 							float ranay = pRana->posy;
 
+							//PLACEHOLDER; REVISAR CON CASOS PARA ORIENTACION Y MOVIMIENTO
 							al_draw_scaled_bitmap(frogIdleFwd_bitmap,0,0,16,16,
-									 		ranax*GSIZEX, (ranay-i) * GSIZEY, GSIZEX,GSIZEY,0);
+								ranax, (ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+
 
 							/* movimiento de los objetos segun la velocidad */
 							if(linea->cant_obj > 0)
