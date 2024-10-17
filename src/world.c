@@ -15,7 +15,7 @@
  * CONSTANTES CON DEFINE
  ******************************************************************************/
 
-#define LEVELPOSIBILITIES 7
+#define LEVELPOSIBILITIES 5
 
 /**************************************************************************************************************
  * PRESETS MAPAS --> 2 niveles hardcodeados; a partir del tercer nivel, se genera pseudo-aleatoriamente
@@ -23,21 +23,17 @@
  
  //Difficulty 0
  
- linea_t agua0[] =  {   {.size = 4, .cant_obj = 1, .v = 2, .dir = DER},
-                        {.size = 4, .cant_obj = 1, .v = 1, .dir = DER},
-                        {.size = 3, .cant_obj = 2, .v = 2, .dir = IZQ},
-                        {.size = 3, .cant_obj = 2, .v = 2, .dir = DER},
-                        {.size = 2, .cant_obj = 4, .v = 1, .dir = IZQ},
-                        {.size = 2, .cant_obj = 3, .v = 1, .dir = DER},
-                        {.size = 2, .cant_obj = 3, .v = 2, .dir = IZQ}};
+ linea_t agua0[] =  {   {.size = 3, .cant_obj = 5, .v = 2, .po = {0, 200, 400, 600, 800}},
+                        {.size = 2, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 3, .cant_obj = 2, .v = 2, .po = {100, 500}},
+                        {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
+                        {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
  
- linea_t piso0[] =  {    {.size = 1, .cant_obj = 3, .v = 1, .dir = DER},
-                        {.size = 1, .cant_obj = 2, .v = 2, .dir = DER},
-                        {.size = 1, .cant_obj = 3, .v = 1, .dir = IZQ},
-                        {.size = 1, .cant_obj = 2, .v = 3, .dir = DER},
-                        {.size = 1, .cant_obj = 2, .v = 2, .dir = DER},
-                        {.size = 2, .cant_obj = 2, .v = 1, .dir = IZQ},
-                        {.size = 2, .cant_obj = 1, .v = 2, .dir = IZQ}};         
+ linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 1, .cant_obj = 2, .v = 2, .po = {0, 5*GSIZEX}},
+                        {.size = 2, .cant_obj = 2, .v = 1, .po = {0, 6*GSIZEX}}};         
 
  //Difficulty 1
  
@@ -84,51 +80,61 @@ linea_t *pisoPresets[] = {piso0, piso1, piso2};
 int vidas = 3;
 
 void createMap(linea_t * p, int difficulty){ 
+    srand(time(NULL));
     int i, c;
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
 
-        //Inicializo lineas
+        //Asigno objetos a cada linea
         if(i<HEIGHT/2 && i != 0){
             *(linea) = pisoPresets[difficulty][i-1];
         }
         else if(i > HEIGHT/2 && i != HEIGHT-1){
-            *(linea) = aguaPresets[difficulty][i-1];
+            *(linea) = aguaPresets[difficulty][i-HEIGHT/2-1];
         }
         else{
             linea->cant_obj = 0;
         }
 
-        
-        linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; // 1 es piso 0 es agua
-
-         //Los camiones solo van a la izquierda
-        if (linea->size == 2 && i <= HEIGHT/2){
+        //Asigno direccion de movimiento
+        if(linea->size == 2 && i < HEIGHT/2)
+        {
             linea->dir = IZQ;
         }
-
-
-        for(c = 0 ; c < MAX_OBJ ; c++){
-            (linea->po)[c] = 0;
+        else if(i < HEIGHT/2 && i != 0)
+        {
+            linea->dir = (i%2?IZQ:DER);
         }
-        for(c = 0 ; c < linea->cant_obj ; c++){
+        else if(i > HEIGHT/2 && i != HEIGHT-1)
+        {
+            linea->dir = ((i+2)%3?DER:IZQ);
+        }
+
+        linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; // 1 es piso 0 es agua
+
+        for(c=0;c<linea->cant_obj;c++){
+            printf("Linea %d, objeto %d, %d\n",i,c,linea->po[c]);
+        }
+
+        //Espaciado entre objetos; aleatorio a partir del nivel 3
+        /*for(c = 0 ; c < linea->cant_obj ; c++){
             if(i <= HEIGHT/2){
                 if(linea->dir == DER){
-                    (linea->po)[c] = (c == 0)?(-1):((linea->po)[c-1]-linea->size-rand()%5-1); //modificar 5 para spawn rate
+                    (linea->po)[c] = (c == 0)?(-1):GSIZEX*((linea->po)[c-1]-linea->size-rand()%5-1); //modificar 5 para spawn rate
                 }
                 else if(linea->dir == IZQ){
-                    (linea->po)[c] = (c == 0)?(WIDTH + 1):((linea->po)[c-1]+linea->size+rand()%5+1); //modificar 5 para spawn rate
+                    (linea->po)[c] = (c == 0)?(WIDTH + GSIZEX):GSIZEX*((linea->po)[c-1]+linea->size+rand()%5+1); //modificar 5 para spawn rate
                 }
             }
             else{
                 if(linea->dir == DER){
-                    (linea->po)[c] = (c == 0)?(-1):((linea->po)[c-1]-linea->size-rand()%3-1); //modificar 3 para spawn rate
+                    (linea->po)[c] = (c == 0)?(-1):GSIZEX*((linea->po)[c-1]-linea->size-rand()%3-1); //modificar 3 para spawn rate
                 }
                 else if(linea->dir == IZQ){
-                    (linea->po)[c] = (c == 0)?(WIDTH + 1):((linea->po)[c-1]+linea->size+rand()%3+1); //modificar 3 para spawn rate
+                    (linea->po)[c] = (c == 0)?(WIDTH + GSIZEX):GSIZEX*((linea->po)[c-1]+linea->size+rand()%3+1); //modificar 3 para spawn rate
                 }
             }
-        }
+        }*/
     }
 }
 
@@ -150,15 +156,15 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
         switch(pl->dir){ // mueve los objetos en base a la direccion de la linea
             case DER:
                 (pl->po)[j] += 1; 
-                if(pl->po[j] > WIDTH + GSIZEX*pl->size ){ 
+                if(pl->po[j] > WIDTH + GSIZEX ){ 
                     pl->po[j] = -GSIZEX*pl->size; //reiniciar el objeto al principio
                 }
                 break;
 
             case IZQ:
                 (pl->po)[j] -= 1; 
-                if((pl->po)[j] < -GSIZEX*pl->size){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
-                    (pl->po)[j] = WIDTH; //reiniciar el objeto al principio
+                if((pl->po)[j] < -pl->size*GSIZEX){ //si los objetos se van del mapa (esperan un tick mas ya que es mayor y no mayor o igual)
+                    (pl->po)[j] = WIDTH + GSIZEX; //reiniciar el objeto al principio
                 }
                 break;
         }

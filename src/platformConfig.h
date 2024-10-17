@@ -8,17 +8,19 @@
      ******************************************************************************/
     #define RANAWIDTH 16
 
+    //Valor de ancho para Allegro
+    #define WIDTH GSIZEX *14
 
     //Constantes graficas
     #define GSIZEX 50
     #define GSIZEY 50
 
     //Coordenadas x de las posiciones de victoria
-    #define WINPOS1 25
-    #define WINPOS2 125
-    #define WINPOS3 225
-    #define WINPOS4 325
-    #define WINPOS5 425
+    #define WINPOS1 0
+    #define WINPOS2 GSIZEX * 3
+    #define WINPOS3 GSIZEX * 6
+    #define WINPOS4 GSIZEX * 9
+    #define WINPOS5 GSIZEX * 12
 
 
 //CONFIGURACIONES DE RASPI

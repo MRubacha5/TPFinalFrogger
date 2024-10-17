@@ -25,7 +25,7 @@
 #define FPS 60
 
 #define DISPLAY_X (WIDTH)
-#define DISPLAY_Y (800)
+#define DISPLAY_Y ((HEIGHT+1)*GSIZEY)
 
 #define MENU 0
 #define GAME 1
@@ -33,7 +33,9 @@
 
 #define TIME 45 //cantidad de tiempo en segundos para pasar el nivel
 
-void * line();
+/*******************************************************************************
+ * VARIABLES GLOBALES E INICIALIZACIONES
+ ******************************************************************************/
 
 int do_exit = 0;
 int keyPressed = 0;
@@ -49,8 +51,9 @@ rana_t * pRana = &rana;
 
 extern int winPosStates[5];
 
+void * line(); //?? No se que es
+
 int main (void) {
-		srand(time(NULL));
 		ALLEGRO_DISPLAY * display = NULL;
 		ALLEGRO_FONT * font;
 		ALLEGRO_EVENT_QUEUE * event_queue;
@@ -245,18 +248,18 @@ int main (void) {
 
 								if(i==HEIGHT/2){
 									al_draw_filled_rectangle(0,(HEIGHT-i-1)*GSIZEY,
-										WIDTH, (HEIGHT-i-1)*GSIZEY + GSIZEY*0.5, al_color_name("blue"));
+										WIDTH, (HEIGHT-i)*GSIZEY + GSIZEY/2, al_color_name("blue"));
 								}
 								for(int j = 0; j < WIDTH/GSIZEX; j++){
 									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,16,16,
-										j*GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+										j*GSIZEX, (HEIGHT-i) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
 							}
 							else if(i > 0 && i < HEIGHT / 2){ //Calle
 							
 								for (int obj = 0; obj < linea->cant_obj; obj++)
 								{
-									float objx = *(linea->po)+obj;
+									float objx = linea->po[obj];
 
 									// Autos y Camiones
 									switch (linea->size)
@@ -265,28 +268,29 @@ int main (void) {
 										switch (linea->dir)
 										{
 										case IZQ:
-											if (linea->v > 1){
+											if (i%3 == 1){
 												al_draw_scaled_bitmap(car2_bitmap,0,0,16,16,
-													objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 											}
 											else{
 												al_draw_scaled_bitmap(car1_bitmap,0,0,16,16,
-													objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 											}
+											break;
 										case DER:
-											if (linea->v > 1){
+											if (i%3 == 1){
 												al_draw_scaled_bitmap(car3_bitmap,0,0,16,16,
-													objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 											}
 											else{
 												al_draw_scaled_bitmap(car4_bitmap,0,0,16,16,
-													objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 											}
 										}
-										break;
+											break;
 									case 2:
 										al_draw_scaled_bitmap(truck_bitmap,0,0,32,16,
-											objx, (HEIGHT-i-1) * GSIZEY, GSIZEX *2, GSIZEY, 0);
+											objx, (HEIGHT-i) * GSIZEY, GSIZEX *2, GSIZEY, 0);
 										break;
 									default:
 										break;
@@ -308,15 +312,15 @@ int main (void) {
 									{
 										if(size == 0){
 											al_draw_scaled_bitmap(logLeft_bitmap,0,0,16,16,
-												objx, (HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY, 0);
+												objx, (HEIGHT-i-0.25) * GSIZEY, GSIZEX, GSIZEY, 0);
 										}
 										else if (size == linea->size - 1){
 											al_draw_scaled_bitmap(logRight_bitmap,0,0,16,16,
-												(objx+GSIZEX*size), (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+												(objx+GSIZEX*size), (HEIGHT-i-0.25) * GSIZEY, GSIZEX,GSIZEY,0);
 										}
 										else{
 											al_draw_scaled_bitmap(logMiddle_bitmap,0,0,16,16,
-												(objx+GSIZEX*size), (HEIGHT-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+												(objx+GSIZEX*size), (HEIGHT-i-0.25) * GSIZEY, GSIZEX,GSIZEY,0);
 										}
 									}
 								}
@@ -326,6 +330,7 @@ int main (void) {
 									WIDTH, (HEIGHT-i-1)*GSIZEY, al_color_name("blue"));
 
 								// Dibujo la ultima linea
+								//Espacios libres
 								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
 										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
@@ -336,31 +341,45 @@ int main (void) {
 										WINPOS4, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
 										WINPOS5, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
+								
+								//Separadores
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
-									0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
-									WINPOS5+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+									WINPOS2+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+									WINPOS2 +GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+									WINPOS3+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+									WINPOS3 +GSIZEX*2+ GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+									WINPOS4+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+									WINPOS4 + GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 
 								/// Dibujo ranas que ya llegaron
 								if(winPosStates[0] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS1+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS1+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[1] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS2+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS2+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[2] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS3+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS3+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[3] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS4+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS4+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[4] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS5+0.5*GSIZEX, (HEIGHT-i-1) * GSIZEY + GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS5+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
 								}
 								
 							}	
@@ -368,8 +387,8 @@ int main (void) {
 							float ranax = pRana->posx;
 							float ranay = pRana->posy;
 
-							al_draw_scaled_bitmap(frogIdleFwd_bitmap,0,0,10,10,
-									 		ranax*GSIZEX, (ranay-i-1) * GSIZEY, GSIZEX,GSIZEY,0);
+							al_draw_scaled_bitmap(frogIdleFwd_bitmap,0,0,16,16,
+									 		ranax*GSIZEX, (ranay-i) * GSIZEY, GSIZEX,GSIZEY,0);
 
 							/* movimiento de los objetos segun la velocidad */
 							if(linea->cant_obj > 0)
@@ -377,16 +396,21 @@ int main (void) {
 								switch (linea->v)
 								{
 								case 1:
-									if(fpsCounter %4 == 0){
-										moveLine(linea, i, pRana);
-									}
+									moveLine(linea, i, pRana);
 									break;
 								case 2:
-									if(fpsCounter%2 == 0){
-										moveLine(linea, i, pRana);
-									}
+									moveLine(linea, i, pRana);
+									moveLine(linea, i, pRana);
 									break;
 								case 3:
+									moveLine(linea, i, pRana);
+									moveLine(linea, i, pRana);
+									moveLine(linea, i, pRana);
+									break;
+								case 4:
+									moveLine(linea, i, pRana);
+									moveLine(linea, i, pRana);
+									moveLine(linea, i, pRana);
 									moveLine(linea, i, pRana);
 									break;
 								default:

@@ -10,9 +10,7 @@
 /*******************************************************************************
  * CONSTANTES
  ******************************************************************************/
-
-#define HEIGHT 16
-#define WIDTH 550
+#define HEIGHT 13
 #define MAX_OBJ 10
 
 //Constantes de logica para las interacciones en el mapa

@@ -18,7 +18,7 @@
 #define DEADNOTOP 0
 
 
-int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE};
+int winPosStates[5] = {WIN_OCC,WIN_OCC,WIN_OCC,WIN_FREE,WIN_OCC};
 extern int vidas;
 
 void spawnRana(linea_t* map, rana_t* pRana){
