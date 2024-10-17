@@ -393,32 +393,16 @@ int main (void) {
 								ranax, (ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 
 
-							/* movimiento de los objetos segun la velocidad */
+							/* Movimiento de los objetos segun la velocidad.
+							 * Velocidad v = v pixeles por frame (escencialmente una frecuencia).
+							 */
 							if(linea->cant_obj > 0)
 							{
-								switch (linea->v)
+								for(int f = 1; f <= linea->v; f++)
 								{
-								case 1:
 									moveLine(linea, i, pRana);
-									break;
-								case 2:
-									moveLine(linea, i, pRana);
-									moveLine(linea, i, pRana);
-									break;
-								case 3:
-									moveLine(linea, i, pRana);
-									moveLine(linea, i, pRana);
-									moveLine(linea, i, pRana);
-									break;
-								case 4:
-									moveLine(linea, i, pRana);
-									moveLine(linea, i, pRana);
-									moveLine(linea, i, pRana);
-									moveLine(linea, i, pRana);
-									break;
-								default:
-									break;
 								}
+								
 							}
 
 							RanaCollisions(pRana, &map[pRana->posy]);

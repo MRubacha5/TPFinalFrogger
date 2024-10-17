@@ -8,7 +8,7 @@
      ******************************************************************************/
     #define RANAWIDTH 16
 
-    //Valor de ancho para Allegro
+    //Valor de ancho para Allegro. El alto es constante entre plataformas
     #define WIDTH GSIZEX *14
 
     //Constantes graficas

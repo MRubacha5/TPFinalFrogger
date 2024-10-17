@@ -32,7 +32,7 @@
  linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 1, .cant_obj = 2, .v = 4, .po = {0, 4*GSIZEX}},
+                        {.size = 1, .cant_obj = 2, .v = 5, .po = {0, 4*GSIZEX}},
                         {.size = 2, .cant_obj = 2, .v = 1, .po = {0, 6*GSIZEX}}};         
 
  //Difficulty 1

@@ -10,7 +10,7 @@
 /*******************************************************************************
  * CONSTANTES
  ******************************************************************************/
-#define HEIGHT 13
+#define HEIGHT 13 //Constante entre plataformas asi que no va en platformConfig
 #define MAX_OBJ 10
 
 //Constantes de logica para las interacciones en el mapa
