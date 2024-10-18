@@ -148,6 +148,8 @@ int main (void) {
 		ALLEGRO_BITMAP * titleO_bitmap = al_load_bitmap("../assets/Sprites/titleO.png");
 		ALLEGRO_BITMAP * titleR_bitmap = al_load_bitmap("../assets/Sprites/titleR.png");
 		ALLEGRO_BITMAP * truck_bitmap = al_load_bitmap("../assets/Sprites/truck.png");
+
+		ALLEGRO_BITMAP * frog_bitmap = frogIdleFwd_bitmap;
 		/**************************************************************************/
 
 		al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -388,9 +390,11 @@ int main (void) {
 							float ranax = pRana->posx;
 							float ranay = pRana->posy;
 
+							printf("rana posx: %d\n", ranax);
+
 							//PLACEHOLDER; REVISAR CON CASOS PARA ORIENTACION Y MOVIMIENTO
-							al_draw_scaled_bitmap(frogIdleFwd_bitmap,0,0,16,16,
-								ranax, (ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+							al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
+								ranax * GSIZEX, (ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 
 
 							/* Movimiento de los objetos segun la velocidad.
@@ -434,11 +438,11 @@ int main (void) {
 								break;
 							case ALLEGRO_KEY_DOWN:
 								MoveRana(pRana, DOWN, map+rana.posy);
-								
+								frog_bitmap = frogIdleBack_bitmap;
 								break;
 							case ALLEGRO_KEY_UP:
 								MoveRana(pRana, UP, map+rana.posy);
-								
+								frog_bitmap = frogIdleFwd_bitmap;
 								//Cada vez que va para arriba se fija si se debe inc score
 								//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
 								//printf ("%u\n",inscreenscore);
@@ -446,11 +450,11 @@ int main (void) {
 								break;
 							case ALLEGRO_KEY_LEFT:
 								MoveRana(pRana, LEFT, map+rana.posy);
-								
+								frog_bitmap = frogIdleLeft_bitmap;
 								break;
 							case ALLEGRO_KEY_RIGHT:
 								MoveRana(pRana, RIGHT, map+rana.posy);
-								
+								frog_bitmap = frogIdleRight_bitmap;
 								break;
 
 						}
