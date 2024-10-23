@@ -3,6 +3,7 @@
 
 //CONFIGRACIONES GLOBALES
 #define FPS 60
+#define START_TIME 60 // (en segundos)
 
 //CONFIGURACIONES DE ALLEGRO
 #if defined(ALLEGRO)

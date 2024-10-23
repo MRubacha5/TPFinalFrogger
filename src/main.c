@@ -22,7 +22,7 @@
  ******************************************************************************/
 
 #define DISPLAY_X (WIDTH)
-#define DISPLAY_Y ((HEIGHT+1)*GSIZEY)
+#define DISPLAY_Y ((HEIGHT+1)*GSIZEY + 150)
 
 #define MENU 0
 #define GAME 1
@@ -235,17 +235,40 @@ int main (void) {
 						al_flip_display();
 						break;
 					case GAME:
+						unsigned int timer = START_TIME; // valor en segundos 
+
 						if(fpsCounter >= FPS){
 							fpsCounter = 0;
+							timer -= 1;
 						}
 
 						al_clear_to_color(al_color_name("black"));
 
+						/***************
+						* DIBUJO EL UI *
+						****************/
+						// dibujo las ranas que simbolizan vidas
+						for (int a = 0; a < vidas; a++)
+						{
+							al_draw_scaled_bitmap(frogIdleFwd_bitmap,0,0,16,16,
+									GSIZEX*(a+1), (HEIGHT +1) * GSIZEY, GSIZEX,GSIZEY,0);
+						}
+						
+						//dibujo el tiempo restante
+						al_draw_filled_rectangle(GSIZEX,(HEIGHT + 2)*GSIZEY,
+										((2*timer)/START_TIME)*GSIZEX + (60-fpsCounter), (HEIGHT+3)*GSIZEY, al_color_name("green"));
+
+						/*****************************
+						* DIBUJO LAS LINEAS DEL MAPA *
+						******************************/
 						for (i = 0; i < HEIGHT ; i++){
 
 							linea_t * linea = map+i;
-								
-							if (i == 0 || i == HEIGHT/2) //Pasto
+							
+							/******************
+							* LINEAS DE PASTO *
+							*******************/
+							if (i == 0 || i == HEIGHT/2) 
 							{
 
 								if(i==HEIGHT/2){
@@ -257,7 +280,11 @@ int main (void) {
 										j*GSIZEX, (HEIGHT-i) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
 							}
-							else if(i > 0 && i < HEIGHT/2){ //Calle
+
+							/******************
+							* LINEAS DE CALLE *
+							*******************/
+							else if(i > 0 && i < HEIGHT/2){ 
 							
 								for (int obj = 0; obj < linea->cant_obj; obj++)
 								{
@@ -299,9 +326,13 @@ int main (void) {
 									}
 								}
 								
-							}					
-							else if(i > HEIGHT/2 && i < HEIGHT-1){  //Agua
-								//imprimo agua 
+							}		
+
+							/******************
+							* LINEAS DE AGUA *
+							*******************/			
+							else if(i > HEIGHT/2 && i < HEIGHT-1){ 
+								//imprimo el agua en si 
 								al_draw_filled_rectangle(0,(HEIGHT-i-1)*GSIZEY,
 								WIDTH, (HEIGHT-i)*GSIZEY, al_color_name("blue"));
 
@@ -327,11 +358,14 @@ int main (void) {
 									}
 								}
 							}
-							else if(i == HEIGHT - 1){ //ultima linea
+
+							/****************************************************************************
+							* ULTIMA LINEA DEL MAPA: LOS OBJETIVOS, SEPARADORES Y RANAS QUE YA LLEGARON *
+							*****************************************************************************/
+							else if(i == HEIGHT - 1){
 								al_draw_filled_rectangle(0, (HEIGHT-i)*GSIZEY,
 									WIDTH, (HEIGHT-i-1)*GSIZEY, al_color_name("blue"));
 
-								// Dibujo la ultima linea
 								//Espacios libres
 								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
 										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0);
@@ -386,15 +420,9 @@ int main (void) {
 								
 							}	
 
-							//Dibujo la rana
+							
 							long double ranax = pRana->posx;
 							long double ranay = pRana->posy;
-							if(FPS % 30 == 0)
-							{
-								//printf("rana posx: %f\n", ranax);
-								//printf("rana posy: %f\n", ranay);
-								//printf("VIDAS: %d\n", vidas);
-							}
 
 							/**********************************************************************************************************************
 							 * DIBUJO LA RANA Y LA MUEVO CON UNA CADENA DE IFS PARA PERMITIR FLUIDEZ EN LOS MOVIMIENTOS SIN COMPROMETER LA LOGICA *
@@ -415,8 +443,16 @@ int main (void) {
 								{
 									MoveRana(pRana, DOWN, map+rana.posy);
 								}
-								al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
-										ranax, (HEIGHT - ranay + (isMovingDown)/FPS) * GSIZEY, GSIZEX,GSIZEY,0);
+								if(ranay > 0)
+								{
+									al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
+											ranax, (HEIGHT - ranay + (isMovingDown)/FPS) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								else
+								{
+									al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
+											ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
 								isMovingDown--;
 							}
 							else if (isMovingLeft)
@@ -441,6 +477,9 @@ int main (void) {
 							/* Movimiento de los objetos segun la velocidad.
 							 * Velocidad v = v pixeles por frame (escencialmente una frecuencia).
 							 */
+							/**********************************************************************************************************************
+							 * MOVIMIENTO DE LOS OBJETOS SEGUN SU VELOCIDAD. VELOCIDAD V = V PIXELES POR FOTOGRAMA (ESCENCIALMENTE UNA FRECUENCIA)*
+							 * ********************************************************************************************************************/
 							if(linea->cant_obj > 0)
 							{
 								for(int f = 1; f <= linea->v; f++)
@@ -450,6 +489,7 @@ int main (void) {
 								
 							}
 
+							// Por ultimo, calculo colisiones
 							RanaCollisions(pRana, &map[pRana->posy]);
 						}
 						/*
