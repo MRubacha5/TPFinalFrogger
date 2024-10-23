@@ -52,6 +52,7 @@ rana_t rana;
 rana_t * pRana = &rana;
 
 extern int winPosStates[5];
+extern int vidas;
 
 int main (void) {
 		ALLEGRO_DISPLAY * display = NULL;
@@ -390,11 +391,12 @@ int main (void) {
 							//Dibujo la rana
 							float ranax = pRana->posx;
 							float ranay = pRana->posy;
-							/*if(FPS % 30 == 0)
+							if(FPS % 30 == 0)
 							{
-								printf("rana posx: %f\n", ranax);
-								printf("rana posy: %f\n", ranay);
-							}*/
+								//printf("rana posx: %f\n", ranax);
+								//printf("rana posy: %f\n", ranay);
+								//printf("VIDAS: %d", vidas);
+							}
 
 							/**************************************************************************************************
 							 * DIBUJO LA RANA CON UNA CADENA DE IFS YA QUE LAS DIMENSIONES DEL SPRITE VARIAN POR LA ANIMACION *

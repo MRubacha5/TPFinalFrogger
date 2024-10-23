@@ -13,7 +13,7 @@
  ******************************************************************************/
 #define ISCOLLIDING (((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + pl->size*GSIZEX)) || ((prana->posx + GSIZEX >= pl->po[i]) && (prana->posx + GSIZEX <= pl->po[i] + pl->size*GSIZEX)))
 
-int winPosStates[5] = {WIN_OCC,WIN_OCC,WIN_OCC,WIN_FREE,WIN_OCC};
+int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_OCC,WIN_FREE,WIN_FREE};
 extern int vidas;
 
 void spawnRana(linea_t* map, rana_t* pRana){
@@ -61,10 +61,10 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
 
     switch(pl->val_def){
         case UNSAFE:
-
             if(prana->posy == HEIGHT)//Check for winning frog
             {
-                if(WINPOS1 <= prana->posx + RANAWIDTH && WINPOS1 >= prana->posx)
+                
+                if(WINPOS1 + 25 <= prana->posx + RANAWIDTH && WINPOS1 + 25 >= prana->posx)
                 {
                     if (winPosStates[0] == WIN_FREE)
                     {
@@ -75,7 +75,7 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
                         RestarVidas(prana, 0, "score.txt");
                     }
                 }
-                if(WINPOS2 <= prana->posx + RANAWIDTH && WINPOS2 >= prana->posx)
+                if(((prana->posx >= WINPOS2 + GSIZEX/2) && (prana->posx <= WINPOS2 + GSIZEX*1.5)) || ((prana->posx + GSIZEX >= WINPOS2 + GSIZEX/2 && (prana->posx + GSIZEX <= WINPOS2 + GSIZEX*1.5))))
                 {
                     if (winPosStates[1] == WIN_FREE)
                     {
@@ -86,7 +86,7 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
                         RestarVidas(prana, 0, "score.txt");
                     }
                 }
-                if(WINPOS3 <= prana->posx + RANAWIDTH && WINPOS3 >= prana->posx)
+                if(WINPOS3 + GSIZEX <= prana->posx + RANAWIDTH && WINPOS3 + GSIZEX >= prana->posx)
                 {
                     if (winPosStates[2] == WIN_FREE)
                     {
@@ -97,7 +97,8 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
                         RestarVidas(prana, 0, "score.txt");
                     }
                 }
-                if(WINPOS4 <= prana->posx + RANAWIDTH && WINPOS4 >= prana->posx)
+                if((WINPOS4 + GSIZEX * 0.5 <= prana->posx + RANAWIDTH && WINPOS4 + GSIZEX *0.5 >= prana->posx)
+                    || (WINPOS4 + GSIZEX * 1.5 <= prana->posx + RANAWIDTH && WINPOS4 + GSIZEX *1.5 >= prana->posx))
                 {
                     if (winPosStates[3] == WIN_FREE)
                     {
@@ -108,7 +109,7 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
                         RestarVidas(prana, 0, "score.txt");
                     }
                 }
-                if(WINPOS5 <= prana->posx + RANAWIDTH && WINPOS5 >= prana->posx)
+                if(WINPOS5 + GSIZEX <= prana->posx + RANAWIDTH && WINPOS5 + GSIZEX >= prana->posx)
                 {
                     if (winPosStates[4] == WIN_FREE)
                     {
