@@ -11,7 +11,7 @@
 /*******************************************************************************
  * MACROS PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES
  ******************************************************************************/
-#define ISCOLLIDING (((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + pl->size)) || ((prana->posx + RANAWIDTH >= pl->po[i]) && (prana->posx + RANAWIDTH <= pl->po[i] + pl->size)))
+#define ISCOLLIDING (((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + pl->size*GSIZEX)) || ((prana->posx + RANAWIDTH >= pl->po[i]) && (prana->posx + RANAWIDTH <= pl->po[i] + pl->size*GSIZEX)))
 #define WINS (WINPOS1 <= prana->posx + RANAWIDTH && WINPOS1 >= prana->posx) //FALTA REPETIR PARA TODAS LAS WINPOS
 
 
@@ -38,11 +38,18 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
         }
         break;
     case RIGHT:
-        prana->posx++;
-        
+        if((!pl->val_def) || (prana->posx <= WIDTH - 2*GSIZEX)) //Evita que la rana vaya OOB en la calle
+        {
+            prana->posx += GSIZEX;
+        }
+
         break;
     case LEFT:
-        prana->posx--;
+         if((!pl->val_def) || (prana->posx >= GSIZEX)) //Evita que la rana vaya OOB en la calle
+        {
+            prana->posx -= GSIZEX;
+        }
+
         break;
     }
 
