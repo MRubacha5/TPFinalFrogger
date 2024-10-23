@@ -30,6 +30,8 @@
 #define MENU 0
 #define GAME 1
 #define PAUSE 2
+#define GAMEOVER 3
+#define GAMEOVERTOP 4
 
 #define TIME 45 //cantidad de tiempo en segundos para pasar el nivel
 
@@ -412,10 +414,31 @@ int main (void) {
 
 							RanaCollisions(pRana, &map[pRana->posy]);
 						}
+						case GAMEOVER:
+						{
+							char finalScoreStr[6];
+							al_clear_to_color(al_color_name("black"));
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "FINAL SCORE:");
+							sprintf(finalScoreStr, '%d', inscreenscore );
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, finalScoreStr);
+							al_flip_display();
+							break;
+						}
+						case GAMEOVERTOP:
+						{
+							char c1[1] = 'A',c2[1] = 'B',c3[1] = 'C';
+							al_clear_to_color(al_color_name("black"));
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/6, ALLEGRO_ALIGN_CENTER, "Introduce your nickname:");
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/2, ALLEGRO_ALIGN_CENTER, c1);
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/2, ALLEGRO_ALIGN_CENTER, c2);
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*4/6, ALLEGRO_ALIGN_CENTER, c3);
+
+						}
 						
 						fpsCounter++;
 						al_flip_display();
 					}
+
 				}
 				else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE){
 					do_exit = true;
