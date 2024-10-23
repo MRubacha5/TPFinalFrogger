@@ -16,6 +16,7 @@
 int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_OCC,WIN_FREE,WIN_FREE};
 extern int vidas;
 
+
 void spawnRana(linea_t* map, rana_t* pRana){
     pRana->posx = POSX_INI;
     pRana->posy = POSY_INI;
@@ -35,16 +36,16 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
         }
         break;
     case RIGHT:
-        if((!pl->val_def) || (prana->posx <= WIDTH - 2*GSIZEX)) //Evita que la rana vaya OOB en la calle
+        if((!pl->val_def) || (prana->posx <= WIDTH - GSIZEX)) //Evita que la rana vaya OOB en la calle
         {
-            prana->posx += GSIZEX;
+            prana->posx++;
         }
 
         break;
     case LEFT:
-         if((!pl->val_def) || (prana->posx >= GSIZEX)) //Evita que la rana vaya OOB en la calle
+         if((!pl->val_def) || (prana->posx >= 0)) //Evita que la rana vaya OOB en la calle
         {
-            prana->posx -= GSIZEX;
+            prana->posx--;
         }
 
         break;
@@ -156,6 +157,9 @@ int RestarVidas(rana_t* pRana, int score, char* filename){
     if(!vidas){
         
         int n = gameOver(score, filename);
+        pRana->posx = POSX_INI;
+        pRana->posy = POSY_INI;
+        pRana->dir = UP;
         return n;
 
     }

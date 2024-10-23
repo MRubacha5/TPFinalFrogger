@@ -1,6 +1,9 @@
 #ifndef PLATFORMCONFIG_H
 #define PLATFORMCONFIG_H
 
+//CONFIGRACIONES GLOBALES
+#define FPS 60
+
 //CONFIGURACIONES DE ALLEGRO
 #if defined(ALLEGRO)
     /*******************************************************************************

@@ -21,9 +21,6 @@
  * CONSTANTES CON DEFINE
  ******************************************************************************/
 
-
-#define FPS 60
-
 #define DISPLAY_X (WIDTH)
 #define DISPLAY_Y ((HEIGHT+1)*GSIZEY)
 
@@ -172,7 +169,8 @@ int main (void) {
 		int screen = MENU;
 		int optionSelected = 0;
 		int i;
-
+		// Valores para movimiento. Se encargan de hacer que el movimiento se vea fluido. Funcionan tanto como flags como contadores
+		uint8_t isMovingRight = 0, isMovingLeft = 0, isMovingUp = 0, isMovingDown = 0; 
 
 		while(!do_exit){
 
@@ -389,22 +387,56 @@ int main (void) {
 							}	
 
 							//Dibujo la rana
-							float ranax = pRana->posx;
-							float ranay = pRana->posy;
+							long double ranax = pRana->posx;
+							long double ranay = pRana->posy;
 							if(FPS % 30 == 0)
 							{
 								//printf("rana posx: %f\n", ranax);
 								//printf("rana posy: %f\n", ranay);
-								//printf("VIDAS: %d", vidas);
+								//printf("VIDAS: %d\n", vidas);
 							}
 
-							/**************************************************************************************************
-							 * DIBUJO LA RANA CON UNA CADENA DE IFS YA QUE LAS DIMENSIONES DEL SPRITE VARIAN POR LA ANIMACION *
-							 * ************************************************************************************************/
-
-							al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
-								ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
-
+							/**********************************************************************************************************************
+							 * DIBUJO LA RANA Y LA MUEVO CON UNA CADENA DE IFS PARA PERMITIR FLUIDEZ EN LOS MOVIMIENTOS SIN COMPROMETER LA LOGICA *
+							 * ********************************************************************************************************************/
+							if (isMovingUp)
+							{
+								if (isMovingUp == FPS)
+								{
+									MoveRana(pRana, UP, map+rana.posy);
+								}
+								al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
+										ranax, (HEIGHT - ranay - (isMovingUp)/FPS) * GSIZEY, GSIZEX,GSIZEY,0);
+								isMovingUp--;
+							}
+							else if (isMovingDown)
+							{
+								if (isMovingDown == FPS)
+								{
+									MoveRana(pRana, DOWN, map+rana.posy);
+								}
+								al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
+										ranax, (HEIGHT - ranay + (isMovingDown)/FPS) * GSIZEY, GSIZEX,GSIZEY,0);
+								isMovingDown--;
+							}
+							else if (isMovingLeft)
+							{
+								MoveRana(pRana, LEFT, map+rana.posy);
+								al_draw_scaled_bitmap(frogLeapLeft_bitmap,0,0,16,16,
+									ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+								isMovingLeft--;
+							}
+							else if (isMovingRight)
+							{
+								MoveRana(pRana, RIGHT, map+rana.posy);
+								al_draw_scaled_bitmap(frogLeapRight_bitmap,0,0,16,16,
+									ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+								isMovingRight--;
+							}
+							else{
+								al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
+									ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+							}
 
 							/* Movimiento de los objetos segun la velocidad.
 							 * Velocidad v = v pixeles por frame (escencialmente una frecuencia).
@@ -420,6 +452,7 @@ int main (void) {
 
 							RanaCollisions(pRana, &map[pRana->posy]);
 						}
+						/*
 						case GAMEOVER:
 						{
 							char finalScoreStr[6];
@@ -429,8 +462,8 @@ int main (void) {
 							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, finalScoreStr);
 							al_flip_display();
 							break;
-						}
-						case GAMEOVERTOP:
+						}*/
+						/*case GAMEOVERTOP:
 						{
 							char c1[1] = 'A',c2[1] = 'B',c3[1] = 'C';
 							al_clear_to_color(al_color_name("black"));
@@ -438,9 +471,9 @@ int main (void) {
 							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/2, ALLEGRO_ALIGN_CENTER, c1);
 							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/2, ALLEGRO_ALIGN_CENTER, c2);
 							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*4/6, ALLEGRO_ALIGN_CENTER, c3);
-
+							
 						}
-						
+						*/
 						fpsCounter++;
 						al_flip_display();
 					}
@@ -467,23 +500,23 @@ int main (void) {
 								screen = PAUSE;
 								break;
 							case ALLEGRO_KEY_DOWN:
-								MoveRana(pRana, DOWN, map+rana.posy);
+								isMovingDown = FPS;
 								frog_bitmap = frogIdleBack_bitmap;
 								break;
 							case ALLEGRO_KEY_UP:
-								MoveRana(pRana, UP, map+rana.posy);
+								isMovingUp = FPS;
 								frog_bitmap = frogIdleFwd_bitmap;
 								//Cada vez que va para arriba se fija si se debe inc score
 								//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
 								//printf ("%u\n",inscreenscore);
-								
+
 								break;
 							case ALLEGRO_KEY_LEFT:
-								MoveRana(pRana, LEFT, map+rana.posy);
+								isMovingLeft = FPS;
 								frog_bitmap = frogIdleLeft_bitmap;
 								break;
 							case ALLEGRO_KEY_RIGHT:
-								MoveRana(pRana, RIGHT, map+rana.posy);
+								isMovingRight = FPS;
 								frog_bitmap = frogIdleRight_bitmap;
 								break;
 
