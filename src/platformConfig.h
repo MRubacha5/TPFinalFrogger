@@ -8,12 +8,12 @@
      ******************************************************************************/
     #define RANAWIDTH 16
 
-    //Valor de ancho para Allegro. El alto es constante entre plataformas
-    #define WIDTH GSIZEX *14
-
     //Constantes graficas
     #define GSIZEX 50
     #define GSIZEY 50
+
+   //Valor de ancho para Allegro. El alto es constante entre plataformas
+    #define WIDTH GSIZEX *14
 
     //Coordenadas x de las posiciones de victoria
     #define WINPOS1 0

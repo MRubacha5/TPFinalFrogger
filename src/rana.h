@@ -13,8 +13,8 @@
  * CONSTANTES
  ******************************************************************************/
 
-#define POSX_INI (14)
-#define POSY_INI (HEIGHT)
+#define POSX_INI (WIDTH/2)
+#define POSY_INI (0)
 
 /*******************************************************************************
  * ESTRUCTURAS Y TIPOS DE DATOS
@@ -24,8 +24,8 @@ typedef struct{
     //Saque estado, no es necesario
     // Agrego Direccion a la rana
     int8_t dir; //Direccion en la que mira. Se usa para el sprite
-    int16_t posx;
-    int16_t posy;
+    long posx;
+    long posy;
 } rana_t;
 
 /*******************************************************************************

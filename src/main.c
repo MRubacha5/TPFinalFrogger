@@ -389,12 +389,15 @@ int main (void) {
 							//Dibujo la rana
 							float ranax = pRana->posx;
 							float ranay = pRana->posy;
-
-							printf("rana posx: %d\n", ranax);
+							if(FPS % 10 == 0)
+							{
+								printf("rana posx: %f\n", ranax);
+								printf("rana posy: %f\n", ranay);
+							}
 
 							//PLACEHOLDER; REVISAR CON CASOS PARA ORIENTACION Y MOVIMIENTO
 							al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
-								ranax * GSIZEX, (ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+								ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 
 
 							/* Movimiento de los objetos segun la velocidad.
