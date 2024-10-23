@@ -30,12 +30,19 @@
      ******************************************************************************/
     #define RANAWIDTH 0
 
+    //constantes graficas
+    #define GSIZEX 1
+    #define GSIZEY 1
+
+    //valor de ancho del juego para raspi
+    #define WIDTH GSIZEX * 14
+
     //Coordenadas x de las posiciones de victoria
     #define WINPOS1 0
-    #define WINPOS2 0
-    #define WINPOS3 0
-    #define WINPOS4 0
-    #define WINPOS5 0
+    #define WINPOS2 3
+    #define WINPOS3 6
+    #define WINPOS4 9
+    #define WINPOS5 12
 
 #else 
     #error("No platform defined")

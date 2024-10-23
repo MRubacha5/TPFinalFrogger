@@ -8,9 +8,11 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs
 
 #include "disdrv.h"
 #include "joydrv.h"
-#include "Objetos.h"
+#include "worldData.h"
+#include "score.h"
 #include "rana.h"
 #include "movement.h"
+#include "platformConfig.h"
 
 #define FPS 60
 #define THRESHOLD 40	//Límite a partir del cual se mueve el LED encendido
@@ -60,7 +62,9 @@ int main(void)
     clock_t lap_time;
     int msec = 0;
     linea_t * pl;
-    rana_t rana = {.posx=10/2, .posy=0};
+    rana_t rana;
+    rana_t * pRana = &rana;
+    linea_t map[HEIGHT];
 	
 	joy_init();										//inicializa el joystick
 	disp_init();									//inicializa el display
@@ -150,8 +154,8 @@ int main(void)
                 if(coord.sw == J_PRESS && joyPressed == 0){
                     joyPressed = 1;
                     if(optionSelected == 0){
-                        pl = CreateWorld(16, 10);
-                        CreateObject(pl+3);
+                        createMap(map,0);
+					    spawnRana(map, pRana);
                         screen = GAME;
                     }
                     else if (optionSelected == 1){
@@ -193,7 +197,6 @@ int main(void)
                     }
                     else if (optionSelected == 1){
                         screen = MENU;
-                        FreeWorldData(pl, 16);
                     }
                 }
                 break;
@@ -210,28 +213,47 @@ int main(void)
                         {
                         case 1:
                             if(fpsCounter == 0){
-                                MoveObject(linea);
+                                moveLine(linea, i, pRana);
                             }
                             break;
                         case 2:
                             if(fpsCounter == FPS/2 || fpsCounter == 0){
-                                MoveObject(linea);
+                                moveLine(linea, i, pRana);
                             }
                             break;
                         case 3:
                             if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
-                                MoveObject(linea);
+                                moveLine(linea, i, pRana);
                             }
                         }
                         
                     }
+
+                    RanaCollisions(pRana, &map[pRana->posy]);
+
+
                     
-                    for(c = 0 ; c < 10 ; c++){
-                        pos.x = c;
+                    int objectSize = 0;
+                    for(c = 0 ; c < linea->cant_obj ; c++){ 
                         pos.y = i;
-                        disp_write(pos, !(*((linea->plinea)+c)));
+                        for(objectSize = 0 ; objectSize < linea->size ; objectSize++){
+                            pos.x = linea->po[c] + objectSize;
+                            int lineValue = (i>HEIGHT/2)?(1):(0);
+                            disp_write(pos, lineValue);
+                        }  
                     }
                 }
+
+                pos.x = pRana->posx;
+                pos.y = pRana->posy;
+                if(fpsCounter % 2){
+                    disp_write(pos, 1);
+                }
+                else{
+                    disp_write(pos, 0);
+                }
+                
+                
                 if(coord.sw == J_PRESS && joyPressed == 0){
                     joyPressed = 1;
                     screen = PAUSE;

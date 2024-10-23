@@ -51,8 +51,6 @@ rana_t * pRana = &rana;
 
 extern int winPosStates[5];
 
-void * line(); //?? No se que es
-
 int main (void) {
 		ALLEGRO_DISPLAY * display = NULL;
 		ALLEGRO_FONT * font;
