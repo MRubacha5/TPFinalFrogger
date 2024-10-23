@@ -149,6 +149,7 @@ int main (void) {
 		ALLEGRO_BITMAP * titleR_bitmap = al_load_bitmap("../assets/Sprites/titleR.png");
 		ALLEGRO_BITMAP * truck_bitmap = al_load_bitmap("../assets/Sprites/truck.png");
 
+		// Variable que se va a utilizar para guardar el estado de la rana (direccion y animacion)
 		ALLEGRO_BITMAP * frog_bitmap = frogIdleFwd_bitmap;
 		/**************************************************************************/
 
@@ -333,55 +334,55 @@ int main (void) {
 
 								// Dibujo la ultima linea
 								//Espacios libres
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
 										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
 										WINPOS2, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
 										WINPOS3, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
 										WINPOS4, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,32,
+								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
 										WINPOS5, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
 								
 								//Separadores
-								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS2+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS2 +GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS3+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS3 +GSIZEX*2+ GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS4+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,32,
+								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS4 + GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 
 								/// Dibujo ranas que ya llegaron
 								if(winPosStates[0] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS1+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS1+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[1] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS2+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS2+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[2] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS3+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS3+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[3] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS4+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS4+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[4] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS5+0.5*GSIZEX, GSIZEY *0.5, GSIZEX,GSIZEY,0);
+										WINPOS5+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								
 							}	
@@ -389,13 +390,16 @@ int main (void) {
 							//Dibujo la rana
 							float ranax = pRana->posx;
 							float ranay = pRana->posy;
-							if(FPS % 10 == 0)
+							/*if(FPS % 30 == 0)
 							{
 								printf("rana posx: %f\n", ranax);
 								printf("rana posy: %f\n", ranay);
-							}
+							}*/
 
-							//PLACEHOLDER; REVISAR CON CASOS PARA ORIENTACION Y MOVIMIENTO
+							/**************************************************************************************************
+							 * DIBUJO LA RANA CON UNA CADENA DE IFS YA QUE LAS DIMENSIONES DEL SPRITE VARIAN POR LA ANIMACION *
+							 * ************************************************************************************************/
+
 							al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
 								ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 

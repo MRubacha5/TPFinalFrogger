@@ -11,10 +11,7 @@
 /*******************************************************************************
  * MACROS PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES
  ******************************************************************************/
-#define ISCOLLIDING (((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + pl->size*GSIZEX)) || ((prana->posx + RANAWIDTH >= pl->po[i]) && (prana->posx + RANAWIDTH <= pl->po[i] + pl->size*GSIZEX)))
-#define WINS (WINPOS1 <= prana->posx + RANAWIDTH && WINPOS1 >= prana->posx) //FALTA REPETIR PARA TODAS LAS WINPOS
-
-
+#define ISCOLLIDING (((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + pl->size*GSIZEX)) || ((prana->posx + GSIZEX >= pl->po[i]) && (prana->posx + GSIZEX <= pl->po[i] + pl->size*GSIZEX)))
 
 int winPosStates[5] = {WIN_OCC,WIN_OCC,WIN_OCC,WIN_FREE,WIN_OCC};
 extern int vidas;
@@ -57,7 +54,7 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
 
 void RanaCollisions(rana_t * prana, linea_t * pl){
 
-    if(!(pl->val_def) && ((prana->posx) + RANAWIDTH >= WIDTH || (prana->posx) < 0)){ //La rana se muere si se va por un costado del agua
+    if(!(pl->val_def) && ((prana->posx) > WIDTH - GSIZEX || (prana->posx) < 0)){ //La rana se muere si se va por un costado del agua
         RestarVidas(prana,0, "score.txt");
     }
     int i;
@@ -67,8 +64,61 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
 
             if(prana->posy == HEIGHT)//Check for winning frog
             {
-                if(WINS)
-                Ganar(prana);
+                if(WINPOS1 <= prana->posx + RANAWIDTH && WINPOS1 >= prana->posx)
+                {
+                    if (winPosStates[0] == WIN_FREE)
+                    {
+                        Ganar(prana,1);
+                    }
+                    else 
+                    {
+                        RestarVidas(prana, 0, "score.txt");
+                    }
+                }
+                if(WINPOS2 <= prana->posx + RANAWIDTH && WINPOS2 >= prana->posx)
+                {
+                    if (winPosStates[1] == WIN_FREE)
+                    {
+                        Ganar(prana,2);
+                    }
+                    else 
+                    {
+                        RestarVidas(prana, 0, "score.txt");
+                    }
+                }
+                if(WINPOS3 <= prana->posx + RANAWIDTH && WINPOS3 >= prana->posx)
+                {
+                    if (winPosStates[2] == WIN_FREE)
+                    {
+                        Ganar(prana,3);
+                    }
+                    else 
+                    {
+                        RestarVidas(prana, 0, "score.txt");
+                    }
+                }
+                if(WINPOS4 <= prana->posx + RANAWIDTH && WINPOS4 >= prana->posx)
+                {
+                    if (winPosStates[3] == WIN_FREE)
+                    {
+                        Ganar(prana,4);
+                    }
+                    else 
+                    {
+                        RestarVidas(prana, 0, "score.txt");
+                    }
+                }
+                if(WINPOS5 <= prana->posx + RANAWIDTH && WINPOS5 >= prana->posx)
+                {
+                    if (winPosStates[4] == WIN_FREE)
+                    {
+                        Ganar(prana,5);
+                    }
+                    else 
+                    {
+                        RestarVidas(prana, 0, "score.txt");
+                    }
+                }
                 return;
             }
             else
@@ -90,6 +140,7 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
         case SAFE:
             for(i = 0; i < pl->cant_obj; i++){
                 if(ISCOLLIDING){
+                    // printf("COLISION: RanaX = %ld, ObjX = %d", prana->posx, pl->po[i]);
                     RestarVidas(prana,0,"score.txt");
                 }
             }
@@ -116,20 +167,20 @@ int RestarVidas(rana_t* pRana, int score, char* filename){
     }
 }
 
-int8_t Ganar (rana_t* pRana){
+int8_t Ganar (rana_t* pRana, uint8_t winPos){
     int8_t i ,winningFlag = 1;
 
-    switch (pRana->posx)
+    switch (winPos)
     {
-        case WINPOS1:
+        case 1:
             winPosStates[0] = WIN_OCC;
-        case WINPOS2:
+        case 2:
             winPosStates[1] = WIN_OCC;
-        case WINPOS3:
+        case 3:
             winPosStates[2] = WIN_OCC;
-        case WINPOS4:
+        case 4:
             winPosStates[3] = WIN_OCC;
-        case WINPOS5:
+        case 5:
             winPosStates[4] = WIN_OCC;
         default:
             break;

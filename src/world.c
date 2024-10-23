@@ -112,10 +112,6 @@ void createMap(linea_t * p, int difficulty){
 
         linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; // 1 es piso 0 es agua
 
-        for(c=0;c<linea->cant_obj;c++){
-            printf("Linea %d, objeto %d, %d\n",i,c,linea->po[c]);
-        }
-
         //Espaciado entre objetos; aleatorio a partir del nivel 3
         /*for(c = 0 ; c < linea->cant_obj ; c++){
             if(i <= HEIGHT/2){
@@ -139,15 +135,13 @@ void createMap(linea_t * p, int difficulty){
 }
 
 void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
-    int j, c;
+    int i,j;
     
     if(lineaPosY > HEIGHT/2 && lineaPosY == pRana->posy){
-        for(j=0; j < pl->cant_obj; j++){
-            for(c=0; c < pl->size; c++){
-                if(pRana->posx == (pl->po[j])+c){ //Si la rana esta parada en un tronco, se mueve con el 
-                            pRana->posx += pl->dir;
-                        }
-            }
+        for(i=0; i < pl->cant_obj; i++){
+            if(((pRana->posx >= pl->po[i]) && (pRana->posx <= pl->po[i] + pl->size*GSIZEX)) || ((pRana->posx + GSIZEX >= pl->po[i]) && (pRana->posx + GSIZEX <= pl->po[i] + pl->size*GSIZEX))){ //Si la rana esta parada en un tronco, se mueve con el 
+                        pRana->posx += pl->dir;
+                    }
         }   
     } 
 
