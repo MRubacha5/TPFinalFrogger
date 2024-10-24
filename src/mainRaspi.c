@@ -54,6 +54,8 @@ int pauseMenu[16][16]= {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
+unsigned int timeLeft = START_TIME; // valor en segundos 
+
 int main(void)
 {
     clock_t before = clock(); //agarro tiempo antes de arrancar

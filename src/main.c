@@ -22,7 +22,7 @@
  ******************************************************************************/
 
 #define DISPLAY_X (WIDTH)
-#define DISPLAY_Y ((HEIGHT+1)*GSIZEY + 150)
+#define DISPLAY_Y ((HEIGHT+4)*GSIZEY)
 
 #define MENU 0
 #define GAME 1
@@ -50,15 +50,17 @@ rana_t * pRana = &rana;
 
 extern int winPosStates[5];
 extern int vidas;
+unsigned int timeLeft = START_TIME; // valor en segundos 
 
 int main (void) {
+
+		/**********************
+		 * INICIALIZO ALLEGRO *
+		 **********************/
 		ALLEGRO_DISPLAY * display = NULL;
 		ALLEGRO_FONT * font;
 		ALLEGRO_EVENT_QUEUE * event_queue;
 		ALLEGRO_TIMER * timer;
-
-		unsigned int timeLeft = START_TIME; // valor en segundos 
-		unsigned int deathTimer = 0; //Se setea como FPS cuando hay una muerte. Inhibe el movimiento y el contador hasta que termine la animacion
 
 		if(!al_init()){
 		    	fprintf(stderr, "failed to initialize allegro!\n");
@@ -167,6 +169,9 @@ int main (void) {
 
         al_flip_display();
 
+		/***********************
+		* INICIALIZO VARIABLES *
+		************************/
 		int mouse_x=0;
 		int mouse_y=0;
 		int leftClick = 0;
@@ -174,9 +179,16 @@ int main (void) {
 		int screen = MENU;
 		int optionSelected = 0;
 		int i;
+
 		// Valores para movimiento. Se encargan de hacer que el movimiento se vea fluido. Funcionan tanto como flags como contadores
 		uint8_t isMovingRight = 0, isMovingLeft = 0, isMovingUp = 0, isMovingDown = 0; 
 
+		//Se setea como FPS cuando hay una muerte. Inhibe el movimiento y el contador hasta que termine la animacion
+		uint8_t deathTimer = 0; 
+
+		/*******************
+		* SCREEN LOOP CODE *
+		********************/
 		while(!do_exit){
 
 			ALLEGRO_EVENT ev;
@@ -567,7 +579,7 @@ int main (void) {
 								al_draw_scaled_bitmap(death_bitmap,0,0,16,16,
 											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 							
-								if (fpsCounter % 12 == 0)
+								if (fpsCounter % 24 == 0)
 								{
 									deathTimer--;
 								}
@@ -694,31 +706,35 @@ int main (void) {
 		    	}
                 else if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
 					
-					if(screen == GAME && !deathTimer){
-						switch(ev.keyboard.keycode){
-							case ALLEGRO_KEY_ESCAPE:
-								screen = PAUSE;
-								break;
-							case ALLEGRO_KEY_DOWN:
-								isMovingDown = FPS;
-								frog_bitmap = frogIdleBack_bitmap;
-								break;
-							case ALLEGRO_KEY_UP:
-								isMovingUp = FPS;
-								frog_bitmap = frogIdleFwd_bitmap;
-								//Cada vez que va para arriba se fija si se debe inc score
-								//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
-								//printf ("%u\n",inscreenscore);
+					if(screen == GAME){
+						if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+						{
+							screen = PAUSE;
+						}
+						else if (!isMovingUp && !isMovingDown && !isMovingLeft && !isMovingRight && !deathTimer)
+						{
+							switch(ev.keyboard.keycode){
+								case ALLEGRO_KEY_DOWN:
+									isMovingDown = FPS;
+									frog_bitmap = frogIdleBack_bitmap;
+									break;
+								case ALLEGRO_KEY_UP:
+									isMovingUp = FPS;
+									frog_bitmap = frogIdleFwd_bitmap;
+									//Cada vez que va para arriba se fija si se debe inc score
+									//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
+									//printf ("%u\n",inscreenscore);
 
-								break;
-							case ALLEGRO_KEY_LEFT:
-								isMovingLeft = FPS;
-								frog_bitmap = frogIdleLeft_bitmap;
-								break;
-							case ALLEGRO_KEY_RIGHT:
-								isMovingRight = FPS;
-								frog_bitmap = frogIdleRight_bitmap;
-								break;
+									break;
+								case ALLEGRO_KEY_LEFT:
+									isMovingLeft = FPS;
+									frog_bitmap = frogIdleLeft_bitmap;
+									break;
+								case ALLEGRO_KEY_RIGHT:
+									isMovingRight = FPS;
+									frog_bitmap = frogIdleRight_bitmap;
+									break;
+							}
 
 						}
 					

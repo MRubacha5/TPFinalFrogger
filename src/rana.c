@@ -13,7 +13,7 @@
  ******************************************************************************/
 #define ISCOLLIDING (((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + pl->size*GSIZEX)) || ((prana->posx + GSIZEX >= pl->po[i]) && (prana->posx + GSIZEX <= pl->po[i] + pl->size*GSIZEX)))
 
-int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_OCC,WIN_FREE,WIN_FREE};
+int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE};
 extern int vidas;
 
 
@@ -62,9 +62,72 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
 
     switch(pl->val_def){
         case UNSAFE:
-            if(prana->posy == HEIGHT)//Check for winning frog
+            if(prana->posy == HEIGHT-1)//Check for winning frog
             {
-                
+                if(((prana->posx >= WINPOS1 + GSIZEX/2) && (prana->posx <= WINPOS1 + GSIZEX*1.5)) 
+                    || ((prana->posx + GSIZEX >= WINPOS1 + GSIZEX/2 && (prana->posx + GSIZEX <= WINPOS1 + GSIZEX*1.5))))
+                {
+                    if (winPosStates[0] == WIN_FREE)
+                    {
+                        Ganar(prana,1);
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                }
+                else if(((prana->posx >= WINPOS2 + GSIZEX/2) && (prana->posx <= WINPOS2 + GSIZEX*1.5)) 
+                        || ((prana->posx + GSIZEX >= WINPOS2 + GSIZEX/2 && (prana->posx + GSIZEX <= WINPOS2 + GSIZEX*1.5))))
+                {
+                    if (winPosStates[1] == WIN_FREE)
+                    {
+                        Ganar(prana,2);
+                    }
+                    else 
+                    {
+                        return 1;
+                    }
+                }
+                else if(((prana->posx >= WINPOS3 + GSIZEX/2) && (prana->posx <= WINPOS3 + GSIZEX*1.5)) 
+                        || ((prana->posx + GSIZEX >= WINPOS3 + GSIZEX/2 && (prana->posx + GSIZEX <= WINPOS3 + GSIZEX*1.5))))
+                {
+                    if (winPosStates[2] == WIN_FREE)
+                    {
+                        Ganar(prana,3);
+                    }
+                    else 
+                    {
+                        return 1;
+                    }
+                }
+                else if(((prana->posx >= WINPOS4 + GSIZEX/2) && (prana->posx <= WINPOS4 + GSIZEX*1.5)) 
+                        || ((prana->posx + GSIZEX >= WINPOS4 + GSIZEX/2 && (prana->posx + GSIZEX <= WINPOS4 + GSIZEX*1.5))))
+                {
+                    if (winPosStates[3] == WIN_FREE)
+                    {
+                        Ganar(prana,4);
+                    }
+                    else 
+                    {
+                        
+                        return 1;
+                    }
+                }
+                else if(((prana->posx >= WINPOS5 + GSIZEX/2) && (prana->posx <= WINPOS5 + GSIZEX*1.5)) 
+                        || ((prana->posx + GSIZEX >= WINPOS5 + GSIZEX/2 && (prana->posx + GSIZEX <= WINPOS5 + GSIZEX*1.5))))
+                {
+                    if (winPosStates[4] == WIN_FREE)
+                    {
+                        Ganar(prana,5);
+                    }
+                    else 
+                    {
+                        
+                        return 1;
+                    }
+                }
+                else
+                    return 1;
             }
             else
             {
@@ -122,14 +185,19 @@ int8_t Ganar (rana_t* pRana, uint8_t winPos){
     {
         case 1:
             winPosStates[0] = WIN_OCC;
+            break;
         case 2:
             winPosStates[1] = WIN_OCC;
+            break;
         case 3:
             winPosStates[2] = WIN_OCC;
+            break;
         case 4:
             winPosStates[3] = WIN_OCC;
+            break;
         case 5:
             winPosStates[4] = WIN_OCC;
+            break;
         default:
             break;
 
