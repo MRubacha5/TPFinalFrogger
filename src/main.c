@@ -501,15 +501,16 @@ int main (void) {
 								deathX = pRana->posx;
 								deathY = pRana->posy;
 
-								if (fpsCounter % 10 == 0)
+								if (fpsCounter % 12 == 0)
 								{
 									deathTimer--;
 								}
 								
 							}
-							if (deathTimer >= FPS * 2 / 3)
+							// Animacion de ahogado solo en las lineas con troncos. Si se muere en otro lugar (o por tiempo) la animacion es explosion
+							if (deathTimer >= FPS * 3 / 4)
 							{
-								if (deathY > HEIGHT/2 && timeLeft)
+								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
 								{
 									al_draw_scaled_bitmap(drown1_bitmap,0,0,16,16,
 											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -519,15 +520,15 @@ int main (void) {
 									al_draw_scaled_bitmap(crash1_bitmap,0,0,16,16,
 											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
-								if (fpsCounter % 10 == 0)
+								if (fpsCounter % 12 == 0)
 								{
 									deathTimer--;
 								}
 								
 							}
-							else if (deathTimer >= FPS / 3 && deathTimer < FPS*2/3)
+							else if (deathTimer >= FPS / 2 && deathTimer < FPS*2/3)
 							{
-								if (deathY > HEIGHT/2 && timeLeft)
+								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
 								{
 									al_draw_scaled_bitmap(drown2_bitmap,0,0,16,16,
 											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -537,15 +538,15 @@ int main (void) {
 									al_draw_scaled_bitmap(crash2_bitmap,0,0,16,16,
 											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
-								if (fpsCounter % 10 == 0)
+								if (fpsCounter % 12 == 0)
 								{
 									deathTimer--;
 								}
 								
 							}
-							else if (deathTimer > 0)
+							else if (deathTimer > FPS/4)
 							{
-								if (deathY > HEIGHT/2 && timeLeft)
+								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
 								{
 									al_draw_scaled_bitmap(drown3_bitmap,0,0,16,16,
 											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -555,7 +556,18 @@ int main (void) {
 									al_draw_scaled_bitmap(crash3_bitmap,0,0,16,16,
 											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
-								if (fpsCounter % 10 == 0)
+								if (fpsCounter % 12 == 0)
+								{
+									deathTimer--;
+								}
+								
+							}
+							else if (deathTimer > 0)
+							{
+								al_draw_scaled_bitmap(death_bitmap,0,0,16,16,
+											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+							
+								if (fpsCounter % 12 == 0)
 								{
 									deathTimer--;
 								}
