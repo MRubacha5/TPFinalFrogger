@@ -56,8 +56,8 @@ int main (void) {
 		ALLEGRO_FONT * font;
 		ALLEGRO_EVENT_QUEUE * event_queue;
 		ALLEGRO_TIMER * timer;
-	
-		uint8_t time_left = 20; //hardcodeado solo para probar funcion  
+
+		unsigned int timeLeft = START_TIME; // valor en segundos 
 
 		if(!al_init()){
 		    	fprintf(stderr, "failed to initialize allegro!\n");
@@ -146,6 +146,10 @@ int main (void) {
 		ALLEGRO_BITMAP * titleO_bitmap = al_load_bitmap("../assets/Sprites/titleO.png");
 		ALLEGRO_BITMAP * titleR_bitmap = al_load_bitmap("../assets/Sprites/titleR.png");
 		ALLEGRO_BITMAP * truck_bitmap = al_load_bitmap("../assets/Sprites/truck.png");
+		ALLEGRO_BITMAP * yellowT_bitmap = al_load_bitmap("../assets/Sprites/yellowT.png");
+		ALLEGRO_BITMAP * yellowI_bitmap = al_load_bitmap("../assets/Sprites/yellowI.png");
+		ALLEGRO_BITMAP * yellowM_bitmap = al_load_bitmap("../assets/Sprites/yellowM.png");
+		ALLEGRO_BITMAP * yellowE_bitmap = al_load_bitmap("../assets/Sprites/yellowE.png");
 
 		// Variable que se va a utilizar para guardar el estado de la rana (direccion y animacion)
 		ALLEGRO_BITMAP * frog_bitmap = frogIdleFwd_bitmap;
@@ -235,13 +239,12 @@ int main (void) {
 						al_flip_display();
 						break;
 					case GAME:
-						unsigned int timer = START_TIME; // valor en segundos 
 
 						if(fpsCounter >= FPS){
 							fpsCounter = 0;
-							timer -= 1;
+							timeLeft--;
 						}
-
+						
 						al_clear_to_color(al_color_name("black"));
 
 						/***************
@@ -255,9 +258,16 @@ int main (void) {
 						}
 						
 						//dibujo el tiempo restante
-						al_draw_filled_rectangle(GSIZEX,(HEIGHT + 2)*GSIZEY,
-										((2*timer)/START_TIME)*GSIZEX + (60-fpsCounter), (HEIGHT+3)*GSIZEY, al_color_name("green"));
+						al_draw_scaled_bitmap(titleE_bitmap,0,0,8,8,
+									GSIZEX, (HEIGHT +1) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
+						if (timeLeft > 0)
+						{
+							al_draw_filled_rectangle(GSIZEX*5,(HEIGHT + 2)*GSIZEY,
+										5*GSIZEX + ((timeLeft + (60 - fpsCounter)/60.0) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name("green"));
+						}
 
+						//dibujo el score (TBD)
+						
 						/*****************************
 						* DIBUJO LAS LINEAS DEL MAPA *
 						******************************/
@@ -273,7 +283,7 @@ int main (void) {
 
 								if(i==HEIGHT/2){
 									al_draw_filled_rectangle(0,(HEIGHT-i-1)*GSIZEY,
-										WIDTH, (HEIGHT-i)*GSIZEY + GSIZEY/2, al_color_name("blue"));
+										WIDTH, (HEIGHT-i)*GSIZEY + GSIZEY/2.0, al_color_name("blue"));
 								}
 								for(int j = 0; j < WIDTH/GSIZEX; j++){
 									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,16,16,
@@ -382,19 +392,19 @@ int main (void) {
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									GSIZEX*2 + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS2+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS2 +GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS2 +GSIZEX*2 + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS3+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS3 +GSIZEX*2+ GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS3 +GSIZEX*2+ GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									WINPOS4+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS4 + GSIZEX*2 + GSIZEX/2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS4 + GSIZEX*2 + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 
 								/// Dibujo ranas que ya llegaron
 								if(winPosStates[0] == WIN_OCC){
@@ -497,9 +507,9 @@ int main (void) {
 						{
 							char finalScoreStr[6];
 							al_clear_to_color(al_color_name("black"));
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "FINAL SCORE:");
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "FINAL SCORE:");
 							sprintf(finalScoreStr, '%d', inscreenscore );
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, finalScoreStr);
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, finalScoreStr);
 							al_flip_display();
 							break;
 						}*/
@@ -507,10 +517,10 @@ int main (void) {
 						{
 							char c1[1] = 'A',c2[1] = 'B',c3[1] = 'C';
 							al_clear_to_color(al_color_name("black"));
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/6, ALLEGRO_ALIGN_CENTER, "Introduce your nickname:");
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/2, ALLEGRO_ALIGN_CENTER, c1);
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/2, ALLEGRO_ALIGN_CENTER, c2);
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*4/6, ALLEGRO_ALIGN_CENTER, c3);
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/6, ALLEGRO_ALIGN_CENTER, "Introduce your nickname:");
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/2.0, ALLEGRO_ALIGN_CENTER, c1);
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/2.0, ALLEGRO_ALIGN_CENTER, c2);
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y*4/6, ALLEGRO_ALIGN_CENTER, c3);
 							
 						}
 						*/
