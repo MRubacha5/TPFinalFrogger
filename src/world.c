@@ -81,7 +81,7 @@ int vidas = 3;
 
 void createMap(linea_t * p, int difficulty){ 
     srand(time(NULL));
-    int i, c;
+    int i;
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
 

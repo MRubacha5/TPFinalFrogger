@@ -58,6 +58,7 @@ int main (void) {
 		ALLEGRO_TIMER * timer;
 
 		unsigned int timeLeft = START_TIME; // valor en segundos 
+		unsigned int deathTimer = 0; //Se setea como FPS cuando hay una muerte. Inhibe el movimiento y el contador hasta que termine la animacion
 
 		if(!al_init()){
 		    	fprintf(stderr, "failed to initialize allegro!\n");
@@ -188,13 +189,33 @@ int main (void) {
 					switch (screen)
 					{
 					case MENU:
-						al_clear_to_color(al_color_name("black"));
-						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("white"));
+						// Fondo
+						al_clear_to_color(al_color_name("darkblue"));
+						
+						// Letras de FROGGER
+						al_draw_scaled_bitmap(titleF_bitmap,0,0,32,32,
+									GSIZEX*1.7, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
+						al_draw_scaled_bitmap(titleR_bitmap,0,0,32,32,
+									GSIZEX*3.2, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
+						al_draw_scaled_bitmap(titleO_bitmap,0,0,32,32,
+									GSIZEX*4.7, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
+						al_draw_scaled_bitmap(titleG_bitmap,0,0,32,32,
+									GSIZEX*6.2, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
+						al_draw_scaled_bitmap(titleG_bitmap,0,0,32,32,
+									GSIZEX*7.7, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
+						al_draw_scaled_bitmap(titleE_bitmap,0,0,32,32,
+									GSIZEX*9.2, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
+						al_draw_scaled_bitmap(titleR_bitmap,0,0,32,32,
+									GSIZEX*10.7, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
+						
+						// Botones
+						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*3/8, DISPLAY_X*7/8, DISPLAY_Y*5/8, al_color_name("white"));
 						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("white"));
 						
+						// Los Botones cambian de color cuando el mouse esta por encima
 						if(mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8){
-							if(mouse_y > DISPLAY_Y/8 && mouse_y < DISPLAY_Y*3/8){
-								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("grey"));
+							if(mouse_y > DISPLAY_Y*3/8 && mouse_y < DISPLAY_Y*5/8){
+								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*3/8, DISPLAY_X*7/8, DISPLAY_Y*5/8, al_color_name("grey"));
 								if(leftClick){
 									leftClick = 0;
 									screen = GAME;
@@ -210,7 +231,7 @@ int main (void) {
 								}
 							}
 						}
-						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "START");
+						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y/2, ALLEGRO_ALIGN_CENTER, "START");
 						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, "QUIT");
 						al_flip_display();
 						break;
@@ -242,7 +263,11 @@ int main (void) {
 
 						if(fpsCounter >= FPS){
 							fpsCounter = 0;
-							timeLeft--;
+							if(!deathTimer)
+							{
+								timeLeft--;
+							}
+							
 						}
 						
 						al_clear_to_color(al_color_name("black"));
@@ -258,12 +283,39 @@ int main (void) {
 						}
 						
 						//dibujo el tiempo restante
-						al_draw_scaled_bitmap(titleE_bitmap,0,0,8,8,
-									GSIZEX, (HEIGHT +1) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
+						/*COMENTADO PORQUE ALLEGRO ESTA SIENDO CAPRICHOSO
+						al_draw_scaled_bitmap(yellowT_bitmap,0,0,8,8,
+									GSIZEX, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
+						al_draw_scaled_bitmap(yellowI_bitmap,0,0,8,8,
+									GSIZEX*1.5, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
+						al_draw_scaled_bitmap(yellowM_bitmap,0,0,8,8,
+									GSIZEX*2, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
+						al_draw_scaled_bitmap(yellowE_bitmap,0,0,8,8,
+									GSIZEX*2.5, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
+						*/
 						if (timeLeft > 0)
 						{
-							al_draw_filled_rectangle(GSIZEX*5,(HEIGHT + 2)*GSIZEY,
-										5*GSIZEX + ((timeLeft + (60 - fpsCounter)/60.0) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name("green"));
+							
+							if (timeLeft > 30)
+							{
+								al_draw_filled_rectangle(GSIZEX*5,(HEIGHT + 2)*GSIZEY,
+										5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name("green"));
+							}
+							else if (timeLeft > 10)
+							{
+								al_draw_filled_rectangle(GSIZEX*5,(HEIGHT + 2)*GSIZEY,
+										5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name("yellow"));
+							}
+							else 
+							{
+								al_draw_filled_rectangle(GSIZEX*5,(HEIGHT + 2)*GSIZEY,
+										5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name("red"));
+							}
+							
+						}
+						else if (deathTimer == 0)
+						{
+							deathTimer = FPS;
 						}
 
 						//dibujo el score (TBD)
@@ -283,7 +335,7 @@ int main (void) {
 
 								if(i==HEIGHT/2){
 									al_draw_filled_rectangle(0,(HEIGHT-i-1)*GSIZEY,
-										WIDTH, (HEIGHT-i)*GSIZEY + GSIZEY/2.0, al_color_name("blue"));
+										WIDTH, (HEIGHT-i)*GSIZEY + GSIZEY/2.0, al_color_name("darkblue"));
 								}
 								for(int j = 0; j < WIDTH/GSIZEX; j++){
 									al_draw_scaled_bitmap(purpleGrass_bitmap,0,0,16,16,
@@ -344,7 +396,7 @@ int main (void) {
 							else if(i > HEIGHT/2 && i < HEIGHT-1){ 
 								//imprimo el agua en si 
 								al_draw_filled_rectangle(0,(HEIGHT-i-1)*GSIZEY,
-								WIDTH, (HEIGHT-i)*GSIZEY, al_color_name("blue"));
+								WIDTH, (HEIGHT-i)*GSIZEY, al_color_name("darkblue"));
 
 
 								//imprimo troncos
@@ -374,7 +426,7 @@ int main (void) {
 							*****************************************************************************/
 							else if(i == HEIGHT - 1){
 								al_draw_filled_rectangle(0, (HEIGHT-i)*GSIZEY,
-									WIDTH, (HEIGHT-i-1)*GSIZEY, al_color_name("blue"));
+									WIDTH, (HEIGHT-i-1)*GSIZEY, al_color_name("darkblue"));
 
 								//Espacios libres
 								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
@@ -431,13 +483,85 @@ int main (void) {
 							}	
 
 							
-							long double ranax = pRana->posx;
-							long double ranay = pRana->posy;
+							long int ranax = pRana->posx;
+							long int ranay = pRana->posy;
+							long int deathX;
+							long int deathY;
 
 							/**********************************************************************************************************************
 							 * DIBUJO LA RANA Y LA MUEVO CON UNA CADENA DE IFS PARA PERMITIR FLUIDEZ EN LOS MOVIMIENTOS SIN COMPROMETER LA LOGICA *
 							 * ********************************************************************************************************************/
-							if (isMovingUp)
+							if (deathTimer == FPS) //No dibujo la rana si esta muriendo 
+							{
+								//Inhibo el movimiento de la rana y guardo su posicion de muerte
+								isMovingDown = 0;
+								isMovingUp = 0;
+								isMovingLeft = 0;
+								isMovingRight = 0;
+								deathX = pRana->posx;
+								deathY = pRana->posy;
+
+								if (fpsCounter % 10 == 0)
+								{
+									deathTimer--;
+								}
+								
+							}
+							if (deathTimer >= FPS * 2 / 3)
+							{
+								if (deathY > HEIGHT/2 && timeLeft)
+								{
+									al_draw_scaled_bitmap(drown1_bitmap,0,0,16,16,
+											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								else
+								{
+									al_draw_scaled_bitmap(crash1_bitmap,0,0,16,16,
+											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								if (fpsCounter % 10 == 0)
+								{
+									deathTimer--;
+								}
+								
+							}
+							else if (deathTimer >= FPS / 3 && deathTimer < FPS*2/3)
+							{
+								if (deathY > HEIGHT/2 && timeLeft)
+								{
+									al_draw_scaled_bitmap(drown2_bitmap,0,0,16,16,
+											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								else
+								{
+									al_draw_scaled_bitmap(crash2_bitmap,0,0,16,16,
+											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								if (fpsCounter % 10 == 0)
+								{
+									deathTimer--;
+								}
+								
+							}
+							else if (deathTimer > 0)
+							{
+								if (deathY > HEIGHT/2 && timeLeft)
+								{
+									al_draw_scaled_bitmap(drown3_bitmap,0,0,16,16,
+											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								else
+								{
+									al_draw_scaled_bitmap(crash3_bitmap,0,0,16,16,
+											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								if (fpsCounter % 10 == 0)
+								{
+									deathTimer--;
+								}
+								
+							}
+							else if (isMovingUp)
 							{
 								if (isMovingUp == FPS)
 								{
@@ -500,8 +624,22 @@ int main (void) {
 							}
 
 							// Por ultimo, calculo colisiones
-							RanaCollisions(pRana, &map[pRana->posy]);
+							if (deathTimer != 0 || RanaCollisions(pRana, &map[pRana->posy]) == 1) //Aprovecho el lazy evaluation para deshabilitar colisiones durante una muerte
+							{
+								if(deathTimer == 0)
+								{
+									deathTimer = FPS;
+								} 
+								if (deathTimer == 1)
+								{
+									RestarVidas(pRana,0,"score.txt");
+									frog_bitmap = frogIdleFwd_bitmap;
+									timeLeft = START_TIME;
+								}
+							
+							}
 						}
+						
 						/*
 						case GAMEOVER:
 						{
@@ -544,7 +682,7 @@ int main (void) {
 		    	}
                 else if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
 					
-					if(screen == GAME){
+					if(screen == GAME && !deathTimer){
 						switch(ev.keyboard.keycode){
 							case ALLEGRO_KEY_ESCAPE:
 								screen = PAUSE;

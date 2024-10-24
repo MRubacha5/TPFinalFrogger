@@ -53,10 +53,10 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
 
 }
 
-void RanaCollisions(rana_t * prana, linea_t * pl){
+int RanaCollisions(rana_t * prana, linea_t * pl){
 
     if(!(pl->val_def) && ((prana->posx) > WIDTH - GSIZEX || (prana->posx) < 0)){ //La rana se muere si se va por un costado del agua
-        RestarVidas(prana,0, "score.txt");
+        return 1;
     }
     int i;
 
@@ -65,63 +65,6 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
             if(prana->posy == HEIGHT)//Check for winning frog
             {
                 
-                if(WINPOS1 + 25 <= prana->posx + RANAWIDTH && WINPOS1 + 25 >= prana->posx)
-                {
-                    if (winPosStates[0] == WIN_FREE)
-                    {
-                        Ganar(prana,1);
-                    }
-                    else 
-                    {
-                        RestarVidas(prana, 0, "score.txt");
-                    }
-                }
-                if(((prana->posx >= WINPOS2 + GSIZEX/2) && (prana->posx <= WINPOS2 + GSIZEX*1.5)) || ((prana->posx + GSIZEX >= WINPOS2 + GSIZEX/2 && (prana->posx + GSIZEX <= WINPOS2 + GSIZEX*1.5))))
-                {
-                    if (winPosStates[1] == WIN_FREE)
-                    {
-                        Ganar(prana,2);
-                    }
-                    else 
-                    {
-                        RestarVidas(prana, 0, "score.txt");
-                    }
-                }
-                if(WINPOS3 + GSIZEX <= prana->posx + RANAWIDTH && WINPOS3 + GSIZEX >= prana->posx)
-                {
-                    if (winPosStates[2] == WIN_FREE)
-                    {
-                        Ganar(prana,3);
-                    }
-                    else 
-                    {
-                        RestarVidas(prana, 0, "score.txt");
-                    }
-                }
-                if((WINPOS4 + GSIZEX * 0.5 <= prana->posx + RANAWIDTH && WINPOS4 + GSIZEX *0.5 >= prana->posx)
-                    || (WINPOS4 + GSIZEX * 1.5 <= prana->posx + RANAWIDTH && WINPOS4 + GSIZEX *1.5 >= prana->posx))
-                {
-                    if (winPosStates[3] == WIN_FREE)
-                    {
-                        Ganar(prana,4);
-                    }
-                    else 
-                    {
-                        RestarVidas(prana, 0, "score.txt");
-                    }
-                }
-                if(WINPOS5 + GSIZEX <= prana->posx + RANAWIDTH && WINPOS5 + GSIZEX >= prana->posx)
-                {
-                    if (winPosStates[4] == WIN_FREE)
-                    {
-                        Ganar(prana,5);
-                    }
-                    else 
-                    {
-                        RestarVidas(prana, 0, "score.txt");
-                    }
-                }
-                return;
             }
             else
             {
@@ -134,7 +77,8 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
         
                 }
                 if(!isFloating){
-                    RestarVidas(prana,0,"score.txt");
+                    
+                    return 1;
                 }
             }
             break;
@@ -142,17 +86,16 @@ void RanaCollisions(rana_t * prana, linea_t * pl){
         case SAFE:
             for(i = 0; i < pl->cant_obj; i++){
                 if(ISCOLLIDING){
-                    // printf("COLISION: RanaX = %ld, ObjX = %d", prana->posx, pl->po[i]);
-                    RestarVidas(prana,0,"score.txt");
+                    return 1;
                 }
             }
             break;
     }
+    return 0;
     
 }
 
 int RestarVidas(rana_t* pRana, int score, char* filename){
-    //LLAMAR ANIMACION DE MUERTE CORRESPONDIENTE AL FRONTEND QUE SE ESTE USANDO
     vidas--;
     if(!vidas){
         

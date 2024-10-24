@@ -37,8 +37,9 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl);
  * @param prana rana en cuestion
  * @param pl linea en la que se encuentra la rana
  * @param ranaWidth valor de ancho de la rana. Se utiliza para poder adaptar las colisiones a la plataforma que se utilice
+ * @return devuelve 1 si la rana ha colisionado fatalmente. Esto permite que el frontend respectivo haga su animacion de muerte.
 */
-void RanaCollisions(rana_t * prana, linea_t * pl);
+int RanaCollisions(rana_t * prana, linea_t * pl);
 
 /**
  * @brief Se ocupa de mover todos los objetos en el mundo. NO TIENE EN CUENTA LA VELOCIDAD Y DEBERA SER LLAMADA ACORDEMENTE
