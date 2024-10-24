@@ -503,7 +503,9 @@ int main (void) {
 							/**********************************************************************************************************************
 							 * DIBUJO LA RANA Y LA MUEVO CON UNA CADENA DE IFS PARA PERMITIR FLUIDEZ EN LOS MOVIMIENTOS SIN COMPROMETER LA LOGICA *
 							 * ********************************************************************************************************************/
-							if (deathTimer == FPS) //No dibujo la rana si esta muriendo 
+
+							// SI LA RANA ESTA MURIENDO, NO LA DIBUJO
+							if (deathTimer == FPS) 
 							{
 								//Inhibo el movimiento de la rana y guardo su posicion de muerte
 								isMovingDown = 0;
@@ -585,6 +587,8 @@ int main (void) {
 								}
 								
 							}
+
+							// SI LA RANA ESTA VIVA, SI LA DIBUJO
 							else if (isMovingUp)
 							{
 								if (isMovingUp == FPS)
@@ -632,9 +636,7 @@ int main (void) {
 									ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 							}
 
-							/* Movimiento de los objetos segun la velocidad.
-							 * Velocidad v = v pixeles por frame (escencialmente una frecuencia).
-							 */
+							
 							/**********************************************************************************************************************
 							 * MOVIMIENTO DE LOS OBJETOS SEGUN SU VELOCIDAD. VELOCIDAD V = V PIXELES POR FOTOGRAMA (ESCENCIALMENTE UNA FRECUENCIA)*
 							 * ********************************************************************************************************************/
@@ -650,11 +652,11 @@ int main (void) {
 							// Por ultimo, calculo colisiones
 							if (deathTimer != 0 || RanaCollisions(pRana, &map[pRana->posy]) == 1) //Aprovecho el lazy evaluation para deshabilitar colisiones durante una muerte
 							{
-								if(deathTimer == 0)
+								if(deathTimer == 0) // Kill rana
 								{
 									deathTimer = FPS;
 								} 
-								if (deathTimer == 1)
+								if (deathTimer == 1) // Respawn rana
 								{
 									RestarVidas(pRana,0,"score.txt");
 									frog_bitmap = frogIdleFwd_bitmap;
@@ -663,31 +665,36 @@ int main (void) {
 							
 							}
 						}
-						
-						/*
-						case GAMEOVER:
-						{
-							char finalScoreStr[6];
-							al_clear_to_color(al_color_name("black"));
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "FINAL SCORE:");
-							sprintf(finalScoreStr, '%d', inscreenscore );
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, finalScoreStr);
-							al_flip_display();
-							break;
-						}*/
-						/*case GAMEOVERTOP:
-						{
-							char c1[1] = 'A',c2[1] = 'B',c3[1] = 'C';
-							al_clear_to_color(al_color_name("black"));
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/6, ALLEGRO_ALIGN_CENTER, "Introduce your nickname:");
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/2.0, ALLEGRO_ALIGN_CENTER, c1);
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/2.0, ALLEGRO_ALIGN_CENTER, c2);
-							al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y*4/6, ALLEGRO_ALIGN_CENTER, c3);
-							
-						}
-						*/
+
+						// Game tick updates & display updates
 						fpsCounter++;
 						al_flip_display();
+
+						break;
+						
+					/*
+					case GAMEOVER:
+					{
+						char finalScoreStr[6];
+						al_clear_to_color(al_color_name("black"));
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "FINAL SCORE:");
+						sprintf(finalScoreStr, '%d', inscreenscore );
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, finalScoreStr);
+						al_flip_display();
+						break;
+					}*/
+					/*case GAMEOVERTOP:
+					{
+						char c1[1] = 'A',c2[1] = 'B',c3[1] = 'C';
+						al_clear_to_color(al_color_name("black"));
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/6, ALLEGRO_ALIGN_CENTER, "Introduce your nickname:");
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/2.0, ALLEGRO_ALIGN_CENTER, c1);
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/2.0, ALLEGRO_ALIGN_CENTER, c2);
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y*4/6, ALLEGRO_ALIGN_CENTER, c3);
+						
+					}
+					*/
+						
 					}
 
 				}
