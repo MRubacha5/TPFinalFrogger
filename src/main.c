@@ -35,7 +35,7 @@
 /*******************************************************************************
  * MACROS
  ******************************************************************************/
-#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
+#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
 #define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
 
 //FUNCIONA SOLO CON CARACTERES EN MAYUSCULA
@@ -50,6 +50,7 @@ int keyPressedValue = 0;
 unsigned int timeLeft = START_TIME; // valor en segundos 
 
 uint16_t inscreenscore;
+char strscore [6] = {"00000"};
 
 linea_t map[HEIGHT];
 rana_t rana;
@@ -375,11 +376,14 @@ int main (void) {
 						DRAW_CHAR(O,"white",GSIZEX*2,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(R,"white",GSIZEX*2.5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(E,"white",GSIZEX*3,(HEIGHT+2.75)*GSIZEY);
+
+						al_draw_text(font, al_color_name("white"), GSIZEX*4,(HEIGHT+2.9)*GSIZEY, 0, strscore);
+						/*
 						DRAW_CHAR(0,"white",GSIZEX*4,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(0,"white",GSIZEX*4.5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(0,"white",GSIZEX*5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(0,"white",GSIZEX*5.5,(HEIGHT+2.75)*GSIZEY);
-						DRAW_CHAR(0,"white",GSIZEX*6,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*6,(HEIGHT+2.75)*GSIZEY);*/
 
 						DRAW_CHAR(H,"white",GSIZEX*9,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(I,"white",GSIZEX*9.5,(HEIGHT+2.75)*GSIZEY);
@@ -556,173 +560,7 @@ int main (void) {
 							}	
 
 							
-							long int ranax = pRana->posx;
-							long int ranay = pRana->posy;
-							long int deathX;
-							long int deathY;
 
-							/**********************************************************************************************************************
-							 * DIBUJO LA RANA Y LA MUEVO CON UNA CADENA DE IFS PARA PERMITIR FLUIDEZ EN LOS MOVIMIENTOS SIN COMPROMETER LA LOGICA *
-							 * ********************************************************************************************************************/
-							// SI LA RANA ESTA MURIENDO, NO LA DIBUJO
-
-							#ifdef DEBUG
-							al_draw_filled_rectangle(ranax-HITBOXWIDTH/2.0,(HEIGHT-ranay)*GSIZEY, 
-									ranax+HITBOXWIDTH/2,(HEIGHT-ranay)*GSIZEY+GSIZEY,al_color_name("red"));
-							#endif //DEBUG (Hitbox display)
-
-							if (deathTimer == FPS) 
-							{
-								//Inhibo el movimiento de la rana y guardo su posicion de muerte
-								isMovingDown = 0;
-								isMovingUp = 0;
-								isMovingLeft = 0;
-								isMovingRight = 0;
-								deathX = pRana->posx;
-								deathY = pRana->posy;
-
-								if (fpsCounter % 15 == 0)
-								{
-									deathTimer--;
-								}
-								
-							}
-							// Animacion de ahogado solo en las lineas con troncos. Si se muere en otro lugar (o por tiempo) la animacion es explosion
-							if (deathTimer >= FPS * 3 / 4)
-							{
-								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
-								{
-									al_draw_scaled_bitmap(drown1_bitmap,0,0,16,16,
-											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								else
-								{
-									al_draw_scaled_bitmap(crash1_bitmap,0,0,16,16,
-											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								if (fpsCounter % 15 == 0)
-								{
-									deathTimer--;
-								}
-								
-							}
-							else if (deathTimer >= FPS / 2 && deathTimer < FPS*2/3)
-							{
-								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
-								{
-									al_draw_scaled_bitmap(drown2_bitmap,0,0,16,16,
-											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								else
-								{
-									al_draw_scaled_bitmap(crash2_bitmap,0,0,16,16,
-											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								if (fpsCounter % 15 == 0)
-								{
-									deathTimer--;
-								}
-								
-							}
-							else if (deathTimer > FPS/4)
-							{
-								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
-								{
-									al_draw_scaled_bitmap(drown3_bitmap,0,0,16,16,
-											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								else
-								{
-									al_draw_scaled_bitmap(crash3_bitmap,0,0,16,16,
-											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								if (fpsCounter % 15 == 0)
-								{
-									deathTimer--;
-								}
-								
-							}
-							else if (deathTimer > 0)
-							{
-								al_draw_scaled_bitmap(death_bitmap,0,0,16,16,
-											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-							
-								if (fpsCounter % 30 == 0)
-								{
-									deathTimer--;
-								}
-								
-							}
-
-							// SI LA RANA ESTA VIVA, SI LA DIBUJO
-							else if (isMovingUp)
-							{
-								if (isMovingUp > FPS/2)
-								{
-									al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
-											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp/(double)FPS)) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								else if (isMovingUp == FPS/2) //Backend move occurs halfway through animation
-								{
-									al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
-											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp/(double)FPS)) * GSIZEY, GSIZEX,GSIZEY,0);
-									MoveRana(pRana, UP, map+rana.posy);
-								}
-								else
-								{
-									al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
-											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + (isMovingUp/(double)FPS)) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-
-								isMovingUp--;
-							}
-							else if (isMovingDown)
-							{
-								if (!ranay)
-									al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
-											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy) * GSIZEY, GSIZEX,GSIZEY,0);
-								else if (isMovingDown > FPS/2)
-								{
-									al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
-											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + 1 - (isMovingDown)/(double)FPS) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								else if (isMovingDown == FPS/2)
-								{
-									MoveRana(pRana, DOWN, map+rana.posy);
-								}
-								else
-								{
-									al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
-											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - (isMovingDown)/(double)FPS) * GSIZEY, GSIZEX,GSIZEY,0);
-								}
-								isMovingDown--;
-							}
-							else if (isMovingLeft)
-							{
-								
-								al_draw_scaled_bitmap(frogLeapLeft_bitmap,0,0,16,16,
-									ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
-								if (fpsCounter % 2 == 0)
-								{
-									isMovingLeft--;
-									MoveRana(pRana, LEFT, map+rana.posy);
-								}
-							}
-							else if (isMovingRight)
-							{
-								
-								al_draw_scaled_bitmap(frogLeapRight_bitmap,0,0,16,16,
-									ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
-								if (fpsCounter % 2 == 0)
-								{
-									isMovingRight--;
-									MoveRana(pRana, RIGHT, map+rana.posy);
-								}
-							}
-							else{
-								al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
-									ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
-							}
 
 							
 							/**********************************************************************************************************************
@@ -744,7 +582,7 @@ int main (void) {
 								{
 									deathTimer = FPS;
 								} 
-								if (deathTimer == 1) // Respawn rana
+								if (deathTimer == 1 && i == HEIGHT-1) // Respawn rana (i == HEIGHT-1 para asegurarse que lo haga solamente una vez por pasada)
 								{
 									RestarVidas(pRana,0,"score.txt");
 									frog_bitmap = frogIdleFwd_bitmap;
@@ -752,6 +590,179 @@ int main (void) {
 								}
 							
 							}
+						}
+
+						long int ranax = pRana->posx;
+						long int ranay = pRana->posy;
+						long int deathX;
+						long int deathY;
+						unsigned int m = 8; //Velocidad de movimiento de la rana
+
+						/**********************************************************************************************************************
+						 * DIBUJO LA RANA Y LA MUEVO CON UNA CADENA DE IFS PARA PERMITIR FLUIDEZ EN LOS MOVIMIENTOS SIN COMPROMETER LA LOGICA *
+						 * ********************************************************************************************************************/
+						// SI LA RANA ESTA MURIENDO, NO LA DIBUJO
+
+						#ifdef DEBUG
+						al_draw_filled_rectangle(ranax-HITBOXWIDTH/2.0,(HEIGHT-ranay)*GSIZEY, 
+								ranax+HITBOXWIDTH/2,(HEIGHT-ranay)*GSIZEY+GSIZEY,al_color_name("red"));
+						#endif //DEBUG (Hitbox display)
+
+						if (deathTimer == FPS) 
+						{
+							//Inhibo el movimiento de la rana y guardo su posicion de muerte
+							isMovingDown = 0;
+							isMovingUp = 0;
+							isMovingLeft = 0;
+							isMovingRight = 0;
+							deathX = pRana->posx;
+							deathY = pRana->posy;
+
+							deathTimer--;
+							
+						}
+						// Animacion de ahogado solo en las lineas con troncos. Si se muere en otro lugar (o por tiempo) la animacion es explosion
+						if (deathTimer >= FPS * 0.75)
+						{
+							if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
+							{
+								al_draw_scaled_bitmap(drown1_bitmap,0,0,16,16,
+										deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+							}
+							else
+							{
+								al_draw_scaled_bitmap(crash1_bitmap,0,0,16,16,
+										deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+							}
+								deathTimer--;
+						}
+						else if (deathTimer >= FPS / 2)
+						{
+							if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
+							{
+								al_draw_scaled_bitmap(drown2_bitmap,0,0,16,16,
+										deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+							}
+							else
+							{
+								al_draw_scaled_bitmap(crash2_bitmap,0,0,16,16,
+										deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+							}
+							deathTimer--;
+						}
+						else if (deathTimer > FPS/4)
+						{
+							if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
+							{
+								al_draw_scaled_bitmap(drown3_bitmap,0,0,16,16,
+										deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+							}
+							else
+							{
+								al_draw_scaled_bitmap(crash3_bitmap,0,0,16,16,
+										deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+							}
+							deathTimer--;
+							
+						}
+						else if (deathTimer > 0)
+						{
+							al_draw_scaled_bitmap(death_bitmap,0,0,16,16,
+										deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+						
+							deathTimer--;
+						}
+
+						// SI LA RANA ESTA VIVA, SI LA DIBUJO
+						// ARRIBA
+						else if (isMovingUp == GSIZEY)
+						{
+							isMovingUp = isMovingUp/m;
+							al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
+									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
+							isMovingUp--;
+						}
+						else if (isMovingUp > m/2)
+						{
+							al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
+									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
+							isMovingUp--;
+						}
+						else if (isMovingUp == m/2)//Backend move occurs halfway through animation
+						{
+							al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
+									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
+							MoveRana(pRana, UP, map+rana.posy);
+							isMovingUp--;
+						}
+						else if (isMovingUp > 0)
+						{
+							al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
+									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + (isMovingUp*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
+							isMovingUp--;
+						}
+						// ABAJO
+						else if (isMovingDown == GSIZEY && ranay == 0) //No permite que la rana baje del origen
+						{
+							isMovingDown = 0;
+							al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
+								ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+						}
+						else if (isMovingDown == GSIZEY)
+						{
+							isMovingDown = isMovingDown/m;
+							al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
+									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + 1 - (isMovingDown*m)/(double)GSIZEY) * GSIZEY, GSIZEX,GSIZEY,0);
+							isMovingDown--;
+						}
+						else if (isMovingDown > m/2)
+						{
+							al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
+									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + 1 - (isMovingDown*m)/(double)GSIZEY) * GSIZEY, GSIZEX,GSIZEY,0);
+							isMovingDown--;
+						}
+						else if (isMovingDown == m/2)
+						{
+							
+							al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
+									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + 1 - (isMovingDown*m)/(double)GSIZEY) * GSIZEY, GSIZEX,GSIZEY,0);
+							MoveRana(pRana, DOWN, map+rana.posy);
+							isMovingDown--;
+						}
+						else if (isMovingDown > 0)
+						{
+							al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
+									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - (isMovingDown*m)/(double)GSIZEY) * GSIZEY, GSIZEX,GSIZEY,0);
+							isMovingDown--;
+						}
+						// IZQUIERDA	
+						else if (isMovingLeft)
+						{
+							
+							al_draw_scaled_bitmap(frogLeapLeft_bitmap,0,0,16,16,
+								ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+							for (int n = 1; isMovingLeft > 0 && n < m; n++)
+							{
+								isMovingLeft = (isMovingLeft-1 > 0)? isMovingLeft-1 : 0;
+								MoveRana(pRana, LEFT, map+rana.posy);
+							}
+								
+						}
+						// DERECHA
+						else if (isMovingRight)
+						{
+							
+							al_draw_scaled_bitmap(frogLeapRight_bitmap,0,0,16,16,
+								ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+							for (int n = 1; isMovingRight > 0 && n < m; n++)
+							{
+								isMovingRight = (isMovingRight-1 > 0)? isMovingRight-1 : 0;
+								MoveRana(pRana, RIGHT, map+rana.posy);
+							}
+						}
+						else{
+							al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
+								ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 						}
 
 						// Game tick updates & display updates
@@ -810,23 +821,23 @@ int main (void) {
 						{
 							switch(ev.keyboard.keycode){
 								case ALLEGRO_KEY_DOWN:
-									isMovingDown = FPS;
+									isMovingDown = GSIZEY;
 									frog_bitmap = frogIdleBack_bitmap;
 									break;
 								case ALLEGRO_KEY_UP:
-									isMovingUp = FPS;
+									isMovingUp = GSIZEY;
 									frog_bitmap = frogIdleFwd_bitmap;
 									//Cada vez que va para arriba se fija si se debe inc score
-									//inscreenscore = ct_score(rana.posy,TIME,time_left,0,rana.vidas,0);
-									//printf ("%u\n",inscreenscore);
+									inscreenscore = ct_score(rana.posy,TIME,timeLeft,0,vidas,0);
+									intToChar (6, strscore, inscreenscore);
 
 									break;
 								case ALLEGRO_KEY_LEFT:
-									isMovingLeft = FPS;
+									isMovingLeft = GSIZEX;
 									frog_bitmap = frogIdleLeft_bitmap;
 									break;
 								case ALLEGRO_KEY_RIGHT:
-									isMovingRight = FPS;
+									isMovingRight = GSIZEX;
 									frog_bitmap = frogIdleRight_bitmap;
 									break;
 							}
