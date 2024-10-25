@@ -354,7 +354,7 @@ int main (void) {
 										j*GSIZEX, (HEIGHT-i) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
 							}
-
+							
 							/******************
 							* LINEAS DE CALLE *
 							*******************/
@@ -384,6 +384,7 @@ int main (void) {
 											if (i%3 == 1){
 												al_draw_scaled_bitmap(car3_bitmap,0,0,16,16,
 													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
+
 											}
 											else{
 												al_draw_scaled_bitmap(car4_bitmap,0,0,16,16,
@@ -409,7 +410,6 @@ int main (void) {
 								//imprimo el agua en si 
 								al_draw_filled_rectangle(0,(HEIGHT-i-1)*GSIZEY,
 								WIDTH, (HEIGHT-i)*GSIZEY, al_color_name("darkblue"));
-
 
 								//imprimo troncos
 								for (int obj = 0; obj < linea->cant_obj; obj++)
@@ -441,55 +441,62 @@ int main (void) {
 									WIDTH, (HEIGHT-i-1)*GSIZEY, al_color_name("darkblue"));
 
 								//Espacios libres
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
-										WINPOS1, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
-										WINPOS2, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
-										WINPOS3, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
-										WINPOS4, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
-								al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,
-										WINPOS5, (HEIGHT-i-1) * GSIZEY, GSIZEX*2,GSIZEY*2,0);
-								
+								#ifdef DEBUG
+										#define HITBOX_WINPOS(x) (al_draw_filled_rectangle((x)-0.25*HITBOXWIDTH, GSIZEY *0.75, (x)+0.25*HITBOXWIDTH, GSIZEY *1.75,al_color_name("red")))
+										//al_draw_filled_rectangle(WINPOS1-0.25*HITBOXWIDTH, GSIZEY *0.75, 
+										//	WINPOS1+0.25*HITBOXWIDTH, GSIZEY *1.75,al_color_name("red"));
+										HITBOX_WINPOS(WINPOS1);
+										HITBOX_WINPOS(WINPOS2);
+										HITBOX_WINPOS(WINPOS3);
+										HITBOX_WINPOS(WINPOS4);
+										HITBOX_WINPOS(WINPOS5);
+								#endif //DEBUG (Hitbox display)
+
+								#define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
+								DRAW_GRASSWINFRAME(WINPOS1);
+								DRAW_GRASSWINFRAME(WINPOS2);
+								DRAW_GRASSWINFRAME(WINPOS3);
+								DRAW_GRASSWINFRAME(WINPOS4);
+								DRAW_GRASSWINFRAME(WINPOS5);
+			
 								//Separadores
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
 									GSIZEX*2 + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS2+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS2+GSIZEX,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS2 +GSIZEX*2 + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS2 +GSIZEX + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS3+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS3+GSIZEX,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS3 +GSIZEX*2+ GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS3 +GSIZEX+ GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS4+GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS4+GSIZEX,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 								al_draw_scaled_bitmap(grassWinSeparator_bitmap,0,0,16,24,
-									WINPOS4 + GSIZEX*2 + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+									WINPOS4 + GSIZEX + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 
 								/// Dibujo ranas que ya llegaron
 								if(winPosStates[0] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS1+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+										WINPOS1-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[1] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS2+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+										WINPOS2-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[2] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS3+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+										WINPOS3-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[3] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS4+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+										WINPOS4-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								if(winPosStates[4] == WIN_OCC){
 									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS5+0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+										WINPOS5-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
 								}
 								
 							}	
@@ -503,8 +510,13 @@ int main (void) {
 							/**********************************************************************************************************************
 							 * DIBUJO LA RANA Y LA MUEVO CON UNA CADENA DE IFS PARA PERMITIR FLUIDEZ EN LOS MOVIMIENTOS SIN COMPROMETER LA LOGICA *
 							 * ********************************************************************************************************************/
-
 							// SI LA RANA ESTA MURIENDO, NO LA DIBUJO
+
+							#ifdef DEBUG
+							al_draw_filled_rectangle(ranax-HITBOXWIDTH/2.0,(HEIGHT-ranay)*GSIZEY, 
+									ranax+HITBOXWIDTH/2,(HEIGHT-ranay)*GSIZEY+GSIZEY,al_color_name("red"));
+							#endif //DEBUG (Hitbox display)
+
 							if (deathTimer == FPS) 
 							{
 								//Inhibo el movimiento de la rana y guardo su posicion de muerte
@@ -515,7 +527,7 @@ int main (void) {
 								deathX = pRana->posx;
 								deathY = pRana->posy;
 
-								if (fpsCounter % 12 == 0)
+								if (fpsCounter % 15 == 0)
 								{
 									deathTimer--;
 								}
@@ -527,14 +539,14 @@ int main (void) {
 								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
 								{
 									al_draw_scaled_bitmap(drown1_bitmap,0,0,16,16,
-											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
 								else
 								{
 									al_draw_scaled_bitmap(crash1_bitmap,0,0,16,16,
-											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
-								if (fpsCounter % 12 == 0)
+								if (fpsCounter % 15 == 0)
 								{
 									deathTimer--;
 								}
@@ -545,14 +557,14 @@ int main (void) {
 								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
 								{
 									al_draw_scaled_bitmap(drown2_bitmap,0,0,16,16,
-											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
 								else
 								{
 									al_draw_scaled_bitmap(crash2_bitmap,0,0,16,16,
-											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
-								if (fpsCounter % 12 == 0)
+								if (fpsCounter % 15 == 0)
 								{
 									deathTimer--;
 								}
@@ -563,14 +575,14 @@ int main (void) {
 								if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
 								{
 									al_draw_scaled_bitmap(drown3_bitmap,0,0,16,16,
-											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
 								else
 								{
 									al_draw_scaled_bitmap(crash3_bitmap,0,0,16,16,
-											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
-								if (fpsCounter % 12 == 0)
+								if (fpsCounter % 15 == 0)
 								{
 									deathTimer--;
 								}
@@ -579,9 +591,9 @@ int main (void) {
 							else if (deathTimer > 0)
 							{
 								al_draw_scaled_bitmap(death_bitmap,0,0,16,16,
-											deathX, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+											deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
 							
-								if (fpsCounter % 24 == 0)
+								if (fpsCounter % 30 == 0)
 								{
 									deathTimer--;
 								}
@@ -591,49 +603,71 @@ int main (void) {
 							// SI LA RANA ESTA VIVA, SI LA DIBUJO
 							else if (isMovingUp)
 							{
-								if (isMovingUp == FPS)
+								if (isMovingUp > FPS/2)
 								{
+									al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
+											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp/(double)FPS)) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								else if (isMovingUp == FPS/2) //Backend move occurs halfway through animation
+								{
+									al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
+											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp/(double)FPS)) * GSIZEY, GSIZEX,GSIZEY,0);
 									MoveRana(pRana, UP, map+rana.posy);
 								}
-								al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
-										ranax, (HEIGHT - ranay - (isMovingUp)/FPS) * GSIZEY, GSIZEX,GSIZEY,0);
+								else
+								{
+									al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
+											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + (isMovingUp/(double)FPS)) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+
 								isMovingUp--;
 							}
 							else if (isMovingDown)
 							{
-								if (isMovingDown == FPS)
-								{
-									MoveRana(pRana, DOWN, map+rana.posy);
-								}
-								if(ranay > 0)
+								if (!ranay)
+									al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
+											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy) * GSIZEY, GSIZEX,GSIZEY,0);
+								else if (isMovingDown > FPS/2)
 								{
 									al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
-											ranax, (HEIGHT - ranay + (isMovingDown)/FPS) * GSIZEY, GSIZEX,GSIZEY,0);
+											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + 1 - (isMovingDown)/(double)FPS) * GSIZEY, GSIZEX,GSIZEY,0);
+								}
+								else if (isMovingDown == FPS/2)
+								{
+									MoveRana(pRana, DOWN, map+rana.posy);
 								}
 								else
 								{
 									al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
-											ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+											ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - (isMovingDown)/(double)FPS) * GSIZEY, GSIZEX,GSIZEY,0);
 								}
 								isMovingDown--;
 							}
 							else if (isMovingLeft)
 							{
-								MoveRana(pRana, LEFT, map+rana.posy);
+								
 								al_draw_scaled_bitmap(frogLeapLeft_bitmap,0,0,16,16,
-									ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
-								isMovingLeft--;
+									ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+								if (fpsCounter % 2 == 0)
+								{
+									isMovingLeft--;
+									MoveRana(pRana, LEFT, map+rana.posy);
+								}
 							}
 							else if (isMovingRight)
 							{
-								MoveRana(pRana, RIGHT, map+rana.posy);
+								
 								al_draw_scaled_bitmap(frogLeapRight_bitmap,0,0,16,16,
-									ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
-								isMovingRight--;
+									ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+								if (fpsCounter % 2 == 0)
+								{
+									isMovingRight--;
+									MoveRana(pRana, RIGHT, map+rana.posy);
+								}
 							}
 							else{
 								al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
-									ranax, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
+									ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 							}
 
 							
@@ -714,7 +748,7 @@ int main (void) {
                 else if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
 					
 					if(screen == GAME){
-						if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+						if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) //Escape key fuera del switch case para permitir pausar durante movimiento/muerte
 						{
 							screen = PAUSE;
 						}
