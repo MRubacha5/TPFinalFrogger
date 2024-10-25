@@ -9,7 +9,7 @@
 #include "score.h"
 
 /*******************************************************************************
- * MACROS PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES
+ * MACROS PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES 
  ******************************************************************************/
 #define ISCOLLIDING (((prana->posx - HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx - HITBOXWIDTH/2.0 <= pl->po[i] + pl->size*GSIZEX)) || ((prana->posx + HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx + HITBOXWIDTH/2.0 <= pl->po[i] + pl->size*GSIZEX)))
 #define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + HITBOXWIDTH/3.0))))
