@@ -33,15 +33,22 @@
 #define TIME 45 //cantidad de tiempo en segundos para pasar el nivel
 
 /*******************************************************************************
+ * MACROS
+ ******************************************************************************/
+#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
+#define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
+
+//FUNCIONA SOLO CON CARACTERES EN MAYUSCULA
+#define DRAW_CHAR(c, color, x, y) (al_draw_tinted_scaled_bitmap(text ## c ## _bitmap,al_color_name(color),0,0,8,8,x,y, GSIZEX/2.0,GSIZEY/2.0,0))
+/*******************************************************************************
  * VARIABLES GLOBALES E INICIALIZACIONES
  ******************************************************************************/
 
 int do_exit = 0;
 int keyPressed = 0;
 int keyPressedValue = 0;
+unsigned int timeLeft = START_TIME; // valor en segundos 
 
-int flag = 0;
-int contadores[HEIGHT];
 uint16_t inscreenscore;
 
 linea_t map[HEIGHT];
@@ -50,7 +57,7 @@ rana_t * pRana = &rana;
 
 extern int winPosStates[5];
 extern int vidas;
-unsigned int timeLeft = START_TIME; // valor en segundos 
+extern int currentScore;
 
 int main (void) {
 
@@ -117,10 +124,14 @@ int main (void) {
 		}
 
 		/*************** | BITMAPS | ******************************************/
+		//Cars
 		ALLEGRO_BITMAP * car1_bitmap = al_load_bitmap("../assets/Sprites/car1.png");
 		ALLEGRO_BITMAP * car2_bitmap = al_load_bitmap("../assets/Sprites/car2.png");
 		ALLEGRO_BITMAP * car3_bitmap = al_load_bitmap("../assets/Sprites/car3.png");
 		ALLEGRO_BITMAP * car4_bitmap = al_load_bitmap("../assets/Sprites/car4.png");
+		ALLEGRO_BITMAP * truck_bitmap = al_load_bitmap("../assets/Sprites/truck.png");
+
+		//Death animations
 		ALLEGRO_BITMAP * crash1_bitmap = al_load_bitmap("../assets/Sprites/crash1.png");
 		ALLEGRO_BITMAP * crash2_bitmap = al_load_bitmap("../assets/Sprites/crash2.png");
 		ALLEGRO_BITMAP * crash3_bitmap = al_load_bitmap("../assets/Sprites/crash3.png");
@@ -128,6 +139,8 @@ int main (void) {
 		ALLEGRO_BITMAP * drown1_bitmap = al_load_bitmap("../assets/Sprites/drown1.png");
 		ALLEGRO_BITMAP * drown2_bitmap = al_load_bitmap("../assets/Sprites/drown2.png");
 		ALLEGRO_BITMAP * drown3_bitmap = al_load_bitmap("../assets/Sprites/drown3.png");
+
+		//Frog animations
 		ALLEGRO_BITMAP * frogIdleBack_bitmap = al_load_bitmap("../assets/Sprites/frogIdleBack.png");
 		ALLEGRO_BITMAP * frogIdleFwd_bitmap = al_load_bitmap("../assets/Sprites/frogIdleFwd.png");
 		ALLEGRO_BITMAP * frogIdleLeft_bitmap = al_load_bitmap("../assets/Sprites/frogIdleLeft.png");
@@ -137,22 +150,61 @@ int main (void) {
 		ALLEGRO_BITMAP * frogLeapLeft_bitmap = al_load_bitmap("../assets/Sprites/frogLeapLeft.png");
 		ALLEGRO_BITMAP * frogLeapRight_bitmap = al_load_bitmap("../assets/Sprites/frogLeapRight.png");
 		ALLEGRO_BITMAP * frogWin_bitmap = al_load_bitmap("../assets/Sprites/frogWin.png");
+
+		//Grass
 		ALLEGRO_BITMAP * grassWinFrame_bitmap = al_load_bitmap("../assets/Sprites/grassWinFrame.png");
 		ALLEGRO_BITMAP * grassWinSeparator_bitmap = al_load_bitmap("../assets/Sprites/grassWinSeparator.png");
+		ALLEGRO_BITMAP * purpleGrass_bitmap = al_load_bitmap("../assets/Sprites/purpleGrass.png");
+
+		//Logs
 		ALLEGRO_BITMAP * logLeft_bitmap = al_load_bitmap("../assets/Sprites/logLeft.png");
 		ALLEGRO_BITMAP * logMiddle_bitmap = al_load_bitmap("../assets/Sprites/logMiddle.png");
 		ALLEGRO_BITMAP * logRight_bitmap = al_load_bitmap("../assets/Sprites/logRight.png");
-		ALLEGRO_BITMAP * purpleGrass_bitmap = al_load_bitmap("../assets/Sprites/purpleGrass.png");
+
+		//Title Text
 		ALLEGRO_BITMAP * titleE_bitmap = al_load_bitmap("../assets/Sprites/titleE.png");
 		ALLEGRO_BITMAP * titleF_bitmap = al_load_bitmap("../assets/Sprites/titleF.png");
 		ALLEGRO_BITMAP * titleG_bitmap = al_load_bitmap("../assets/Sprites/titleG.png");
 		ALLEGRO_BITMAP * titleO_bitmap = al_load_bitmap("../assets/Sprites/titleO.png");
 		ALLEGRO_BITMAP * titleR_bitmap = al_load_bitmap("../assets/Sprites/titleR.png");
-		ALLEGRO_BITMAP * truck_bitmap = al_load_bitmap("../assets/Sprites/truck.png");
-		ALLEGRO_BITMAP * yellowT_bitmap = al_load_bitmap("../assets/Sprites/yellowT.png");
-		ALLEGRO_BITMAP * yellowI_bitmap = al_load_bitmap("../assets/Sprites/yellowI.png");
-		ALLEGRO_BITMAP * yellowM_bitmap = al_load_bitmap("../assets/Sprites/yellowM.png");
-		ALLEGRO_BITMAP * yellowE_bitmap = al_load_bitmap("../assets/Sprites/yellowE.png");
+
+		//Regular Text
+		ALLEGRO_BITMAP * textA_bitmap = al_load_bitmap("../assets/Sprites/textA.png");
+		ALLEGRO_BITMAP * textB_bitmap = al_load_bitmap("../assets/Sprites/textB.png");
+		ALLEGRO_BITMAP * textC_bitmap = al_load_bitmap("../assets/Sprites/textC.png");
+		ALLEGRO_BITMAP * textD_bitmap = al_load_bitmap("../assets/Sprites/textD.png");
+		ALLEGRO_BITMAP * textE_bitmap = al_load_bitmap("../assets/Sprites/textE.png");
+		ALLEGRO_BITMAP * textF_bitmap = al_load_bitmap("../assets/Sprites/textF.png");
+		ALLEGRO_BITMAP * textG_bitmap = al_load_bitmap("../assets/Sprites/textG.png");
+		ALLEGRO_BITMAP * textH_bitmap = al_load_bitmap("../assets/Sprites/textH.png");
+		ALLEGRO_BITMAP * textI_bitmap = al_load_bitmap("../assets/Sprites/textI.png");
+		ALLEGRO_BITMAP * textJ_bitmap = al_load_bitmap("../assets/Sprites/textJ.png");
+		ALLEGRO_BITMAP * textK_bitmap = al_load_bitmap("../assets/Sprites/textK.png");
+		ALLEGRO_BITMAP * textL_bitmap = al_load_bitmap("../assets/Sprites/textL.png");
+		ALLEGRO_BITMAP * textM_bitmap = al_load_bitmap("../assets/Sprites/textM.png");
+		ALLEGRO_BITMAP * textN_bitmap = al_load_bitmap("../assets/Sprites/textN.png");
+		ALLEGRO_BITMAP * textO_bitmap = al_load_bitmap("../assets/Sprites/textO.png");
+		ALLEGRO_BITMAP * textP_bitmap = al_load_bitmap("../assets/Sprites/textP.png");
+		ALLEGRO_BITMAP * textQ_bitmap = al_load_bitmap("../assets/Sprites/textQ.png");
+		ALLEGRO_BITMAP * textR_bitmap = al_load_bitmap("../assets/Sprites/textR.png");
+		ALLEGRO_BITMAP * textS_bitmap = al_load_bitmap("../assets/Sprites/textS.png");
+		ALLEGRO_BITMAP * textT_bitmap = al_load_bitmap("../assets/Sprites/textT.png");
+		ALLEGRO_BITMAP * textU_bitmap = al_load_bitmap("../assets/Sprites/textU.png");
+		ALLEGRO_BITMAP * textV_bitmap = al_load_bitmap("../assets/Sprites/textV.png");
+		ALLEGRO_BITMAP * textW_bitmap = al_load_bitmap("../assets/Sprites/textW.png");
+		ALLEGRO_BITMAP * textX_bitmap = al_load_bitmap("../assets/Sprites/textX.png");
+		ALLEGRO_BITMAP * textY_bitmap = al_load_bitmap("../assets/Sprites/textY.png");
+		ALLEGRO_BITMAP * textZ_bitmap = al_load_bitmap("../assets/Sprites/textZ.png");
+		ALLEGRO_BITMAP * text0_bitmap = al_load_bitmap("../assets/Sprites/text0.png");
+		ALLEGRO_BITMAP * text1_bitmap = al_load_bitmap("../assets/Sprites/text1.png");
+		ALLEGRO_BITMAP * text2_bitmap = al_load_bitmap("../assets/Sprites/text2.png");
+		ALLEGRO_BITMAP * text3_bitmap = al_load_bitmap("../assets/Sprites/text3.png");
+		ALLEGRO_BITMAP * text4_bitmap = al_load_bitmap("../assets/Sprites/text4.png");
+		ALLEGRO_BITMAP * text5_bitmap = al_load_bitmap("../assets/Sprites/text5.png");
+		ALLEGRO_BITMAP * text6_bitmap = al_load_bitmap("../assets/Sprites/text6.png");
+		ALLEGRO_BITMAP * text7_bitmap = al_load_bitmap("../assets/Sprites/text7.png");
+		ALLEGRO_BITMAP * text8_bitmap = al_load_bitmap("../assets/Sprites/text8.png");
+		ALLEGRO_BITMAP * text9_bitmap = al_load_bitmap("../assets/Sprites/text9.png");
 
 		// Variable que se va a utilizar para guardar el estado de la rana (direccion y animacion)
 		ALLEGRO_BITMAP * frog_bitmap = frogIdleFwd_bitmap;
@@ -295,16 +347,11 @@ int main (void) {
 						}
 						
 						//dibujo el tiempo restante
-						al_draw_scaled_bitmap(yellowT_bitmap,0,0,8,8,
-									GSIZEX, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
-						al_draw_scaled_bitmap(yellowI_bitmap,0,0,8,8,
-									GSIZEX*1.5, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
-						al_draw_scaled_bitmap(yellowM_bitmap,0,0,8,8,
-									GSIZEX*2, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
-						al_draw_scaled_bitmap(yellowE_bitmap,0,0,8,8,
-									GSIZEX*2.5, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
-						#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
-						
+						DRAW_CHAR(T,"yellow",GSIZEX,GSIZEY*(HEIGHT+2));
+						DRAW_CHAR(I,"yellow",GSIZEX*1.5,GSIZEY*(HEIGHT+2));
+						DRAW_CHAR(M,"yellow",GSIZEX*2,GSIZEY*(HEIGHT+2));
+						DRAW_CHAR(E,"yellow",GSIZEX*2.5,GSIZEY*(HEIGHT+2));
+
 						if (timeLeft > 30)
 						{
 							DRAW_TIMELEFT("green");
@@ -323,7 +370,28 @@ int main (void) {
 						}
 
 						//dibujo el score (TBD)
-						
+						DRAW_CHAR(S,"white",GSIZEX,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(C,"white",GSIZEX*1.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(O,"white",GSIZEX*2,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(R,"white",GSIZEX*2.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(E,"white",GSIZEX*3,(HEIGHT+2.75)*GSIZEY);
+
+						DRAW_CHAR(0,"white",GSIZEX*4,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*4.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*5.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*6,(HEIGHT+2.75)*GSIZEY);
+
+						DRAW_CHAR(H,"white",GSIZEX*9,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(I,"white",GSIZEX*9.5,(HEIGHT+2.75)*GSIZEY);
+
+						DRAW_CHAR(0,"white",GSIZEX*10.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*11,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*11.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*12,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(0,"white",GSIZEX*12.5,(HEIGHT+2.75)*GSIZEY);
+
+
 						/*****************************
 						* DIBUJO LAS LINEAS DEL MAPA *
 						******************************/
@@ -444,7 +512,6 @@ int main (void) {
 										HITBOX_WINPOS(WINPOS5);
 								#endif //DEBUG (Hitbox display)
 
-								#define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
 								DRAW_GRASSWINFRAME(WINPOS1);
 								DRAW_GRASSWINFRAME(WINPOS2);
 								DRAW_GRASSWINFRAME(WINPOS3);
