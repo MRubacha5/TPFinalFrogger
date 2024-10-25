@@ -442,7 +442,7 @@ int main (void) {
 
 								//Espacios libres
 								#ifdef DEBUG
-										#define HITBOX_WINPOS(x) (al_draw_filled_rectangle((x)-0.25*HITBOXWIDTH, GSIZEY *0.75, (x)+0.25*HITBOXWIDTH, GSIZEY *1.75,al_color_name("red")))
+										#define HITBOX_WINPOS(x) (al_draw_filled_rectangle((x)-HITBOXWIDTH/3.0, GSIZEY *0.75, (x)+HITBOXWIDTH/3.0, GSIZEY *1.75,al_color_name("red")))
 										//al_draw_filled_rectangle(WINPOS1-0.25*HITBOXWIDTH, GSIZEY *0.75, 
 										//	WINPOS1+0.25*HITBOXWIDTH, GSIZEY *1.75,al_color_name("red"));
 										HITBOX_WINPOS(WINPOS1);
@@ -478,25 +478,21 @@ int main (void) {
 									WINPOS4 + GSIZEX + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
 
 								/// Dibujo ranas que ya llegaron
+								#define DRAW_FROGWIN(x) (al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,(x)-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0))
 								if(winPosStates[0] == WIN_OCC){
-									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS1-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+									DRAW_FROGWIN(WINPOS1);
 								}
 								if(winPosStates[1] == WIN_OCC){
-									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS2-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+									DRAW_FROGWIN(WINPOS2);
 								}
 								if(winPosStates[2] == WIN_OCC){
-									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS3-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+									DRAW_FROGWIN(WINPOS3);
 								}
 								if(winPosStates[3] == WIN_OCC){
-									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS4-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+									DRAW_FROGWIN(WINPOS4);
 								}
 								if(winPosStates[4] == WIN_OCC){
-									al_draw_scaled_bitmap(frogWin_bitmap,0,0,16,16,
-										WINPOS5-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0);
+									DRAW_FROGWIN(WINPOS5);
 								}
 								
 							}	

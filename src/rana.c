@@ -12,6 +12,7 @@
  * MACROS PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES
  ******************************************************************************/
 #define ISCOLLIDING (((prana->posx - HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx - HITBOXWIDTH/2.0 <= pl->po[i] + pl->size*GSIZEX)) || ((prana->posx + HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx + HITBOXWIDTH/2.0 <= pl->po[i] + pl->size*GSIZEX)))
+#define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))))
 
 int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE};
 extern int vidas;
@@ -64,8 +65,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
         case UNSAFE:
             if(prana->posy == HEIGHT-1)//Check for winning frog
             {
-                if(((prana->posx - HITBOXWIDTH/2.0 >= WINPOS1 - HITBOXWIDTH/2.0) && (prana->posx - HITBOXWIDTH/2.0 <= WINPOS1 + HITBOXWIDTH/2.0)) 
-                    || ((prana->posx + HITBOXWIDTH/2.0 >= WINPOS1 - HITBOXWIDTH/2.0 && (prana->posx + HITBOXWIDTH/2.0 <= WINPOS1 + HITBOXWIDTH/2.0))))
+                if(WINS(WINPOS1))
                 {
                     if (winPosStates[0] == WIN_FREE)
                     {
@@ -76,8 +76,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                         return 1;
                     }
                 }
-                else if(((prana->posx - HITBOXWIDTH/2.0 >= WINPOS2 - HITBOXWIDTH/2.0) && (prana->posx - HITBOXWIDTH/2.0 <= WINPOS2 + HITBOXWIDTH/2.0)) 
-                    || ((prana->posx + HITBOXWIDTH/2.0 >= WINPOS2 - HITBOXWIDTH/2.0 && (prana->posx + HITBOXWIDTH/2.0 <= WINPOS2 + HITBOXWIDTH/2.0))))
+                else if(WINS(WINPOS2))
                 {
                     if (winPosStates[1] == WIN_FREE)
                     {
@@ -88,8 +87,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                         return 1;
                     }
                 }
-                else if(((prana->posx - HITBOXWIDTH/2.0 >= WINPOS3 - HITBOXWIDTH/2.0) && (prana->posx - HITBOXWIDTH/2.0 <= WINPOS3 + HITBOXWIDTH/2.0)) 
-                    || ((prana->posx + HITBOXWIDTH/2.0 >= WINPOS3 - HITBOXWIDTH/2.0 && (prana->posx + HITBOXWIDTH/2.0 <= WINPOS3 + HITBOXWIDTH/2.0))))
+                else if(WINS(WINPOS3))
                 {
                     if (winPosStates[2] == WIN_FREE)
                     {
@@ -100,8 +98,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                         return 1;
                     }
                 }
-                else if(((prana->posx - HITBOXWIDTH/2.0 >= WINPOS4 - HITBOXWIDTH/2.0) && (prana->posx - HITBOXWIDTH/2.0 <= WINPOS4 + HITBOXWIDTH/2.0)) 
-                    || ((prana->posx + HITBOXWIDTH/2.0 >= WINPOS4 - HITBOXWIDTH/2.0 && (prana->posx + HITBOXWIDTH/2.0 <= WINPOS4 + HITBOXWIDTH/2.0))))
+                else if(WINS(WINPOS4))
                 {
                     if (winPosStates[3] == WIN_FREE)
                     {
@@ -113,8 +110,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                         return 1;
                     }
                 }
-                else if(((prana->posx - HITBOXWIDTH/2.0 >= WINPOS5 - HITBOXWIDTH/2.0) && (prana->posx - HITBOXWIDTH/2.0 <= WINPOS5 + HITBOXWIDTH/2.0)) 
-                    || ((prana->posx + HITBOXWIDTH/2.0 >= WINPOS5 - HITBOXWIDTH/2.0 && (prana->posx + HITBOXWIDTH/2.0 <= WINPOS5 + HITBOXWIDTH/2.0))))
+                else if(WINS(WINPOS5))
                 {
                     if (winPosStates[4] == WIN_FREE)
                     {
