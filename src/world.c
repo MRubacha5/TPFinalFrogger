@@ -132,7 +132,6 @@ void createMap(linea_t * p, int difficulty){
             }
         }*/
     }
-    printf("salid el for\n");
 }
 
 void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){

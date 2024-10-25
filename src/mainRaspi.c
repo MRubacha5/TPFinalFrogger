@@ -80,6 +80,10 @@ int main(void)
     int joyMoved = 0;
     int joyValue = -1;
     int joyPressed = 0;
+    int isMoving = 0;
+
+    int ranaColor = 0;
+    int ranaColorTimer = 0;
 
     int optionSelected = 0;
 
@@ -91,8 +95,6 @@ int main(void)
         difference = lap_time - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
         int i, c;
-
-
 
         if(msec > (1/FPS)*1000){ //falta el /FPS
             disp_update();	//Actualiza el display con el contenido del buffer
@@ -159,7 +161,7 @@ int main(void)
                         screen = GAME;
                         createMap(map,0);
 					    spawnRana(map, pRana);
-                        printf("mapa creado\n");
+                        
                     }
                     else if (optionSelected == 1){
                         do_exit = 1;
@@ -210,7 +212,7 @@ int main(void)
                 }
                 
                 for(i = 0 ; i < HEIGHT ; i++){
-                    linea_t * linea = pl+i;
+                    linea_t * linea = map+i;
                     pos.y = HEIGHT - i;
 
                     if(i == 0 || i == HEIGHT/2){
@@ -226,11 +228,11 @@ int main(void)
                         }
                         for(c = 0 ; c < linea->cant_obj ; c++){
                             int sizePos = 0;
-                            for(sizePos = 0 ; sizePos < 0 ; sizePos++){
+                            for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
                                 pos.x = linea->po[c] + sizePos;
                                 if(pos.x >= 0 && pos.x <= WIDTH-1){
                                     disp_write(pos, 1);
-                                }  
+                                } 
                             } 
                         } 
                     } 
@@ -239,7 +241,7 @@ int main(void)
                             pos.x = c;
                             disp_write(pos, 1);
                         }
-                        /*
+                        
                         for(c = 0 ; c < linea->cant_obj ; c++){
                             int sizePos = 0;
                             for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
@@ -249,8 +251,33 @@ int main(void)
                                 }
                             }
                         }
-                        */
+                        
                     } 
+                    else if(i == HEIGHT-1){
+                        for(c = 0 ; c < WIDTH ; c++){
+                            pos.x = c;
+                            if(c == WINPOS1){
+                                disp_write(pos, 0);
+                            }
+                            else if(c == WINPOS2){
+                                disp_write(pos, 0);
+                            }
+                            else if(c == WINPOS3){
+                                disp_write(pos, 0);
+                            }
+                            else if(c == WINPOS4){
+                                disp_write(pos, 0);
+                            }
+                            else if(c == WINPOS5){
+                                disp_write(pos, 0);
+                            }
+                            else{
+                                disp_write(pos, 1);
+                            }
+                        }
+
+                        
+                    }
                     
 
                     if(linea->cant_obj > 0){
@@ -270,25 +297,56 @@ int main(void)
                             if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
                                 moveLine(linea, i, pRana);
                             }
-                        }
-                        
+                        default:
+                            if(fpsCounter == FPS/5 || fpsCounter == FPS*2/5 || fpsCounter == FPS*3/5 || fpsCounter == FPS*4/5 || fpsCounter == 0){
+                                moveLine(linea, i, pRana);
+                            }
+                        break;
+                        }                        
                     }
 
-                    RanaCollisions(pRana, &map[pRana->posy]);
+                    if(RanaCollisions(pRana, &map[pRana->posy])){
+                        RestarVidas(pRana, 0, "score.txt");
+                    }
    
                 }
 
 
-                /*
                 pos.x = pRana->posx;
-                pos.y = pRana->posy;
-                if(fpsCounter % 2){
-                    disp_write(pos, 1);
+                pos.y = HEIGHT - pRana->posy;
+                ranaColorTimer++;
+                if(ranaColorTimer == 5){
+                    ranaColorTimer = 0;
+                    ranaColor = !(ranaColor);
                 }
-                else{
-                    disp_write(pos, 0);
+                
+                disp_write(pos, ranaColor); 
+
+                if(!joyMoved){
+                    isMoving = 0;
                 }
-                */
+                
+                if(joyMoved && !isMoving){
+                    isMoving = 1;
+                    switch (joyValue)
+                    {
+                    case UP:
+                        MoveRana(pRana, UP, map+rana.posy);
+                        break;
+                    case DOWN:
+                        MoveRana(pRana, DOWN, map+rana.posy);
+                        break;
+                    case LEFT:
+                        MoveRana(pRana, LEFT, map+rana.posy);
+                        break;
+                    case RIGHT:
+                        MoveRana(pRana, RIGHT, map+rana.posy);
+                        break;
+                    default:
+                        break;
+                    }
+                }
+
                 
                 if(coord.sw == J_PRESS && joyPressed == 0){
                     joyPressed = 1;
