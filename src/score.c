@@ -8,28 +8,6 @@
 #include <string.h>
 #define TOP 10
 
-static uint16_t time_bonus (uint8_t t_time,uint8_t time, uint8_t lines); //calcula el bonus
-
-static uint16_t in_game_score (uint8_t y); //lleva el puntaje durante cada vida/nivel
-
-uint16_t ct_score (uint8_t y,uint8_t t_time, uint8_t time, uint8_t lines, uint8_t vidas, uint8_t lvlend);
-//lleva la cuenta del puntaje total
-//HEADER
-
-//void printarr (uint16_t arr[], int l, char plr [][4]);
-
-static void fwr_sc (FILE* fp ,uint16_t arr[], int l, char plr [][4]);
-
-int max_scores (uint16_t fscore, char* filename,  char* alias); //Se fija si esta entre los mejores o no
-//alias es un str de 3 char + terminador
-//HEADER
-
-static int compare_scores (uint16_t mscores[], uint16_t fscore); //devuelve posicion en el ranking
-
-static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore);
-static void str_swap_al (char plr [][4],  int nel, int rank, char* alias);
-
-int IsMax (uint16_t fscore, char* filename);
 
 /****************************************************************************************************/
 

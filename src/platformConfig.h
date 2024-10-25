@@ -41,6 +41,8 @@
     #define GSIZEX 1
     #define GSIZEY 1
 
+    #define HITBOXWIDTH 1
+
     //valor de ancho del juego para raspi
     #define WIDTH GSIZEX * 14
 
