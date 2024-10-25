@@ -384,11 +384,11 @@ int main (void) {
 						DRAW_CHAR(H,"white",GSIZEX*9,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(I,"white",GSIZEX*9.5,(HEIGHT+2.75)*GSIZEY);
 
-						DRAW_CHAR(0,"white",GSIZEX*10.5,(HEIGHT+2.75)*GSIZEY);
-						DRAW_CHAR(0,"white",GSIZEX*11,(HEIGHT+2.75)*GSIZEY);
-						DRAW_CHAR(0,"white",GSIZEX*11.5,(HEIGHT+2.75)*GSIZEY);
-						DRAW_CHAR(0,"white",GSIZEX*12,(HEIGHT+2.75)*GSIZEY);
-						DRAW_CHAR(0,"white",GSIZEX*12.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(9,"white",GSIZEX*10.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(9,"white",GSIZEX*11,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(9,"white",GSIZEX*11.5,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(9,"white",GSIZEX*12,(HEIGHT+2.75)*GSIZEY);
+						DRAW_CHAR(9,"white",GSIZEX*12.5,(HEIGHT+2.75)*GSIZEY);
 
 
 						/*****************************

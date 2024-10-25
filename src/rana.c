@@ -37,14 +37,14 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
         }
         break;
     case RIGHT:
-        if((!pl->val_def) || (prana->posx <= WIDTH - GSIZEX)) //Evita que la rana vaya OOB en la calle
+        if((!pl->val_def) || (prana->posx <= WIDTH - HITBOXWIDTH/2.0)) //Evita que la rana vaya OOB en la calle
         {
             prana->posx++;
         }
 
         break;
     case LEFT:
-         if((!pl->val_def) || (prana->posx >= 0)) //Evita que la rana vaya OOB en la calle
+         if((!pl->val_def) || (prana->posx >= HITBOXWIDTH/2.0)) //Evita que la rana vaya OOB en la calle
         {
             prana->posx--;
         }
