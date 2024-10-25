@@ -375,7 +375,7 @@ int main (void) {
 						DRAW_CHAR(O,"white",GSIZEX*2,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(R,"white",GSIZEX*2.5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(E,"white",GSIZEX*3,(HEIGHT+2.75)*GSIZEY);
-
+i						draw(1);
 						DRAW_CHAR(0,"white",GSIZEX*4,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(0,"white",GSIZEX*4.5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(0,"white",GSIZEX*5,(HEIGHT+2.75)*GSIZEY);
