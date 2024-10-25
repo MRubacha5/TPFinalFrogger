@@ -159,6 +159,7 @@ int main(void)
                         screen = GAME;
                         createMap(map,0);
 					    spawnRana(map, pRana);
+                        printf("mapa creado\n");
                     }
                     else if (optionSelected == 1){
                         do_exit = 1;
@@ -207,8 +208,50 @@ int main(void)
                 if(fpsCounter >= FPS){
                     fpsCounter = 0;
                 }
-                for(i = 0 ; i < 16 ; i++){
+                
+                for(i = 0 ; i < HEIGHT ; i++){
                     linea_t * linea = pl+i;
+                    pos.y = HEIGHT - i;
+
+                    if(i == 0 || i == HEIGHT/2){
+                        for(c = 0 ; c < WIDTH ; c++){
+                            pos.x = c;
+                            disp_write(pos, 0);
+                        }
+                    }
+                    else if(i < HEIGHT/2){
+                        for(c = 0 ; c < WIDTH ; c++){
+                            pos.x = c;
+                            disp_write(pos, 0);
+                        }
+                        for(c = 0 ; c < linea->cant_obj ; c++){
+                            int sizePos = 0;
+                            for(sizePos = 0 ; sizePos < 0 ; sizePos++){
+                                pos.x = linea->po[c] + sizePos;
+                                if(pos.x >= 0 && pos.x <= WIDTH-1){
+                                    disp_write(pos, 1);
+                                }  
+                            } 
+                        } 
+                    } 
+                    else if (i > HEIGHT/2 && i != HEIGHT-1){
+                        for(c = 0 ; c < WIDTH ; c++){
+                            pos.x = c;
+                            disp_write(pos, 1);
+                        }
+                        /*
+                        for(c = 0 ; c < linea->cant_obj ; c++){
+                            int sizePos = 0;
+                            for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
+                                pos.x = linea->po[c] + sizePos;
+                                if(pos.x >= 0 && pos.x <= WIDTH-1){
+                                    disp_write(pos, 0);
+                                }
+                            }
+                        }
+                        */
+                    } 
+                    
 
                     if(linea->cant_obj > 0){
                         switch (linea->v)
@@ -232,20 +275,11 @@ int main(void)
                     }
 
                     RanaCollisions(pRana, &map[pRana->posy]);
-
-
-                    
-                    int objectSize = 0;
-                    for(c = 0 ; c < linea->cant_obj ; c++){ 
-                        pos.y = i;
-                        for(objectSize = 0 ; objectSize < linea->size ; objectSize++){
-                            pos.x = linea->po[c] + objectSize;
-                            int lineValue = (i>HEIGHT/2)?(1):(0);
-                            disp_write(pos, lineValue);
-                        }  
-                    }
+   
                 }
 
+
+                /*
                 pos.x = pRana->posx;
                 pos.y = pRana->posy;
                 if(fpsCounter % 2){
@@ -254,12 +288,13 @@ int main(void)
                 else{
                     disp_write(pos, 0);
                 }
-                
+                */
                 
                 if(coord.sw == J_PRESS && joyPressed == 0){
                     joyPressed = 1;
                     screen = PAUSE;
                 }
+                disp_update();
                 break;
             }      
             before = clock();

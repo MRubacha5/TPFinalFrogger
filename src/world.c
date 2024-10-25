@@ -23,13 +23,13 @@
  
  //Difficulty 0
  
- linea_t agua0[] =  {   {.size = 3, .cant_obj = 4, .v = 2, .po = {0, 200, 400, 600}},
+ linea_t agua0[] =  {   {.size = 3, .cant_obj = 4, .v = 2, .po = {0, 4*GSIZEX, 8*GSIZEX, 12*GSIZEX}},
                         {.size = 2, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 6, .cant_obj = 2, .v = 2, .po = {100, 500}},
+                        {.size = 6, .cant_obj = 2, .v = 2, .po = {2*GSIZEX, 10*GSIZEX}},
                         {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
                         {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
  
- linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH +100, WIDTH - 4*GSIZEX+100, WIDTH - 8*GSIZEX+100}},
+ linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 2, .v = 5, .po = {0, 4*GSIZEX}},
@@ -132,6 +132,7 @@ void createMap(linea_t * p, int difficulty){
             }
         }*/
     }
+    printf("salid el for\n");
 }
 
 void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
