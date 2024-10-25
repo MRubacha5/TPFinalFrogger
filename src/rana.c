@@ -16,7 +16,7 @@
 
 int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE};
 extern int vidas;
-
+extern int timeLeft;
 
 void spawnRana(linea_t* map, rana_t* pRana){
     pRana->posx = POSX_INI;
@@ -70,6 +70,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                     if (winPosStates[0] == WIN_FREE)
                     {
                         Ganar(prana,1);
+                        timeLeft = START_TIME;
                     }
                     else
                     {
@@ -81,6 +82,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                     if (winPosStates[1] == WIN_FREE)
                     {
                         Ganar(prana,2);
+                        timeLeft = START_TIME;
                     }
                     else 
                     {
@@ -92,6 +94,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                     if (winPosStates[2] == WIN_FREE)
                     {
                         Ganar(prana,3);
+                        timeLeft = START_TIME;
                     }
                     else 
                     {
@@ -103,6 +106,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                     if (winPosStates[3] == WIN_FREE)
                     {
                         Ganar(prana,4);
+                        timeLeft = START_TIME;
                     }
                     else 
                     {
@@ -115,6 +119,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                     if (winPosStates[4] == WIN_FREE)
                     {
                         Ganar(prana,5);
+                        timeLeft = START_TIME;
                     }
                     else 
                     {

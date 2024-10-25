@@ -295,7 +295,6 @@ int main (void) {
 						}
 						
 						//dibujo el tiempo restante
-						/*COMENTADO PORQUE ALLEGRO ESTA SIENDO CAPRICHOSO
 						al_draw_scaled_bitmap(yellowT_bitmap,0,0,8,8,
 									GSIZEX, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
 						al_draw_scaled_bitmap(yellowI_bitmap,0,0,8,8,
@@ -304,28 +303,21 @@ int main (void) {
 									GSIZEX*2, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
 						al_draw_scaled_bitmap(yellowE_bitmap,0,0,8,8,
 									GSIZEX*2.5, (HEIGHT +2) * GSIZEY, GSIZEX/2.0,GSIZEY/2.0,0);
-						*/
-						if (timeLeft > 0)
+						#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
+						
+						if (timeLeft > 30)
 						{
-							
-							if (timeLeft > 30)
-							{
-								al_draw_filled_rectangle(GSIZEX*5,(HEIGHT + 2)*GSIZEY,
-										5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name("green"));
-							}
-							else if (timeLeft > 10)
-							{
-								al_draw_filled_rectangle(GSIZEX*5,(HEIGHT + 2)*GSIZEY,
-										5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name("yellow"));
-							}
-							else 
-							{
-								al_draw_filled_rectangle(GSIZEX*5,(HEIGHT + 2)*GSIZEY,
-										5*GSIZEX + ((timeLeft) * GSIZEX/10.0) , (HEIGHT+2.5)*GSIZEY, al_color_name("red"));
-							}
-							
+							DRAW_TIMELEFT("green");
 						}
-						else if (deathTimer == 0)
+						else if (timeLeft > 10)
+						{
+							DRAW_TIMELEFT("yellow");
+						}
+						else if (timeLeft > 0)
+						{
+							DRAW_TIMELEFT("red");
+						}
+						else if (deathTimer == 0) //La rana muere si se queda sin tiempo
 						{
 							deathTimer = FPS;
 						}
