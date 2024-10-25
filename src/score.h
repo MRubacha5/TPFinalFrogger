@@ -81,4 +81,6 @@ static void str_swap_al (char plr [][4],  int nel, int rank, char* alias);
 
 int IsMax (uint16_t fscore, char* filename);
 
+void intToChar (int strLong, char* str, uint16_t score);
+
 #endif //SCORE_H

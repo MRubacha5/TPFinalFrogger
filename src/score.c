@@ -249,3 +249,14 @@ int gameOver (uint16_t fscore, char* filename)
 	return n;
 }
 
+void intToChar (int strLong, char* str, uint16_t score)
+{
+    // Verificar que el tamaño del buffer sea adecuado
+    if (strLong < 5) { // 5 dígitos + '\0'
+        str[0] = '\0';  // Si el buffer es muy pequeño, retornar cadena vacía
+        return;
+    }
+    // Convertir el número a string
+    snprintf(str, strLong, "%u", score);
+	return;
+}

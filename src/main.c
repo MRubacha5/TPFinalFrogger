@@ -371,19 +371,20 @@ int main (void) {
 						}
 
 						//dibujo el score (TBD)
+
 						DRAW_CHAR(S,"white",GSIZEX,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(C,"white",GSIZEX*1.5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(O,"white",GSIZEX*2,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(R,"white",GSIZEX*2.5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(E,"white",GSIZEX*3,(HEIGHT+2.75)*GSIZEY);
-
 						al_draw_text(font, al_color_name("white"), GSIZEX*4,(HEIGHT+2.9)*GSIZEY, 0, strscore);
 						/*
 						DRAW_CHAR(0,"white",GSIZEX*4,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(0,"white",GSIZEX*4.5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(0,"white",GSIZEX*5,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(0,"white",GSIZEX*5.5,(HEIGHT+2.75)*GSIZEY);
-						DRAW_CHAR(0,"white",GSIZEX*6,(HEIGHT+2.75)*GSIZEY);*/
+						DRAW_CHAR(0,"white",GSIZEX*6,(HEIGHT+2.75)*GSIZEY);
+						*/	
 
 						DRAW_CHAR(H,"white",GSIZEX*9,(HEIGHT+2.75)*GSIZEY);
 						DRAW_CHAR(I,"white",GSIZEX*9.5,(HEIGHT+2.75)*GSIZEY);
@@ -830,6 +831,8 @@ int main (void) {
 									//Cada vez que va para arriba se fija si se debe inc score
 									inscreenscore = ct_score(rana.posy,TIME,timeLeft,0,vidas,0);
 									intToChar (6, strscore, inscreenscore);
+
+									//printf ("%s\n",strscore);
 
 									break;
 								case ALLEGRO_KEY_LEFT:
