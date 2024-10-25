@@ -156,9 +156,9 @@ int main(void)
                 if(coord.sw == J_PRESS && joyPressed == 0){
                     joyPressed = 1;
                     if(optionSelected == 0){
+                        screen = GAME;
                         createMap(map,0);
 					    spawnRana(map, pRana);
-                        screen = GAME;
                     }
                     else if (optionSelected == 1){
                         do_exit = 1;

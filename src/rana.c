@@ -158,11 +158,11 @@ int RestarVidas(rana_t* pRana, int score, char* filename){
     vidas--;
     if(!vidas){
         
-        int n = gameOver(score, filename);
+        //int n = gameOver(score, filename);
         pRana->posx = POSX_INI;
         pRana->posy = POSY_INI;
         pRana->dir = UP;
-        return n;
+        return /*n*/ 0;
 
     }
     else{ //si quedan vidas, reinicia la posicion de la rana
