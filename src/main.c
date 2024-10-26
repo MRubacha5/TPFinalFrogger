@@ -50,6 +50,7 @@ unsigned int timeLeft = START_TIME; // valor en segundos
 
 uint16_t inscreenscore;
 char strscore [6] = {"00000"};
+int entregada;
 
 linea_t map[HEIGHT];
 rana_t rana;
@@ -656,7 +657,14 @@ int main (void) {
 							al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
 									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
 							MoveRana(pRana, UP, map+rana.posy);
+
+							printf ("%d\n", rana.posy);
+							
+							inscreenscore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
+							intToChar (6, strscore, inscreenscore);
+
 							isMovingUp--;
+
 						}
 						else if (isMovingUp > 0)
 						{
@@ -776,6 +784,7 @@ int main (void) {
                 else if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
 					
 					if(screen == GAME){
+						//inscreenscore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
 						if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) //Escape key fuera del switch case para permitir pausar durante movimiento/muerte
 						{
 							screen = PAUSE;
@@ -790,11 +799,12 @@ int main (void) {
 								case ALLEGRO_KEY_UP:
 									isMovingUp = GSIZEY;
 									frog_bitmap = frogIdleFwd_bitmap;
-									
-									//Cada vez que va para arriba se fija si se debe inc score
-									inscreenscore = ct_score(rana.posy,TIME,timeLeft,0,vidas,0);
-									intToChar (6, strscore, inscreenscore);
 
+									//MoveRana(pRana, UP, map+rana.posy);
+									//Cada vez que va para arriba se fija si se debe inc score
+									//inscreenscore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
+									//intToChar (6, strscore, inscreenscore);
+									//printf ("%d\n", rana.posy);
 									//printf ("%s\n",strscore);
 
 									break;

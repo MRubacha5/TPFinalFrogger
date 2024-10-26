@@ -135,7 +135,7 @@ static void fwr_sc (FILE* fp ,uint16_t arr[], int l, char plr [][4])
 
 
 
-uint16_t ct_score (uint8_t y, uint8_t t_time, uint8_t time, uint8_t lines, uint8_t vidas, uint8_t lvlend)
+uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t lines, uint8_t vidas, uint8_t lvlend)
 {
 	
 	static uint16_t score, finalscore;
@@ -145,7 +145,7 @@ uint16_t ct_score (uint8_t y, uint8_t t_time, uint8_t time, uint8_t lines, uint8
 		score += in_game_score(y);
 		if (lvlend)
 		{
-			//score += time_bonus(t_time,time, lines);
+			score += time_bonus(timeleft, lines);
 		}
 	}
 	else 
@@ -169,17 +169,18 @@ static uint16_t in_game_score (uint8_t y)
 	static uint8_t yMax;
 	uint16_t sc;
 	
-	if (y>yMax) //si la posicion de la rana es mayor a una alcanzada previamente, el puntaje se incrementa
+
+	if (y == 0) //solo al principio de cada nivel/vida
+	{
+		yMax = 0;
+	} 
+	else if (y>yMax) //si la posicion de la rana es mayor a una alcanzada previamente, el puntaje se incrementa
 	{
 		sc = 10;
 		yMax = y;
 		//printf ("%u   %u \n", y, yMax);
 
 	}
-	else if (y == 0) //solo al principio de cada nivel/vida
-	{
-		yMax = 0;
-	} 
 	else sc = 0;
 
 	return sc;
@@ -189,21 +190,10 @@ static uint16_t in_game_score (uint8_t y)
 
 
 
-static uint16_t time_bonus (uint8_t t_time,uint8_t time, uint8_t lines) //Bonus al ganar un nivel segun cuanto tiempo sobra
+static uint16_t time_bonus (unsigned int timeleft, uint8_t lines) //Bonus al ganar un nivel segun cuanto tiempo sobra
 {
 	uint16_t tb;
-			if (time >= t_time / 2)
-			{
-				tb = lines * 5;
-			}
-			else if (time >= t_time / 4)
-			{
-				tb = lines * 3;
-			}
-			else 
-			{
-				tb = 0;	
-			}
+	tb = lines * timeleft;
 	return tb;
 }
 

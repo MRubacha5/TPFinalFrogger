@@ -23,7 +23,7 @@
 * @param lvlend valor booleano que describe el estado del nivel
 * @return el puntaje
 */
-uint16_t ct_score (uint8_t y,uint8_t t_time, uint8_t time, uint8_t lines, uint8_t vidas, uint8_t lvlend);
+uint16_t ct_score (uint8_t y,unsigned int timeleft, uint8_t lines, uint8_t vidas, uint8_t lvlend);
 
 /**
 * @brief Se ocupa de registrar un puntaje dentro del top 10 si es que este califica
@@ -65,7 +65,7 @@ ZZZ  08600
 ...  00000
 */
 
-static uint16_t time_bonus (uint8_t t_time,uint8_t time, uint8_t lines); //calcula el bonus
+static uint16_t time_bonus (unsigned int timeleft, uint8_t lines); //calcula el bonus
 
 static uint16_t in_game_score (uint8_t y); //lleva el puntaje durante cada vida/nivel
 

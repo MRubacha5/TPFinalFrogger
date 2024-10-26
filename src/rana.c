@@ -174,6 +174,7 @@ int RestarVidas(rana_t* pRana, int score, char* filename){
         pRana->posx = POSX_INI;
         pRana->posy = POSY_INI;
         pRana->dir = UP;
+        ct_score (0,5,0,3,0);
 
         return 10;
     }
