@@ -258,5 +258,15 @@ void intToChar (int strLong, char* str, uint16_t score)
     }
     // Convertir el número a string
     snprintf(str, strLong, "%u", score);
+	
+	//Relleno con ceros
+	while(strlen(str) < 5)
+	{
+		char tempString[6]; 
+		strcpy(tempString,str);
+		str[0] = '0';
+		strcpy(str+1,tempString);
+	}
+
 	return;
 }
