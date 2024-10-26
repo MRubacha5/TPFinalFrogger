@@ -17,11 +17,20 @@
 int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE};
 extern int vidas;
 extern int timeLeft;
+static void reSpawnRana(rana_t* pRana);
 
 void spawnRana(linea_t* map, rana_t* pRana){
     pRana->posx = POSX_INI;
     pRana->posy = POSY_INI;
     pRana->dir = UP;
+    
+}
+
+static void reSpawnRana(rana_t* pRana){
+    pRana->posx = POSX_INI;
+    pRana->posy = POSY_INI;
+    pRana->dir = UP;
+    ct_score (0,5,0,3,0);
 }
 
 void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
@@ -171,11 +180,7 @@ int RestarVidas(rana_t* pRana, int score, char* filename){
 
     }
     else{ //si quedan vidas, reinicia la posicion de la rana
-        pRana->posx = POSX_INI;
-        pRana->posy = POSY_INI;
-        pRana->dir = UP;
-        ct_score (0,5,0,3,0);
-
+        reSpawnRana(pRana);
         return 10;
     }
 }
@@ -213,9 +218,7 @@ int8_t Ganar (rana_t* pRana, uint8_t winPos){
         
     }
     
-    pRana->posx = POSX_INI;
-    pRana->posy = POSY_INI;
-    pRana->dir = UP;
+    reSpawnRana(pRana);
 
     return winningFlag;
 }

@@ -13,6 +13,22 @@ uint32_t currentScore = 0;
 
 /****************************************************************************************************/
 
+static uint16_t time_bonus (unsigned int timeleft, uint8_t lines); //calcula el bonus
+
+static uint16_t in_game_score (uint8_t y); //lleva el puntaje durante cada vida/nivel
+
+
+//void printarr (uint16_t arr[], int l, char plr [][4]);
+
+static void fwr_sc (FILE* fp ,uint16_t arr[], int l, char plr [][4]);
+
+static int compare_scores (uint16_t mscores[], uint16_t fscore); //devuelve posicion en el ranking
+
+static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore);
+static void str_swap_al (char plr [][4],  int nel, int rank, char* alias);
+
+/*************************************************************************************************** */
+
 static int compare_scores (uint16_t mscores[], uint16_t fscore)
 {
 	int i;
@@ -145,7 +161,7 @@ uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t lines, uint8_t vida
 		score += in_game_score(y);
 		if (lvlend)
 		{
-			score += time_bonus(timeleft, lines);
+			score += time_bonus(timeleft, 13);
 		}
 	}
 	else 
@@ -167,7 +183,7 @@ static uint16_t in_game_score (uint8_t y)
 {
 	
 	static uint8_t yMax;
-	uint16_t sc;
+	uint16_t sc = 0;
 	
 
 	if (y == 0) //solo al principio de cada nivel/vida
@@ -203,7 +219,7 @@ static uint16_t time_bonus (unsigned int timeleft, uint8_t lines) //Bonus al gan
 
 int IsMax (uint16_t fscore, char* filename)
 {
-	int rank,c,i=0;
+	int rank, i = 0;
 	uint16_t mscores [TOP] = {0,0,0,0,0,0,0,0,0,0};
 	FILE * fp;
 	fp = fopen(filename,"r+");
@@ -213,7 +229,6 @@ int IsMax (uint16_t fscore, char* filename)
 	} 
 	//creo un buffer y voy leyendo los scores de los mejores jugadores
 	unsigned int buf [TOP];
-	char players [4];
     for (i=0;(fscanf(fp, "%*s %u ", buf) == 1) && (i<TOP); i++) //saltea 1er string (alias) y agarra el score
 	{	
 		//guardo los valores en el orden leido (mayor a menor) en mscores
@@ -234,7 +249,7 @@ int IsMax (uint16_t fscore, char* filename)
 int gameOver (uint16_t fscore, char* filename)
 {
 	uint16_t score;
-	fscore = score;
+	score = fscore;
 	int n = IsMax(score, filename);
 	return n;
 }

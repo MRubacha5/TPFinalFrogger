@@ -658,7 +658,7 @@ int main (void) {
 									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
 							MoveRana(pRana, UP, map+rana.posy);
 
-							printf ("%d\n", rana.posy);
+							//printf ("%d\n", rana.posy);
 							
 							inscreenscore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
 							intToChar (6, strscore, inscreenscore);

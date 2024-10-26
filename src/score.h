@@ -65,19 +65,6 @@ ZZZ  08600
 ...  00000
 */
 
-static uint16_t time_bonus (unsigned int timeleft, uint8_t lines); //calcula el bonus
-
-static uint16_t in_game_score (uint8_t y); //lleva el puntaje durante cada vida/nivel
-
-
-//void printarr (uint16_t arr[], int l, char plr [][4]);
-
-static void fwr_sc (FILE* fp ,uint16_t arr[], int l, char plr [][4]);
-
-static int compare_scores (uint16_t mscores[], uint16_t fscore); //devuelve posicion en el ranking
-
-static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore);
-static void str_swap_al (char plr [][4],  int nel, int rank, char* alias);
 
 int IsMax (uint16_t fscore, char* filename);
 
