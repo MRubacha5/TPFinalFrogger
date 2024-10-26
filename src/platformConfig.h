@@ -20,9 +20,10 @@
     #define HITBOXWIDTH 13.0/16 * GSIZEX
 
    //Valor de ancho para Allegro. El alto es constante entre plataformas
-    #define WIDTH GSIZEX *14
+    #define WIDTH GSIZEX * 14
 
     //Coordenadas x de las posiciones de victoria
+    // FALTA HACERLOS EN FUNCION DE WIDTH PARA ASEGURAR ROBUSTEZ
     #define WINPOS1 GSIZEX * 1
     #define WINPOS2 GSIZEX * 4
     #define WINPOS3 GSIZEX * 7
@@ -35,12 +36,12 @@
     /*******************************************************************************
      * CONSTANTES
      ******************************************************************************/
-    #define RANAWIDTH 0
 
     //constantes graficas
     #define GSIZEX 1
     #define GSIZEY 1
 
+    //En rasPi, los objetos son puntuales
     #define HITBOXWIDTH 0
 
     //valor de ancho del juego para raspi

@@ -651,7 +651,7 @@ int main (void) {
 									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
 							isMovingUp--;
 						}
-						else if (isMovingUp == m/2)//Backend move occurs halfway through animation
+						else if (isMovingUp == m/2 || (GSIZEY/m < m/2 && isMovingUp == GSIZEY/m - 1))//Backend move occurs halfway through animation; second condition accounts for small screen sizes
 						{
 							al_draw_scaled_bitmap(frogLeapFwd_bitmap,0,0,16,16,
 									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (isMovingUp*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -684,7 +684,7 @@ int main (void) {
 									ranax - GSIZEX/2.0, (HEIGHT - pRana->posy + 1 - (isMovingDown*m)/(double)GSIZEY) * GSIZEY, GSIZEX,GSIZEY,0);
 							isMovingDown--;
 						}
-						else if (isMovingDown == m/2)
+						else if (isMovingDown == m/2 || (GSIZEY/m < m/2 && isMovingDown == GSIZEY/m - 1))
 						{
 							
 							al_draw_scaled_bitmap(frogLeapBack_bitmap,0,0,16,16,
