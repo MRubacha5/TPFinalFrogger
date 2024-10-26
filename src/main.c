@@ -67,7 +67,7 @@ int main (void) {
 		al_init_font_addon();
 		al_init_ttf_addon();
 		
-		ALLEGRO_FONT * font;
+		ALLEGRO_FONT * font, * fontL;
 		ALLEGRO_DISPLAY * display = NULL;
 		ALLEGRO_EVENT_QUEUE * event_queue;
 		ALLEGRO_TIMER * timer;
@@ -105,8 +105,9 @@ int main (void) {
 	    }
 
 	    font = al_load_font("../assets/Sprites/arcadeFont.ttf",GSIZEX*0.5,0);
-	    if (!font) {
-	    	printf("failed to create event_queue!\n");
+		fontL = al_load_font("../assets/Sprites/arcadeFont.ttf",GSIZEX,0);
+	    if (!font && !fontL) {
+	    	printf("failed to load fonts!\n");
 	    	al_destroy_display(display);
 	    	return -1;
 	    }
@@ -122,7 +123,7 @@ int main (void) {
         }
 
 		if(!al_init_image_addon()){
-			printf("failed to inicialize image\n");
+			printf("failed to initialize image\n");
 			return -1;
 		}
 
@@ -238,13 +239,14 @@ int main (void) {
 									GSIZEX*10.7, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
 						
 						// Botones
-						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*3/8, DISPLAY_X*7/8, DISPLAY_Y*5/8, al_color_name("white"));
-						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("white"));
-						
+						al_draw_text(fontL, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*4.0/8, ALLEGRO_ALIGN_CENTER, "START");
+						al_draw_text(fontL, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*5.0/8, ALLEGRO_ALIGN_CENTER, "HIGH SCORES");
+						al_draw_text(fontL, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*6.0/8, ALLEGRO_ALIGN_CENTER, "QUIT");
+
 						// Los Botones cambian de color cuando el mouse esta por encima
 						if(mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8){
-							if(mouse_y > DISPLAY_Y*3/8 && mouse_y < DISPLAY_Y*5/8){
-								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*3/8, DISPLAY_X*7/8, DISPLAY_Y*5/8, al_color_name("grey"));
+							if(mouse_y > DISPLAY_Y*7.0/16 && mouse_y < DISPLAY_Y*8.5/16+GSIZEY){
+								al_draw_text(fontL, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*4.0/8, ALLEGRO_ALIGN_CENTER, "START");
 								if(leftClick){
 									leftClick = 0;
 									screen = GAME;
@@ -252,42 +254,59 @@ int main (void) {
 									spawnRana(map, pRana);
 								}
 							}
-							else if(mouse_y > DISPLAY_Y*5/8 && mouse_y < DISPLAY_Y*7/8){
-								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("grey"));
+							else if(mouse_y > DISPLAY_Y*8.5/16+GSIZEY && mouse_y < DISPLAY_Y*9.5/16+2*GSIZEY)
+							{
+								al_draw_text(fontL, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*5.0/8, ALLEGRO_ALIGN_CENTER, "HIGH SCORES");
+								if(leftClick){
+									leftClick = 0;
+									//HIGH SCORE SCREEN
+								}
+							}
+							else if(mouse_y > DISPLAY_Y*9.5/16+2*GSIZEY && mouse_y < DISPLAY_Y*10.5/16+3*GSIZEY){
+								al_draw_text(fontL, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*6.0/8, ALLEGRO_ALIGN_CENTER, "QUIT");
 								if(leftClick){
 									leftClick = 0;
 									do_exit = 1;
 								}
 							}
 						}
-						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y/2, ALLEGRO_ALIGN_CENTER, "START");
-						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, "QUIT");
+
 						al_flip_display();
 						break;
+
 					case PAUSE:
-						al_clear_to_color(al_color_name("black"));
-						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("white"));
-						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("white"));
+						//Fondo
+						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*7/16, DISPLAY_X*7/8, DISPLAY_Y*9/16, al_color_name("black"));
+
+						//PAUSE Text
+						al_draw_text(fontL, al_color_name("red"), DISPLAY_X/2, (DISPLAY_Y-GSIZEY)/2, ALLEGRO_ALIGN_CENTER, "PAUSE");
+
+						//Botones
+						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("black"));
+						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("black"));
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "CONTINUE");
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
+
 						if(mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8){
 							if(mouse_y > DISPLAY_Y/8 && mouse_y < DISPLAY_Y*3/8){
-								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y/8, DISPLAY_X*7/8, DISPLAY_Y*3/8, al_color_name("grey"));
+								al_draw_text(font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "CONTINUE");
 								if(leftClick){
 									leftClick = 0;
 									screen = GAME;
 								}
 							}
 							else if(mouse_y > DISPLAY_Y*5/8 && mouse_y < DISPLAY_Y*7/8){
-								al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*5/8, DISPLAY_X*7/8, DISPLAY_Y*7/8, al_color_name("grey"));
+								al_draw_text(font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
 								if(leftClick){
 									leftClick = 0;
 									screen = MENU;
 								}
 							}
 						}
-						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "CONTINUE");
-						al_draw_text(font, al_color_name("black"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, "MENU");
+						
 						al_flip_display();
 						break;
+
 					case GAME:
 
 						if(fpsCounter >= FPS){

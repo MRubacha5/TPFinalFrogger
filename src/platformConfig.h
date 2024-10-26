@@ -27,7 +27,7 @@
     #define WINPOS2 GSIZEX * 4
     #define WINPOS3 GSIZEX * 7
     #define WINPOS4 GSIZEX * 10
-    #define WINPOS5 GSIZEX * 13
+    #define WINPOS5 WIDTH - GSIZEX
 
 
 //CONFIGURACIONES DE RASPI
