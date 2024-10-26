@@ -25,11 +25,7 @@
 #define DISPLAY_X (WIDTH)
 #define DISPLAY_Y ((HEIGHT+4)*GSIZEY)
 
-#define MENU 0
-#define GAME 1
-#define PAUSE 2
-#define GAMEOVER 3
-#define GAMEOVERTOP 4
+enum {MENU, GAME, PAUSE, HISCORE, GAMEOVER};
 
 #define TIME 45 //cantidad de tiempo en segundos para pasar el nivel
 
