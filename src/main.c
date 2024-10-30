@@ -312,8 +312,8 @@ int main (void) {
 							// Convierto el score a string
 							char buffer[6]; 
 							intToChar(6, buffer ,topScores[s]);
-
-							drawTopScores(font, topNames[s], buffer, DISPLAY_X/3, DISPLAY_X/2, DISPLAY_Y*(s+3)/14);
+							//al_draw_text(font, al_color_name("white"), DISPLAY_X/8, DISPLAY_Y*(5/15),ALLEGRO_ALIGN_CENTER, "10.");
+							drawTopScores(font, topNames[s], buffer, DISPLAY_X*9/24, DISPLAY_X*7/12, DISPLAY_Y*(s+2.5)/15);
 						}
 						
 						al_flip_display();
