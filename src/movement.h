@@ -6,7 +6,6 @@
  ******************************************************************************/
 
 #include <stdint.h>
-
 #include "rana.h"
 #include "worldData.h"
 
@@ -42,7 +41,7 @@ void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl);
 int RanaCollisions(rana_t * prana, linea_t * pl);
 
 /**
- * @brief Se ocupa de mover todos los objetos en el mundo. NO TIENE EN CUENTA LA VELOCIDAD Y DEBERA SER LLAMADA ACORDEMENTE
+ * @brief Se ocupa de mover todos los objetos en el mundo. NO TIENE EN CUENTA LA VELOCIDAD Y DEBERA SER LLAMADA DE FORMA ACORDE
  * @param pl Puntero a la linea en cuestion
  * @param lineaPosY Posicion Y de la linea en el mapa
  * @param pRana Rana que esté activa en el momento del movimiento. Debe pasarse como para poder mover la rana si está subida a un tronco

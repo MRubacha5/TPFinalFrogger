@@ -6,7 +6,6 @@
  ******************************************************************************/
 
 #include <stdint.h>
-
 #include "worldData.h"
 
 /*******************************************************************************
@@ -21,8 +20,6 @@
  ******************************************************************************/
 
 typedef struct{ 
-    //Saque estado, no es necesario
-    // Agrego Direccion a la rana
     int8_t dir; //Direccion en la que mira. Se usa para el sprite
     long posx;
     long posy;

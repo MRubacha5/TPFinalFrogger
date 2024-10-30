@@ -25,9 +25,8 @@
 #define DISPLAY_X (WIDTH)
 #define DISPLAY_Y ((HEIGHT+4)*GSIZEY)
 
+// Pantallas; se cambia entre ellas con un switch case statement
 enum {MENU, GAME, PAUSE, HISCORE, GAMEOVER};
-
-#define TIME 45 //cantidad de tiempo en segundos para pasar el nivel
 
 /*******************************************************************************
  * MACROS
@@ -256,7 +255,7 @@ int main (void) {
 								al_draw_text(fontL, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*5.0/8, ALLEGRO_ALIGN_CENTER, "HIGH SCORES");
 								if(leftClick){
 									leftClick = 0;
-									//HIGH SCORE SCREEN
+									screen = HISCORE;
 								}
 							}
 							else if(mouse_y > DISPLAY_Y*9.5/16+2*GSIZEY && mouse_y < DISPLAY_Y*10.5/16+3*GSIZEY){

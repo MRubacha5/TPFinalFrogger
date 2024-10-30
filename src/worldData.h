@@ -10,11 +10,10 @@
 /*******************************************************************************
  * CONSTANTES
  ******************************************************************************/
-#define HEIGHT 13 //Constante entre plataformas asi que no va en platformConfig
 #define MAX_OBJ 10
 
 //Constantes de logica para las interacciones en el mapa
-enum {UNSAFE, SAFE, RANA_VAL, WIN_FREE, WIN_OCC};
+enum {UNSAFE, SAFE, WIN_FREE, WIN_OCC};
 /*******************************************************************************
  * ESTRUCTURAS Y TIPOS DE DATOS
  ******************************************************************************/
