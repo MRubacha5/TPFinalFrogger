@@ -41,7 +41,7 @@ enum {MENU, GAME, PAUSE, HISCORE, GAMEOVER};
 int do_exit = 0;
 int keyPressed = 0;
 int keyPressedValue = 0;
-unsigned int timeLeft = START_TIME; // valor en segundos 
+unsigned int timeLeft;
 
 uint16_t inscreenscore;
 char strscore [6] = {"00000"};
@@ -260,6 +260,7 @@ int main (void) {
 								if(leftClick){
 									leftClick = 0;
 									screen = GAME;
+									vidas = 3;
 									createMap(map,0);
 									spawnRana(map, pRana);
 								}
@@ -312,7 +313,7 @@ int main (void) {
 							// Convierto el score a string
 							char buffer[6]; 
 							intToChar(6, buffer ,topScores[s]);
-							//al_draw_text(font, al_color_name("white"), DISPLAY_X/8, DISPLAY_Y*(5/15),ALLEGRO_ALIGN_CENTER, "10.");
+							
 							drawTopScores(font, topNames[s], buffer, DISPLAY_X*9/24, DISPLAY_X*7/12, DISPLAY_Y*(s+2.5)/15);
 						}
 						
@@ -776,6 +777,23 @@ int main (void) {
 							}
 						}
 						else{
+							switch(pRana->dir)
+							{
+								case UP:
+									frog_bitmap = frogIdleFwd_bitmap;
+									break;
+								case DOWN:
+									frog_bitmap = frogIdleBack_bitmap;
+									break;
+								case LEFT:
+									frog_bitmap = frogIdleLeft_bitmap;
+									break;
+								case RIGHT:
+									frog_bitmap = frogIdleRight_bitmap;
+									break;
+								default:
+									break;
+							}
 							al_draw_scaled_bitmap(frog_bitmap,0,0,16,16,
 								ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 						}
@@ -838,27 +856,15 @@ int main (void) {
 							switch(ev.keyboard.keycode){
 								case ALLEGRO_KEY_DOWN:
 									isMovingDown = GSIZEY;
-									frog_bitmap = frogIdleBack_bitmap;
 									break;
 								case ALLEGRO_KEY_UP:
 									isMovingUp = GSIZEY;
-									frog_bitmap = frogIdleFwd_bitmap;
-
-									//MoveRana(pRana, UP, map+rana.posy);
-									//Cada vez que va para arriba se fija si se debe inc score
-									//inscreenscore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
-									//intToChar (6, strscore, inscreenscore);
-									//printf ("%d\n", rana.posy);
-									//printf ("%s\n",strscore);
-
 									break;
 								case ALLEGRO_KEY_LEFT:
 									isMovingLeft = GSIZEX;
-									frog_bitmap = frogIdleLeft_bitmap;
 									break;
 								case ALLEGRO_KEY_RIGHT:
 									isMovingRight = GSIZEX;
-									frog_bitmap = frogIdleRight_bitmap;
 									break;
 							}
 
