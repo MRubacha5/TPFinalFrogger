@@ -54,6 +54,20 @@ rana_t * pRana = &rana;
 extern int winPosStates[5];
 extern int vidas;
 extern int currentScore;
+extern char topNames[10][4];
+extern uint16_t topScores[10];
+
+/*******************************************************************************
+ * PROTOTIPOS DE FUNCIONES
+ ******************************************************************************/
+
+static void drawTopScores (ALLEGRO_FONT * font, const char* name, const char* score, double nameX, double scoreX, double y);
+
+static void drawTopScores (ALLEGRO_FONT * font, const char* name, const char* score, double nameX, double scoreX, double y)
+{
+	al_draw_text(font, al_color_name("white"), nameX, y, ALLEGRO_ALIGN_CENTER, name);
+	al_draw_text(font, al_color_name("white"), scoreX, y, ALLEGRO_ALIGN_CENTER, score);
+}
 
 int main (void) {
 
@@ -267,6 +281,41 @@ int main (void) {
 							}
 						}
 
+						al_flip_display();
+						break;
+
+					case HISCORE:
+						// Fondo
+						al_clear_to_color(al_color_name("black"));
+						
+						//Botones
+						//al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*6/8, DISPLAY_X*7/8, DISPLAY_Y, al_color_name("black"));
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
+
+						if((mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8) && (mouse_y > DISPLAY_Y*6/8 && mouse_y < DISPLAY_Y)){
+							al_draw_text(font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
+							if(leftClick){
+								leftClick = 0;
+								screen = MENU;
+							
+							}
+						}
+
+						al_draw_text(fontL, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*0.5/8, ALLEGRO_ALIGN_CENTER, "HIGH SCORES");
+
+						// Fetch top scores
+						getTopScores("score.txt");
+						
+						// Imprimo los 10 scores
+						for (int s = 0; s < 10; s++)
+						{
+							// Convierto el score a string
+							char buffer[6]; 
+							intToChar(6, buffer ,topScores[s]);
+
+							drawTopScores(font, topNames[s], buffer, DISPLAY_X/3, DISPLAY_X/2, DISPLAY_Y*(s+3)/14);
+						}
+						
 						al_flip_display();
 						break;
 

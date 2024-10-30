@@ -10,6 +10,8 @@
 #define TOP 10
 
 uint32_t currentScore = 0;
+char topNames [10] [4] = {"   ","   " ,"   ","   ","   ","   ","   " ,"   ","   ","   "};
+uint16_t topScores [10] = {0,0,0,0,0,0,0,0,0,0};
 
 /****************************************************************************************************/
 
@@ -26,6 +28,8 @@ static int compare_scores (uint16_t mscores[], uint16_t fscore); //devuelve posi
 
 static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore);
 static void str_swap_al (char plr [][4],  int nel, int rank, char* alias);
+
+
 
 /*************************************************************************************************** */
 
@@ -49,8 +53,25 @@ int max_scores (uint16_t fscore, char* filename, char* alias)
 //Abre el archivo con los maximos puntajes para comparar y agregar el puntaje si esta en el top 10
 { 
 	int rank,c,i=0;
+	//creo dos arrays auxiliares para 
 	uint16_t mscores [TOP] = {0,0,0,0,0,0,0,0,0,0};
-	char plyr_list [TOP][4] = {"   ","   " ,"   ","   ","   ","   ","   " ,"   ","   ","   "};
+	char plyr_list [TOP][4]= {"   ","   " ,"   ","   ","   ","   ","   " ,"   ","   ","   "};
+	//int getTopScores (char* filename);
+
+	/*
+	rank = compare_scores (mscores, fscore );
+	// Devuelve que lugar debe ocupar fscore en el array (0-9) 
+	//(si rank =10 -> no entra en el top)
+
+	int_swap_sc (mscores,TOP,rank, fscore);
+	str_swap_al (plyr_list,TOP,rank, alias);
+
+	fwr_sc (fp,mscores,TOP,plyr_list); //reimprimo la lista con las modificaciones ya hechas
+
+	fclose(fp);
+	return 1;
+	*/
+	
 	FILE * fp;
 	fp = fopen(filename,"r+");
 	if (fp == NULL)
@@ -60,7 +81,7 @@ int max_scores (uint16_t fscore, char* filename, char* alias)
 	//creo un buffer y voy leyendo los scores de los mejores jugadores
 	unsigned int buf [TOP];
 	char players [4];
-    for (i=0;(fscanf(fp, "%*s %u ", buf) == 1) && (i<TOP); i++) //saltea 1er string (alias) y agarra el score
+	for (i=0;(fscanf(fp, "%*s %u ", buf) == 1) && (i<TOP); i++) //saltea 1er string (alias) y agarra el score
 	{	
 		//guardo los valores en el orden leido (mayor a menor) en mscores
 		mscores [i] = *buf;
@@ -76,12 +97,11 @@ int max_scores (uint16_t fscore, char* filename, char* alias)
 		}
 	}
 	rank = compare_scores (mscores, fscore );
-	// Devuelve que lugar debe ocupar fscore en el array (0-9) 
-	//(si rank =10 -> no entra en el top)
+		// Devuelve que lugar debe ocupar fscore en el array (0-9) 
+		//(si rank =10 -> no entra en el top)
 
 	int_swap_sc (mscores,TOP,rank, fscore);
 	str_swap_al (plyr_list,TOP,rank, alias);
-
 	fwr_sc (fp,mscores,TOP,plyr_list); //reimprimo la lista con las modificaciones ya hechas
 
 	fclose(fp);
@@ -266,4 +286,34 @@ void intToChar (int strLong, char* str, uint16_t score)
 
 
 	return;
+}
+
+int getTopScores (char* filename)
+{
+	int i , c;
+	FILE * fp;
+	fp = fopen(filename,"r+");
+	if (fp == NULL)
+	{
+		return-1;
+	} 
+	//creo un buffer y voy leyendo los scores de los mejores jugadores
+	unsigned int buf [TOP];
+	char players [4];
+    for (i=0;(fscanf(fp, "%*s %u ", buf) == 1) && (i<TOP); i++) //saltea 1er string (alias) y agarra el score
+	{	
+		//guardo los valores en el orden leido (mayor a menor) en mscores
+		topScores [i] = *buf;
+	}
+	fseek ( fp,0,SEEK_SET); //vuelvo al comienzo del archivo
+	for (i=0;(fscanf(fp, "%s %*s ", players) == 1) && (i<TOP); i++) //saltea 2do string (score) y agarra el alias
+	{	
+		//guardo los valores en el orden leido (mayor a menor) en plyr_list
+		//strtok
+		for (c=0; c<4; c++)
+		{
+			topNames[i][c] = players[c];
+		}
+	}	
+	return 1;
 }

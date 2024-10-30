@@ -70,4 +70,6 @@ int IsMax (uint16_t fscore, char* filename);
 
 void intToChar (int strLong, char* str, uint16_t score);
 
+int getTopScores (char* filename);
+
 #endif //SCORE_H
