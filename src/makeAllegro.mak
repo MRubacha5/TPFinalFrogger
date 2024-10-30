@@ -1,5 +1,5 @@
 froggerAllegro: main.o  score.o world.o rana.o
-	gcc -o froggerAllegro main.o world.o score.o rana.o -lallegro -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_color -lpthread -lallegro_image -g
+	gcc -o froggerAllegro main.o world.o score.o rana.o -lallegro -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_color -lpthread -lallegro_image -lallegro_acodec -lallegro_audio -g
 
 main.o: main.c worldData.h score.h movement.h platformConfig.h
 	gcc -c main.c -Wall -D ALLEGRO

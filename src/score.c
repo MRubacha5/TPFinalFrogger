@@ -9,7 +9,7 @@
 #include "score.h"
 #define TOP 10
 
-uint32_t currentScore = 0;
+uint16_t currentScore = 0;
 char topNames [10] [4] = {"   ","   " ,"   ","   ","   ","   ","   " ,"   ","   ","   "};
 uint16_t topScores [10] = {0,0,0,0,0,0,0,0,0,0};
 
@@ -175,6 +175,7 @@ uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t lines, uint8_t vida
 {
 	
 	static uint16_t score, finalscore;
+	score = currentScore;
 	
 	if (vidas != 0)
 	{

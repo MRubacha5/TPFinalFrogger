@@ -11,6 +11,8 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
 #include "worldData.h"
 #include "score.h"
@@ -41,9 +43,8 @@ enum {MENU, GAME, PAUSE, HISCORE, GAMEOVER};
 int do_exit = 0;
 int keyPressed = 0;
 int keyPressedValue = 0;
-unsigned int timeLeft;
+u_int16_t inscreenscore;
 
-uint16_t inscreenscore;
 char strscore [6] = {"00000"};
 int entregada;
 
@@ -51,9 +52,11 @@ linea_t map[HEIGHT];
 rana_t rana;
 rana_t * pRana = &rana;
 
+extern int timeLeft;
 extern int winPosStates[5];
 extern int vidas;
-extern int currentScore;
+extern uint16_t currentScore;
+extern unsigned int difficulty;
 extern char topNames[10][4];
 extern uint16_t topScores[10];
 
@@ -101,7 +104,7 @@ int main (void) {
 
 	    event_queue = al_create_event_queue();
 	    if (!event_queue) {
-	        printf("failed to create event_queue!\n");
+	        fprintf(stderr, "failed to create event queue!\n");
 	        al_destroy_display(display);
 	        return -1;
 	    }
@@ -109,7 +112,7 @@ int main (void) {
 	    timer = al_create_timer(1.0/FPS);
 	    al_init_font_addon();
 	    if(!timer){
-	    	printf("failed to create timer!\n");
+	    	fprintf(stderr, "failed to create timer!\n");
 	    	al_destroy_display(display);
 	    	return -1;
 	    }
@@ -117,24 +120,29 @@ int main (void) {
 	    font = al_load_font("../assets/Sprites/arcadeFont.ttf",GSIZEX*0.5,0);
 		fontL = al_load_font("../assets/Sprites/arcadeFont.ttf",GSIZEX,0);
 	    if (!font && !fontL) {
-	    	printf("failed to load fonts!\n");
+	    	fprintf(stderr, "failed to load fonts!\n");
 	    	al_destroy_display(display);
 	    	return -1;
 	    }
 
 	    if (!al_install_mouse()) {
-	        printf("failed to initialize the mouse!\n");
+	        fprintf(stderr, "failed to initialize mouse!\n");
 	        return -1;
         }
 
 	    if (!al_init_primitives_addon()) {
-	    	printf("failed to initialize primitives!\n");
+	    	fprintf(stderr, "failed to initialize primitives!\n");
 	        return -1;
         }
 
 		if(!al_init_image_addon()){
-			printf("failed to initialize image\n");
+			fprintf(stderr, "failed to initialize image!\n");
 			return -1;
+		}
+
+		if(!al_install_audio() || !al_init_acodec_addon()){
+			fprintf(stderr, "failed to initialize audio!\n");
+			return-1;
 		}
 
 		/*************** | BITMAPS | ******************************************/
@@ -184,6 +192,14 @@ int main (void) {
 
 		// Variable que se va a utilizar para guardar el estado de la rana (direccion y animacion)
 		ALLEGRO_BITMAP * frog_bitmap = frogIdleFwd_bitmap;
+
+		ALLEGRO_SAMPLE * leap = al_load_sample("../assets/Audio/sound-frogger-squash.wav");
+		ALLEGRO_SAMPLE * crash;
+		ALLEGRO_SAMPLE * drown;
+		ALLEGRO_SAMPLE * coin;
+
+		ALLEGRO_SAMPLE * music;
+		ALLEGRO_SAMPLE_INSTANCE * musicInstance;
 		/**************************************************************************/
 
 		al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -261,9 +277,12 @@ int main (void) {
 									leftClick = 0;
 									screen = GAME;
 									vidas = 3;
-									createMap(map,0);
+									difficulty = 0;
+									createMap(map,difficulty);
 									spawnRana(map, pRana);
-								}
+									inscreenscore = 0;
+									ct_score (0,5,0,5,0);
+								} 
 							}
 							else if(mouse_y > DISPLAY_Y*8.5/16+GSIZEY && mouse_y < DISPLAY_Y*9.5/16+2*GSIZEY)
 							{
@@ -585,7 +604,9 @@ int main (void) {
 							}
 
 							// Por ultimo, calculo colisiones
-							if (deathTimer != 0 || RanaCollisions(pRana, &map[pRana->posy]) == 1) //Aprovecho el lazy evaluation para deshabilitar colisiones durante una muerte
+							int status = RanaCollisions(pRana, &map[pRana->posy]);
+
+							if (deathTimer != 0 || status == 1) 
 							{
 								if(deathTimer == 0) // Kill rana
 								{
@@ -599,6 +620,13 @@ int main (void) {
 								}
 							
 							}
+							else if (status == 2)
+							{
+								difficulty++;
+								createMap(map, difficulty);
+								//SpawnRana(map, pRana);
+							}
+							
 						}
 
 						long int ranax = pRana->posx;
@@ -705,8 +733,8 @@ int main (void) {
 
 							//printf ("%d\n", rana.posy);
 							
-							inscreenscore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
-							intToChar (6, strscore, inscreenscore);
+							currentScore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
+							intToChar (6, strscore, currentScore);
 
 							isMovingUp--;
 
@@ -856,15 +884,19 @@ int main (void) {
 							switch(ev.keyboard.keycode){
 								case ALLEGRO_KEY_DOWN:
 									isMovingDown = GSIZEY;
+									al_play_sample(leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
 									break;
 								case ALLEGRO_KEY_UP:
 									isMovingUp = GSIZEY;
+									al_play_sample(leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
 									break;
 								case ALLEGRO_KEY_LEFT:
 									isMovingLeft = GSIZEX;
+									al_play_sample(leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
 									break;
 								case ALLEGRO_KEY_RIGHT:
 									isMovingRight = GSIZEX;
+									al_play_sample(leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
 									break;
 							}
 
@@ -877,6 +909,7 @@ int main (void) {
 			    }
 		    }
 		}
+		al_destroy_sample(leap);
 		al_destroy_display(display);
 		al_destroy_bitmap(purpleGrass_bitmap);
 		al_destroy_event_queue(event_queue);

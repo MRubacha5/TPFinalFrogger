@@ -79,7 +79,8 @@ linea_t *pisoPresets[] = {piso0, piso1, piso2};
 
 int vidas;
 int winPosStates[5];
-extern int timeLeft;
+unsigned int difficulty;
+int timeLeft;
 
 void createMap(linea_t * p, int difficulty){ 
     srand(time(NULL));

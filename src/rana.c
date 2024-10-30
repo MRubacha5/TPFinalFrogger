@@ -17,7 +17,13 @@
 extern int winPosStates[5];
 extern int vidas;
 extern int timeLeft;
+
+/*******************************************************************************
+ * PROTOTIPOS DE FUNCIONES
+ ******************************************************************************/
+
 static void reSpawnRana(rana_t* pRana);
+static int8_t Ganar (rana_t* pRana, uint8_t winPos);
 
 void spawnRana(linea_t* map, rana_t* pRana){
     pRana->posx = POSX_INI;
@@ -79,7 +85,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                 {
                     if (winPosStates[0] == WIN_FREE)
                     {
-                        Ganar(prana,1);
+                        return Ganar(prana,1);
                         timeLeft = START_TIME;
                     }
                     else
@@ -91,7 +97,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                 {
                     if (winPosStates[1] == WIN_FREE)
                     {
-                        Ganar(prana,2);
+                        return Ganar(prana,2);
                         timeLeft = START_TIME;
                     }
                     else 
@@ -103,7 +109,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                 {
                     if (winPosStates[2] == WIN_FREE)
                     {
-                        Ganar(prana,3);
+                        return Ganar(prana,3);
                         timeLeft = START_TIME;
                     }
                     else 
@@ -115,7 +121,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                 {
                     if (winPosStates[3] == WIN_FREE)
                     {
-                        Ganar(prana,4);
+                        return Ganar(prana,4);
                         timeLeft = START_TIME;
                     }
                     else 
@@ -128,7 +134,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                 {
                     if (winPosStates[4] == WIN_FREE)
                     {
-                        Ganar(prana,5);
+                        return Ganar(prana,5);
                         timeLeft = START_TIME;
                     }
                     else 
@@ -186,8 +192,8 @@ int RestarVidas(rana_t* pRana, int score, char* filename){
     }
 }
 
-int8_t Ganar (rana_t* pRana, uint8_t winPos){
-    int8_t i ,winningFlag = 1;
+static int8_t Ganar (rana_t* pRana, uint8_t winPos){
+    int8_t i ,winningFlag = 2; // 2 para diferenciar del 1 en colisiones (que significa muerte)
 
     switch (winPos)
     {
