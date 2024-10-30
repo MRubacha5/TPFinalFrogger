@@ -89,6 +89,12 @@ int main(void)
 
     int do_exit = 0;
 
+    dcoord_t timerCoord;
+
+    extern int winPosStates[5];
+    extern int vidas;
+    extern int currentScore;
+
     do
 	{
         lap_time = clock();
@@ -161,6 +167,8 @@ int main(void)
                         screen = GAME;
                         createMap(map,0);
 					    spawnRana(map, pRana);
+                        timerCoord.x = 0;
+                        timerCoord.y = DISP_MAX_Y;
                         
                     }
                     else if (optionSelected == 1){
@@ -206,9 +214,45 @@ int main(void)
                 }
                 break;
             case GAME:
+                int timerSetup = 1;
+                if(timerSetup){
+                    for(c = 0 ; c <= DISP_MAX_X ; c++){
+                        pos.x = c;
+                        pos.y = 0;
+                        disp_write(pos, 1);
+                        pos.y = DISP_MAX_Y;
+                        disp_write(pos, 1);
+                    }
+                    for(c = 1 ; c < DISP_MAX_Y ; c++){
+                        pos.y = c;
+                        pos.x = 0;
+                        disp_write(pos, 1);
+                        pos.x = DISP_MAX_X;
+                        disp_write(pos, 1);
+                    }
+                    timeLeft = START_TIME;
+                    timerSetup = 0;
+                }
+
                 fpsCounter++;
                 if(fpsCounter >= FPS){
                     fpsCounter = 0;
+                    timeLeft--;
+
+                    if(timerCoord.x < DISP_MAX_X && timerCoord.y == DISP_MAX_Y){
+                        timerCoord.x++;
+                    }
+                    else if (timerCoord.x == DISP_MAX_X && timerCoord.y > 0){
+                        timerCoord.y--;
+                    }
+                    else if (timerCoord.x > 0 && timerCoord.y == 0){
+                        timerCoord.x--;
+                    }
+                    else if(timerCoord.x == 0 && timerCoord.y < DISP_MAX_Y){
+                        timerCoord.y++;
+                    }
+                    disp_write(timerCoord, 0);
+
                 }
                 
                 for(i = 0 ; i < HEIGHT ; i++){
@@ -217,13 +261,13 @@ int main(void)
 
                     if(i == 0 || i == HEIGHT/2){
                         for(c = 0 ; c < WIDTH ; c++){
-                            pos.x = c;
+                            pos.x = c+1;
                             disp_write(pos, 0);
                         }
                     }
                     else if(i < HEIGHT/2){
                         for(c = 0 ; c < WIDTH ; c++){
-                            pos.x = c;
+                            pos.x = c+1;
                             disp_write(pos, 0);
                         }
                         for(c = 0 ; c < linea->cant_obj ; c++){
@@ -231,6 +275,7 @@ int main(void)
                             for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
                                 pos.x = linea->po[c] + sizePos;
                                 if(pos.x >= 0 && pos.x <= WIDTH-1){
+                                    pos.x++;
                                     disp_write(pos, 1);
                                 } 
                             } 
@@ -238,7 +283,7 @@ int main(void)
                     } 
                     else if (i > HEIGHT/2 && i != HEIGHT-1){
                         for(c = 0 ; c < WIDTH ; c++){
-                            pos.x = c;
+                            pos.x = c+1;
                             disp_write(pos, 1);
                         }
                         
@@ -247,6 +292,7 @@ int main(void)
                             for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
                                 pos.x = linea->po[c] + sizePos;
                                 if(pos.x >= 0 && pos.x <= WIDTH-1){
+                                    pos.x++;
                                     disp_write(pos, 0);
                                 }
                             }
@@ -255,30 +301,30 @@ int main(void)
                     } 
                     else if(i == HEIGHT-1){
                         for(c = 0 ; c < WIDTH ; c++){
-                            pos.x = c;
-                            if(c == WINPOS1){
-                                disp_write(pos, 0);
-                            }
-                            else if(c == WINPOS2){
-                                disp_write(pos, 0);
-                            }
-                            else if(c == WINPOS3){
-                                disp_write(pos, 0);
-                            }
-                            else if(c == WINPOS4){
-                                disp_write(pos, 0);
-                            }
-                            else if(c == WINPOS5){
-                                disp_write(pos, 0);
-                            }
-                            else{
-                                disp_write(pos, 1);
-                            }
+                            pos.x = c+1;
+                            disp_write(pos, 1);
                         }
-
-                        
+                        if(winPosStates[0] != WIN_OCC){
+                            pos.x = WINPOS1 + 1;
+                            disp_write(pos, 0);
+                        }
+                        if(winPosStates[1] != WIN_OCC){
+                            pos.x = WINPOS2 + 1;
+                            disp_write(pos, 0);
+                        }
+                        if(winPosStates[2] != WIN_OCC){
+                            pos.x = WINPOS3 + 1;
+                            disp_write(pos, 0);
+                        }
+                        if(winPosStates[3] != WIN_OCC){
+                            pos.x = WINPOS4 + 1;
+                            disp_write(pos, 0);
+                        }
+                        if(winPosStates[4] != WIN_OCC){
+                            pos.x = WINPOS5 + 1;
+                            disp_write(pos, 0);
+                        }                   
                     }
-                    
 
                     if(linea->cant_obj > 0){
                         switch (linea->v)
@@ -305,12 +351,18 @@ int main(void)
                         }                        
                     }
 
-                    if(RanaCollisions(pRana, &map[pRana->posy])){
+                    if(RanaCollisions(pRana, &map[pRana->posy]) || !timeLeft){
                         RestarVidas(pRana, 0, "score.txt");
+                        for(c = 0 ; c < DISP_MAX_X ; c++){
+                            pos.x = c;
+                            pos.y = 0;
+                            disp_write(pos, 1);
+                            pos.y = DISP_MAX_Y;
+                            disp_write(pos, 1);
+                        }
+                        timeLeft = START_TIME;
                     }
-   
                 }
-
 
                 pos.x = pRana->posx;
                 pos.y = HEIGHT - pRana->posy;
@@ -347,7 +399,6 @@ int main(void)
                     }
                 }
 
-                
                 if(coord.sw == J_PRESS && joyPressed == 0){
                     joyPressed = 1;
                     screen = PAUSE;
