@@ -44,12 +44,4 @@ void spawnRana(linea_t* map, rana_t* pRana);
 */
 int RestarVidas(rana_t * pRana, int score, char *filename);
 
-
-/**
-* @brief Desarrolla el protocolo al haber entregado la rana y devuelve un numero != de 0 si todas las ranas ya estan entregadas.
-* @param pRana Se pide para reiniciar la posicion de la rana.
-* @param winPos Se utiliza para enviar la posicion en particular donde acaba de llegar la rana
-*/
-int8_t Ganar(rana_t * pRana, uint8_t winPos);
-
 #endif //RANA_H

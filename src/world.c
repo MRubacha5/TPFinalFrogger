@@ -77,11 +77,24 @@
 linea_t *aguaPresets[] = {agua0, agua1, agua2};
 linea_t *pisoPresets[] = {piso0, piso1, piso2};
 
-int vidas = 3;
+int vidas;
+int winPosStates[5];
+unsigned int difficulty;
+int timeLeft;
 
 void createMap(linea_t * p, int difficulty){ 
     srand(time(NULL));
     int i;
+
+    // Reinicio tiempo
+    timeLeft = START_TIME; // valor en segundos 
+
+    // Seteo todas las posiciones de victoria vacias
+    for (i = 0; i < 5; i++)
+    {
+        winPosStates[i] = WIN_FREE;
+    }
+
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
 
