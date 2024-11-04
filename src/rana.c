@@ -11,9 +11,15 @@
 /*******************************************************************************
  * MACROS PARA SIMPLIFICAR CODIGO; SON ESPECIFICAS A SUS FUNCIONES 
  ******************************************************************************/
-#define ISCOLLIDING (((prana->posx - HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx - HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)) || ((prana->posx + HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx + HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)))
-#define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + HITBOXWIDTH/3.0))))
-
+#if defined(ALLEGRO)
+    #define ISCOLLIDING (((prana->posx - HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx - HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)) || ((prana->posx + HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx + HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)))
+    #define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + HITBOXWIDTH/3.0))))
+#elif defined(RASPI)
+    #define ISCOLLIDING ((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + (pl->size-1)*GSIZEX))
+    #define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + HITBOXWIDTH/3.0))))
+#else
+    #error("No platform defined")
+#endif
 int winPosStates[5] = {WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE,WIN_FREE};
 extern int vidas;
 extern int timeLeft;
@@ -30,7 +36,7 @@ static void reSpawnRana(rana_t* pRana){
     pRana->posx = POSX_INI;
     pRana->posy = POSY_INI;
     pRana->dir = UP;
-    ct_score (0,5,0,3,0);
+    //ct_score (0,5,0,3,0);
 }
 
 void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
