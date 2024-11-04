@@ -1,5 +1,5 @@
-froggerRaspi:  mainRaspi.o rana.o world.o
-	gcc -o froggerRaspi mainRaspi.o rana.o world.o joydrv.o disdrv.o -D RASPI -g
+froggerRaspi:  mainRaspi.o rana.o world.o score.o
+	gcc -o froggerRaspi mainRaspi.o rana.o world.o joydrv.o disdrv.o score.o -D RASPI -g
 
 mainRaspi.o: mainRaspi.c rana.h movement.h platformConfig.h score.h worldData.h
 	gcc -c mainRaspi.c -Wall -D RASPI
@@ -9,3 +9,6 @@ rana.o: rana.c rana.h movement.h platformConfig.h score.h worldData.h
 
 world.o: world.c rana.h movement.h platformConfig.h worldData.h
 	gcc -c world.c -Wall -D RASPI
+
+score.o: score.c score.h
+	gcc -c score.c -Wall -D RASPI

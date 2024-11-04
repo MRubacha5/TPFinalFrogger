@@ -19,7 +19,7 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs
 #define MENU 0
 #define GAME 1
 #define PAUSE 2
-#define LIVES_ANIMATION 2 * FPS
+#define LIVES_ANIMATION 3 * FPS
 
 int mainMenu[16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -55,57 +55,57 @@ int pauseMenu[16][16]= {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
-int livesAnimation[3][16][16] =     {{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,1,1,0,1,1,0,0,1,1,0,1,1,0,0},
-                                    {0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0},
-                                    {0,1,0,0,0,0,0,1,1,0,0,0,0,0,1,0},
-                                    {0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0},
-                                    {0,0,0,1,0,1,0,0,0,0,1,0,1,0,0,0},
-                                    {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0},
-                                    {0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0},
-                                    {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0},
-                                    {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0},
-                                    {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0},
-                                    {0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
-                                    {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0}},
+int livesAnimation1[16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,1,1,1,1,0,0,1,1,1,1,0,0,0},
+                                {0,0,1,0,0,0,0,1,1,0,0,0,0,1,0,0},
+                                {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                                {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                                {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                                {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                                {0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0},
+                                {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0},
+                                {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0},
+                                {0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+                                {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+                                
+                                    
+int livesAnimation2[16][16] =  {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,0},
+                                {0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0},
+                                {0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
+                                {0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,1,0,0,1,1,1,0,0,1,1,1,0},
+                                {0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1},
+                                {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
+                                {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
+                                {0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0},
+                                {0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0},
+                                {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
-                                    {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0},
-                                    {0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0},
-                                    {0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
-                                    {0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,1,0,0,1,1,1,0,0,1,1,1,0},
-                                    {0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1},
-                                    {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-                                    {0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1},
-                                    {0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0},
-                                    {0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0},
-                                    {0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}},
-
-                                    {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,1,1,1,1,0,0,1,1,1,1,0,0,0},
-                                    {0,0,1,0,0,0,0,1,1,0,0,0,0,1,0,0},
-                                    {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-                                    {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-                                    {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-                                    {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-                                    {0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0},
-                                    {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0},
-                                    {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0},
-                                    {0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
-                                    {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}
-                                    };
+int livesAnimation3[16][16] =  {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,1,1,0,1,1,0,0,1,1,0,1,1,0,0},
+                                {0,1,0,0,1,0,0,1,1,0,0,1,0,0,1,0},
+                                {0,1,0,0,0,0,0,1,1,0,0,0,0,0,1,0},
+                                {0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0},
+                                {0,0,0,1,0,1,0,0,0,0,1,0,1,0,0,0},
+                                {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0},
+                                {0,0,0,1,0,0,0,1,1,0,0,0,1,0,0,0},
+                                {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0},
+                                {0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0},
+                                {0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0},
+                                {0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+                                {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0}};
 
 unsigned int timeLeft = START_TIME; // valor en segundos 
 
@@ -116,7 +116,6 @@ int main(void)
     clock_t ini = clock();
     clock_t lap_time;
     int msec = 0;
-    linea_t * pl;
     rana_t rana;
     rana_t * pRana = &rana;
     linea_t map[HEIGHT];
@@ -148,7 +147,7 @@ int main(void)
     extern int vidas;
     extern int currentScore;
 
-    int timerSetup = 1;
+    extern unsigned int difficulty;
 
     int livesAnimationCounter = 0;
 
@@ -222,8 +221,11 @@ int main(void)
                     joyPressed = 1;
                     if(optionSelected == 0){
                         screen = GAME;
-                        createMap(map,0);
+                        difficulty = 0;
+                        createMap(map,difficulty);
 					    spawnRana(map, pRana);
+                        vidas = 3;
+                        ct_score (0,5,0,5,0);
                         timerCoord.x = 0;
                         timerCoord.y = DISP_MAX_Y;
                         
@@ -271,209 +273,225 @@ int main(void)
                 }
                 break;
             case GAME:
-                if(timerSetup){
-                    for(c = 0 ; c <= DISP_MAX_X ; c++){
-                        pos.x = c;
-                        pos.y = 0;
-                        disp_write(pos, 1);
-                        pos.y = DISP_MAX_Y;
-                        disp_write(pos, 1);
-                    }
-                    for(c = 1 ; c < DISP_MAX_Y ; c++){
-                        pos.y = c;
-                        pos.x = 0;
-                        disp_write(pos, 1);
-                        pos.x = DISP_MAX_X;
-                        disp_write(pos, 1);
-                    }
-                    timeLeft = START_TIME;
-                    timerSetup = 0;
-                }
 
                 if(livesAnimationCounter){
                     livesAnimationCounter--;
-                    disp_clear();
-                    if(!(livesAnimationCounter < LIVES_ANIMATION*6/7 && livesAnimationCounter > LIVES_ANIMATION*5/7 
-                        && livesAnimationCounter < LIVES_ANIMATION*3/7 && livesAnimationCounter > LIVES_ANIMATION*2/7)){
-                        for(i = 0 ; i < 16 ; i++){
-                            for (c = 0 ; c < 16 ; c++){
-                                pos.x = c;
-                                pos.y = i;
-                                disp_write(pos, livesAnimation[3-vidas][i][c]);
+
+                    if(((livesAnimationCounter < LIVES_ANIMATION*11/11 && livesAnimationCounter > LIVES_ANIMATION*9/11)
+                        || (livesAnimationCounter < LIVES_ANIMATION*8/11 && livesAnimationCounter > LIVES_ANIMATION*6/11))
+                        || (livesAnimationCounter < LIVES_ANIMATION*5/11 && livesAnimationCounter > LIVES_ANIMATION*3/11)
+                        || (livesAnimationCounter < LIVES_ANIMATION*2/11)){
+                        
+                        if(livesAnimationCounter >= LIVES_ANIMATION*5.5/11){
+                            for(i = 0 ; i < 16 ; i++){
+                                for (c = 0 ; c < 16 ; c++){
+                                    pos.x = c;
+                                    pos.y = i;
+                                    if(vidas == 2)
+                                        disp_write(pos, livesAnimation3[i][c]);
+                                    else if(vidas == 1)
+                                        disp_write(pos, livesAnimation2[i][c]);
+                                }
                             }
                         }
-                    }
-                }
-
-                fpsCounter++;
-                if(fpsCounter >= FPS){
-                    fpsCounter = 0;
-                    timeLeft--;
-
-                    if(timerCoord.x < DISP_MAX_X && timerCoord.y == DISP_MAX_Y){
-                        timerCoord.x++;
-                    }
-                    else if (timerCoord.x == DISP_MAX_X && timerCoord.y > 0){
-                        timerCoord.y--;
-                    }
-                    else if (timerCoord.x > 0 && timerCoord.y == 0){
-                        timerCoord.x--;
-                    }
-                    else if(timerCoord.x == 0 && timerCoord.y < DISP_MAX_Y){
-                        timerCoord.y++;
-                    }
-                    disp_write(timerCoord, 0);
-
-                }
-                
-                for(i = 0 ; i < HEIGHT ; i++){
-                    linea_t * linea = map+i;
-                    pos.y = HEIGHT - i;
-
-                    if(i == 0 || i == HEIGHT/2){
-                        for(c = 0 ; c < WIDTH ; c++){
-                            pos.x = c+1;
-                            disp_write(pos, 0);
-                        }
-                    }
-                    else if(i < HEIGHT/2){
-                        for(c = 0 ; c < WIDTH ; c++){
-                            pos.x = c+1;
-                            disp_write(pos, 0);
-                        }
-                        for(c = 0 ; c < linea->cant_obj ; c++){
-                            int sizePos = 0;
-                            for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
-                                pos.x = linea->po[c] + sizePos;
-                                if(pos.x >= 0 && pos.x <= WIDTH-1){
-                                    pos.x++;
-                                    disp_write(pos, 1);
-                                } 
-                            } 
-                        } 
-                    } 
-                    else if (i > HEIGHT/2 && i != HEIGHT-1){
-                        for(c = 0 ; c < WIDTH ; c++){
-                            pos.x = c+1;
-                            disp_write(pos, 1);
-                        }
-                        
-                        for(c = 0 ; c < linea->cant_obj ; c++){
-                            int sizePos = 0;
-                            for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
-                                pos.x = linea->po[c] + sizePos;
-                                if(pos.x >= 0 && pos.x <= WIDTH-1){
-                                    pos.x++;
-                                    disp_write(pos, 0);
+                        else{
+                            for(i = 0 ; i < 16 ; i++){
+                                for (c = 0 ; c < 16 ; c++){
+                                    pos.x = c;
+                                    pos.y = i;
+                                    if(vidas == 2)
+                                        disp_write(pos, livesAnimation2[i][c]);
+                                    else if(vidas == 1)
+                                        disp_write(pos, livesAnimation1[i][c]);
                                 }
                             }
                         }
                         
-                    } 
-                    else if(i == HEIGHT-1){
-                        for(c = 0 ; c < WIDTH ; c++){
-                            pos.x = c+1;
-                            disp_write(pos, 1);
-                        }
-                        if(winPosStates[0] != WIN_OCC){
-                            pos.x = WINPOS1 + 1;
-                            disp_write(pos, 0);
-                        }
-                        if(winPosStates[1] != WIN_OCC){
-                            pos.x = WINPOS2 + 1;
-                            disp_write(pos, 0);
-                        }
-                        if(winPosStates[2] != WIN_OCC){
-                            pos.x = WINPOS3 + 1;
-                            disp_write(pos, 0);
-                        }
-                        if(winPosStates[3] != WIN_OCC){
-                            pos.x = WINPOS4 + 1;
-                            disp_write(pos, 0);
-                        }
-                        if(winPosStates[4] != WIN_OCC){
-                            pos.x = WINPOS5 + 1;
-                            disp_write(pos, 0);
-                        }                   
+                    }
+                }
+                else{
+ 
+                    fpsCounter++;
+                    if(fpsCounter >= FPS){
+                        fpsCounter = 0;
+                        timeLeft--;
                     }
 
-                    if(linea->cant_obj > 0){
-                        switch (linea->v)
+                    disp_clear();
+
+                    timerCoord.x = 0;
+                    timerCoord.y = DISP_MAX_Y;
+                    disp_write(timerCoord, 1);
+                    for(i = 0 ; i < timeLeft ; i++){
+                        if(timerCoord.x == 0 && timerCoord.y != 0){
+                            timerCoord.y--;
+                        }
+                        else if(timerCoord.y == 0 && timerCoord.x != DISP_MAX_X){
+                            timerCoord.x++;
+                        }
+                        else if(timerCoord.x == DISP_MAX_X && timerCoord.y != DISP_MAX_Y){
+                            timerCoord.y++;
+                        }
+                        else if (timerCoord.y == DISP_MAX_Y && timerCoord.x != 0){
+                            timerCoord.x--;
+                        }
+                        disp_write(timerCoord, 1);
+                    }
+
+                    
+                    for(i = 0 ; i < HEIGHT ; i++){
+                        linea_t * linea = map+i;
+                        pos.y = HEIGHT - i;
+
+                        if(i == 0 || i == HEIGHT/2){
+                            for(c = 0 ; c < WIDTH ; c++){
+                                pos.x = c+1;
+                                disp_write(pos, 0);
+                            }
+                        }
+                        else if(i < HEIGHT/2){
+                            for(c = 0 ; c < WIDTH ; c++){
+                                pos.x = c+1;
+                                disp_write(pos, 0);
+                            }
+                            for(c = 0 ; c < linea->cant_obj ; c++){
+                                int sizePos = 0;
+                                for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
+                                    pos.x = linea->po[c] + sizePos;
+                                    if(pos.x >= 0 && pos.x <= WIDTH-1){
+                                        pos.x++;
+                                        disp_write(pos, 1);
+                                    } 
+                                } 
+                            } 
+                        } 
+                        else if (i > HEIGHT/2 && i != HEIGHT-1){
+                            for(c = 0 ; c < WIDTH ; c++){
+                                pos.x = c+1;
+                                disp_write(pos, 1);
+                            }
+                            
+                            for(c = 0 ; c < linea->cant_obj ; c++){
+                                int sizePos = 0;
+                                for(sizePos = 0 ; sizePos < linea->size ; sizePos++){
+                                    pos.x = linea->po[c] + sizePos;
+                                    if(pos.x >= 0 && pos.x <= WIDTH-1){
+                                        pos.x++;
+                                        disp_write(pos, 0);
+                                    }
+                                }
+                            }
+                            
+                        } 
+                        else if(i == HEIGHT-1){
+                            for(c = 0 ; c < WIDTH ; c++){
+                                pos.x = c+1;
+                                disp_write(pos, 1);
+                            }
+                            if(winPosStates[0] != WIN_OCC){
+                                pos.x = WINPOS1 + 1;
+                                disp_write(pos, 0);
+                            }
+                            if(winPosStates[1] != WIN_OCC){
+                                pos.x = WINPOS2 + 1;
+                                disp_write(pos, 0);
+                            }
+                            if(winPosStates[2] != WIN_OCC){
+                                pos.x = WINPOS3 + 1;
+                                disp_write(pos, 0);
+                            }
+                            if(winPosStates[3] != WIN_OCC){
+                                pos.x = WINPOS4 + 1;
+                                disp_write(pos, 0);
+                            }
+                            if(winPosStates[4] != WIN_OCC){
+                                pos.x = WINPOS5 + 1;
+                                disp_write(pos, 0);
+                            }                   
+                        }
+
+                        if(linea->cant_obj > 0){
+                            switch (linea->v)
+                            {
+                            case 1:
+                                if(fpsCounter == 0){
+                                    moveLine(linea, i, pRana);
+                                }
+                                break;
+                            case 2:
+                                if(fpsCounter == FPS/2 || fpsCounter == 0){
+                                    moveLine(linea, i, pRana);
+                                }
+                                break;
+                            case 3:
+                                if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
+                                    moveLine(linea, i, pRana);
+                                }
+                            default:
+                                if(fpsCounter == FPS/5 || fpsCounter == FPS*2/5 || fpsCounter == FPS*3/5 || fpsCounter == FPS*4/5 || fpsCounter == 0){
+                                    moveLine(linea, i, pRana);
+                                }
+                            break;
+                            }                        
+                        }
+
+                        if(RanaCollisions(pRana, &map[pRana->posy]) == 1 || !timeLeft){
+                            RestarVidas(pRana, 0, "score.txt");
+                            if(vidas == 0)
+                                screen = MENU;
+                            timeLeft = START_TIME;
+                            livesAnimationCounter = LIVES_ANIMATION;
+                        }
+                        else if(RanaCollisions(pRana, &map[pRana->posy]) == 2){
+                            printf("GANE!!");
+                            
+                            difficulty++;
+							createMap(map, difficulty);
+                        }
+                    }
+
+                    pos.x = pRana->posx + 1;
+                    pos.y = HEIGHT - pRana->posy;
+                    ranaColorTimer++;
+                    if(ranaColorTimer == 5){
+                        ranaColorTimer = 0;
+                        ranaColor = !(ranaColor);
+                    }
+                    
+                    disp_write(pos, ranaColor); 
+
+                    if(!joyMoved){
+                        isMoving = 0;
+                    }
+                    
+                    if(joyMoved && !isMoving){
+                        isMoving = 1;
+                        switch (joyValue)
                         {
-                        case 1:
-                            if(fpsCounter == 0){
-                                moveLine(linea, i, pRana);
-                            }
+                        case UP:
+                            MoveRana(pRana, UP, map+rana.posy);
                             break;
-                        case 2:
-                            if(fpsCounter == FPS/2 || fpsCounter == 0){
-                                moveLine(linea, i, pRana);
-                            }
+                        case DOWN:
+                            if(!(pRana->posy == 0))
+                                MoveRana(pRana, DOWN, map+rana.posy);
                             break;
-                        case 3:
-                            if(fpsCounter == FPS/3 || fpsCounter == FPS*2/3 || fpsCounter == 0){
-                                moveLine(linea, i, pRana);
-                            }
+                        case LEFT:
+                            if(!(pRana->posx == 0))
+                                MoveRana(pRana, LEFT, map+rana.posy);
+                            break;
+                        case RIGHT:
+                            if(!(pRana->posx == WIDTH))
+                                MoveRana(pRana, RIGHT, map+rana.posy);
+                            break;
                         default:
-                            if(fpsCounter == FPS/5 || fpsCounter == FPS*2/5 || fpsCounter == FPS*3/5 || fpsCounter == FPS*4/5 || fpsCounter == 0){
-                                moveLine(linea, i, pRana);
-                            }
-                        break;
-                        }                        
-                    }
-
-                    if(RanaCollisions(pRana, &map[pRana->posy]) || !timeLeft){
-                        RestarVidas(pRana, 0, "score.txt");
-                        for(c = 0 ; c < DISP_MAX_X ; c++){
-                            pos.x = c;
-                            pos.y = 0;
-                            disp_write(pos, 1);
-                            pos.y = DISP_MAX_Y;
-                            disp_write(pos, 1);
+                            break;
                         }
-                        timeLeft = START_TIME;
-                        livesAnimationCounter = LIVES_ANIMATION;
                     }
-                }
 
-                pos.x = pRana->posx + 1;
-                pos.y = HEIGHT - pRana->posy;
-                ranaColorTimer++;
-                if(ranaColorTimer == 5){
-                    ranaColorTimer = 0;
-                    ranaColor = !(ranaColor);
-                }
-                
-                disp_write(pos, ranaColor); 
-
-                if(!joyMoved){
-                    isMoving = 0;
-                }
-                
-                if(joyMoved && !isMoving){
-                    isMoving = 1;
-                    switch (joyValue)
-                    {
-                    case UP:
-                        MoveRana(pRana, UP, map+rana.posy);
-                        break;
-                    case DOWN:
-                        MoveRana(pRana, DOWN, map+rana.posy);
-                        break;
-                    case LEFT:
-                        MoveRana(pRana, LEFT, map+rana.posy);
-                        break;
-                    case RIGHT:
-                        MoveRana(pRana, RIGHT, map+rana.posy);
-                        break;
-                    default:
-                        break;
+                    if(coord.sw == J_PRESS && joyPressed == 0){
+                        joyPressed = 1;
+                        screen = PAUSE;
                     }
-                }
-
-                if(coord.sw == J_PRESS && joyPressed == 0){
-                    joyPressed = 1;
-                    screen = PAUSE;
                 }
                 disp_update();
                 break;
