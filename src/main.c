@@ -230,6 +230,8 @@ int main (void) {
 		//Se setea como FPS cuando hay una muerte. Inhibe el movimiento y el contador hasta que termine la animacion
 		uint8_t deathTimer = 0; 
 
+		uint16_t nextLevelFlag = 0;
+
 		/*******************
 		* SCREEN LOOP CODE *
 		********************/
@@ -340,10 +342,8 @@ int main (void) {
 						break;
 
 					case PAUSE:
-						//Fondo
+						//PAUSE
 						al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*7/16, DISPLAY_X*7/8, DISPLAY_Y*9/16, al_color_name("black"));
-
-						//PAUSE Text
 						al_draw_text(fontL, al_color_name("red"), DISPLAY_X/2, (DISPLAY_Y-GSIZEY)/2, ALLEGRO_ALIGN_CENTER, "PAUSE");
 
 						//Botones
@@ -509,6 +509,9 @@ int main (void) {
 									for (int size = 0; size < linea->size; size++)
 									{
 										if(size == 0){
+											#ifdef DEBUG
+												al_draw_filled_rectangle(objx, (HEIGHT-i)*GSIZEY,objx+GSIZEX,(HEIGHT-i+1)*GSIZEY,(al_color_name("red")));
+											#endif
 											al_draw_scaled_bitmap(logLeft_bitmap,0,0,16,16,
 												objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 										}
@@ -622,11 +625,23 @@ int main (void) {
 							}
 							else if (status == 2)
 							{
-								difficulty++;
-								createMap(map, difficulty);
+								nextLevelFlag = FPS *2;
 								//SpawnRana(map, pRana);
 							}
+							else if (nextLevelFlag == 1)
+							{
+								//difficulty++;
+								createMap(map, difficulty);
+								spawnRana(map, pRana);
+							}
 							
+						}
+
+						if(nextLevelFlag)
+						{
+							al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*7/16, DISPLAY_X*7/8, DISPLAY_Y*9/16, al_color_name("black"));
+							al_draw_text(fontL, al_color_name("red"), DISPLAY_X/2, (DISPLAY_Y-GSIZEY)/2, ALLEGRO_ALIGN_CENTER, "LEVEL UP");
+							nextLevelFlag--;
 						}
 
 						long int ranax = pRana->posx;
@@ -826,23 +841,59 @@ int main (void) {
 								ranax - GSIZEX/2.0, (HEIGHT - ranay) * GSIZEY, GSIZEX,GSIZEY,0);
 						}
 
+						if (!vidas)
+						{
+							screen = GAMEOVER;
+						}
+
 						// Game tick updates & display updates
 						fpsCounter++;
 						al_flip_display();
 
 						break;
 						
-					/*
+					
 					case GAMEOVER:
 					{
-						char finalScoreStr[6];
 						al_clear_to_color(al_color_name("black"));
-						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/4, ALLEGRO_ALIGN_CENTER, "FINAL SCORE:");
-						sprintf(finalScoreStr, '%d', inscreenscore );
-						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, finalScoreStr);
+
+						al_draw_text(fontL, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/16, ALLEGRO_ALIGN_CENTER, "GAME OVER");
+						al_draw_text(font,al_color_name("white"),(DISPLAY_X/2), (HEIGHT/4)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"FINAL SCORE:");
+						al_draw_textf(fontL, al_color_name("white"), DISPLAY_X/2.0,(HEIGHT/3)*GSIZEY, ALLEGRO_ALIGN_CENTRE, strscore);
+						
+						char name[4] = {"AAA"};
+
+						if (/*COMPARAR MAX SCORES ACA*/ 1)
+						{
+							al_draw_text(font,al_color_name("white"),(DISPLAY_X/2), (HEIGHT*3/5)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"PLEASE ENTER YOUR NAME:");
+							al_draw_text(fontL,al_color_name("white"),(DISPLAY_X/2), (HEIGHT*5/6)*GSIZEY,ALLEGRO_ALIGN_CENTRE,name);
+							for (int f = -1; f < 2; f++)
+							{
+								al_draw_text(fontL,al_color_name("white"),(WIDTH/2)+f*GSIZEX, (HEIGHT*9/12)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"^");
+								al_draw_text(fontL,al_color_name("white"),(WIDTH/2)+f*GSIZEX, (HEIGHT*11/12)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"v");
+
+								//if button is pressed
+								// name[f] ++/-- (remember to check for loopings to prevent unwanted characters)
+							}
+							
+						}
+						
+						//Botones (CAMBIAR POR UN BOTON DE TEXTO DONE QUE TE LLEVE A HISCORE SI EL SCORE FUE UN TOP 10)
+						//al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*6/8, DISPLAY_X*7/8, DISPLAY_Y, al_color_name("black"));
+						al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
+
+						if((mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8) && (mouse_y > DISPLAY_Y*6/8 && mouse_y < DISPLAY_Y)){
+							al_draw_text(font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
+							if(leftClick){
+								leftClick = 0;
+								screen = MENU;
+							
+							}
+						}
+
 						al_flip_display();
 						break;
-					}*/
+					}
 					/*case GAMEOVERTOP:
 					{
 						char c1[1] = 'A',c2[1] = 'B',c3[1] = 'C';
@@ -874,7 +925,7 @@ int main (void) {
                 else if(ev.type == ALLEGRO_EVENT_KEY_DOWN){
 					
 					if(screen == GAME){
-						//inscreenscore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
+						inscreenscore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
 						if (ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) //Escape key fuera del switch case para permitir pausar durante movimiento/muerte
 						{
 							screen = PAUSE;

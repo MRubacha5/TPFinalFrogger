@@ -20,6 +20,7 @@
 #else
     #error("No platform defined")
 #endif
+
 extern int winPosStates[5];
 extern int vidas;
 extern int timeLeft;
@@ -184,17 +185,12 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
 int RestarVidas(rana_t* pRana, int score, char* filename){
     vidas--;
     if(!vidas){
-        
-        //int n = gameOver(score, filename);
-        pRana->posx = POSX_INI;
-        pRana->posy = POSY_INI;
-        pRana->dir = UP;
-        return /*n*/ 0;
+        return gameOver(score, "score.txt");
 
     }
     else{ //si quedan vidas, reinicia la posicion de la rana
         reSpawnRana(pRana);
-        return 10;
+        return 0;
     }
 }
 
@@ -231,6 +227,7 @@ static int8_t Ganar (rana_t* pRana, uint8_t winPos){
         
     }
     
+    timeLeft = START_TIME;
     reSpawnRana(pRana);
 
     return winningFlag;
