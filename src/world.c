@@ -23,13 +23,13 @@
  
  //Difficulty 0
  
- linea_t agua0[] =  {   {.size = 3, .cant_obj = 4, .v = 2, .po = {0, 4*GSIZEX, 8*GSIZEX, 12*GSIZEX}},
+static const linea_t agua0[] =  {   {.size = 3, .cant_obj = 4, .v = 2, .po = {0, 4*GSIZEX, 8*GSIZEX, 12*GSIZEX}},
                         {.size = 2, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 6, .cant_obj = 2, .v = 2, .po = {2*GSIZEX, 10*GSIZEX}},
                         {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
                         {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
  
- linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
+static const linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 2, .v = 5, .po = {0, 4*GSIZEX}},
@@ -37,49 +37,39 @@
 
  //Difficulty 1
  
- linea_t agua1[] =  {   {.size = 4, .cant_obj = 1, .v = 2},
-                        {.size = 4, .cant_obj = 1, .v = 1},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2}};
+static const linea_t agua1[] =  {   {.size = 3, .cant_obj = 4, .v = 4, .po = {0, 4*GSIZEX, 8*GSIZEX, 12*GSIZEX}},
+                        {.size = 2, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 6, .cant_obj = 2, .v = 2, .po = {2*GSIZEX, 10*GSIZEX}},
+                        {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
+                        {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
  
- linea_t piso1[] =  {    {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 0, .v = 1},
-                        {.size = 1, .cant_obj = 3, .v = 1},
-                        {.size = 1, .cant_obj = 3, .v = 2},
-                        {.size = 2, .cant_obj = 2, .v = 1},
-                        {.size = 2, .cant_obj = 2, .v = 2}};
+static const  linea_t piso1[] =  {    {.size = 1, .cant_obj = 3, .v = 4, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
+                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 1, .cant_obj = 2, .v = 5, .po = {0, 4*GSIZEX}},
+                        {.size = 2, .cant_obj = 2, .v = 1, .po = {0, 6*GSIZEX}}};
 
- //Difficulty 2
+ //Difficulty 2 (No son constantes asi la generacion puede modificar algunos parametros)
  
- linea_t agua2[] =  {   {.size = 5, .cant_obj = 1, .v = 2},
-                        {.size = 5, .cant_obj = 1, .v = 2},
-                        {.size = 4, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 2},
-                        {.size = 3, .cant_obj = 2, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1}};
+static linea_t agua2[] =  {   {.size = 3, .cant_obj = 4, .v = 4, .po = {0, 4*GSIZEX, 8*GSIZEX, 12*GSIZEX}},
+                        {.size = 2, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 6, .cant_obj = 2, .v = 2, .po = {2*GSIZEX, 10*GSIZEX}},
+                        {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
+                        {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
  
- linea_t piso2[] =  {    {.size = 1, .cant_obj = 7, .v = 1},
-                        {.size = 1, .cant_obj = 6, .v = 1},
-                        {.size = 1, .cant_obj = 5, .v = 1},
-                        {.size = 1, .cant_obj = 4, .v = 2},
-                        {.size = 2, .cant_obj = 4, .v = 1},
-                        {.size = 2, .cant_obj = 3, .v = 2},
-                        {.size = 1, .cant_obj = 2, .v = 3}};
+static linea_t piso2[] =  {    {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
+                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 1, .cant_obj = 2, .v = 5, .po = {0, 4*GSIZEX}},
+                        {.size = 2, .cant_obj = 2, .v = 1, .po = {0, 6*GSIZEX}}};
 
 
 /*******************************************************************************/
 
-linea_t *aguaPresets[] = {agua0, agua1, agua2};
-linea_t *pisoPresets[] = {piso0, piso1, piso2};
-
+const linea_t *aguaPresets[] = {agua0, agua1, agua2};
+const linea_t *pisoPresets[] = {piso0, piso1, piso2};
 int vidas;
 int winPosStates[5];
-unsigned int difficulty;
 int timeLeft;
 
 void createMap(linea_t * p, int difficulty){ 
@@ -98,18 +88,33 @@ void createMap(linea_t * p, int difficulty){
     for(i = 0 ; i < HEIGHT ; i++){
         linea_t * linea = p + i;
 
-        //Asigno objetos a cada linea
-        if(i<HEIGHT/2 && i != 0){
-            *(linea) = pisoPresets[difficulty][i-1];
+        if (difficulty < 2)
+        {
+            //Asigno objetos a cada linea
+            if(i<HEIGHT/2 && i != 0){
+                *(linea) = pisoPresets[difficulty][i-1];
+            }
+            else if(i > HEIGHT/2 && i != HEIGHT-1){
+                *(linea) = aguaPresets[difficulty][i-HEIGHT/2-1];
+            }
+            else{
+                linea->cant_obj = 0;
+            }
         }
-        else if(i > HEIGHT/2 && i != HEIGHT-1){
-            *(linea) = aguaPresets[difficulty][i-HEIGHT/2-1];
-        }
-        else{
-            linea->cant_obj = 0;
+        else // Generacion aleatoria a partir del nivel 3; usa presets[2] pero varia los parametros
+        {
+            if(i<HEIGHT/2 && i != 0){
+                *(linea) = pisoPresets[2][rand()%5];
+            }
+            else if(i > HEIGHT/2 && i != HEIGHT-1){
+                *(linea) = aguaPresets[2][rand()%5];
+            }
+            else{
+                linea->cant_obj = 0;
+            }
         }
 
-        //Asigno direccion de movimiento
+        //Asigno direccion de movimiento. Consistente para asegurar jugabilidad
         if(linea->size == 2 && i < HEIGHT/2)
         {
             linea->dir = IZQ;
@@ -123,27 +128,17 @@ void createMap(linea_t * p, int difficulty){
             linea->dir = ((i+2)%3?DER:IZQ);
         }
 
-        linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; // 1 es piso 0 es agua
+        linea->val_def = (i <= HEIGHT/2)?SAFE:UNSAFE; //SAFE es la calle y UNSAFE es el agua
 
-        //Espaciado entre objetos; aleatorio a partir del nivel 3
-        /*for(c = 0 ; c < linea->cant_obj ; c++){
-            if(i <= HEIGHT/2){
-                if(linea->dir == DER){
-                    (linea->po)[c] = (c == 0)?(-1):GSIZEX*((linea->po)[c-1]-linea->size-rand()%5-1); //modificar 5 para spawn rate
-                }
-                else if(linea->dir == IZQ){
-                    (linea->po)[c] = (c == 0)?(WIDTH + GSIZEX):GSIZEX*((linea->po)[c-1]+linea->size+rand()%5+1); //modificar 5 para spawn rate
-                }
-            }
-            else{
-                if(linea->dir == DER){
-                    (linea->po)[c] = (c == 0)?(-1):GSIZEX*((linea->po)[c-1]-linea->size-rand()%3-1); //modificar 3 para spawn rate
-                }
-                else if(linea->dir == IZQ){
-                    (linea->po)[c] = (c == 0)?(WIDTH + GSIZEX):GSIZEX*((linea->po)[c-1]+linea->size+rand()%3+1); //modificar 3 para spawn rate
-                }
-            }
-        }*/
+        /*********************
+        * GENERACION AL AZAR *
+        **********************/
+       if(difficulty > 2)
+       {
+            linea->v = (int8_t)((double)(linea->v)*((difficulty+2.0)/5.0)); //20% mas velocidad (comparada a la base; NO exponencial) por nivel a partir del 4
+
+       }
+ 
     }
 }
 

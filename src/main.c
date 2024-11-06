@@ -57,7 +57,7 @@ extern int timeLeft;
 extern int winPosStates[5];
 extern int vidas;
 extern uint16_t currentScore;
-extern unsigned int difficulty;
+unsigned int difficulty;
 extern char topNames[10][4];
 extern uint16_t topScores[10];
 
@@ -628,17 +628,18 @@ int main (void) {
 							else if (status == 2)
 							{
 								nextLevelFlag = FPS *2;
-								//SpawnRana(map, pRana);
-							}
-							else if (nextLevelFlag == 1)
-							{
-								//difficulty++;
-								createMap(map, difficulty);
-								spawnRana(map, pRana);
+								
 							}
 							
 						}
 
+						if (nextLevelFlag == 1)
+							{
+								difficulty++;
+								
+								createMap(map, difficulty);
+								spawnRana(map, pRana);
+							}
 						if(nextLevelFlag)
 						{
 							al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*7/16, DISPLAY_X*7/8, DISPLAY_Y*9/16, al_color_name("black"));
