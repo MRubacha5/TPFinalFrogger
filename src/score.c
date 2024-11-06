@@ -126,6 +126,7 @@ static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore)
 			p2arr[i-1] = p2arr[i];
 			p2arr[i] = tempa;
 		}
+		printf ("%d \n",p2arr[9]);
 	}
 	return;
 }
@@ -159,9 +160,9 @@ static void fwr_sc (FILE* fp ,uint16_t arr[], int l, char plr [][4])
 {
 	fseek ( fp,0,SEEK_SET);
 	int i;
-	for (i=0; i<l-1;i++)
+	for (i=0; i<l;i++)
 	{
-		fprintf(fp,"%s	%05u \n" ,plr [i], arr[i]);
+		fprintf(fp,"%s %05d\n", plr[i], arr[i]);
 
 	}
 }
@@ -267,13 +268,6 @@ int IsMax (uint16_t fscore, char* filename)
 	}
 }
 
-int gameOver (uint16_t fscore, char* filename)
-{
-	uint16_t score;
-	score = fscore;
-	int n = IsMax(score, filename);
-	return n;
-}
 
 void intToChar (int strLong, char* str, uint16_t score)
 {

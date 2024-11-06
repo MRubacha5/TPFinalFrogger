@@ -185,7 +185,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
 int RestarVidas(rana_t* pRana, int score, char* filename){
     vidas--;
     if(!vidas){
-        return gameOver(score, "score.txt");
+        return 0;
 
     }
     else{ //si quedan vidas, reinicia la posicion de la rana

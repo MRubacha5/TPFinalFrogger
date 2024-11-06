@@ -46,7 +46,7 @@ int max_scores (uint16_t fscore, char* filename,  char* alias);
 * 
     @brief Calculates final Score and returns 1 if 
 */
-int gameOver (uint16_t fscore, char* filename);
+//int gameOver (uint16_t fscore, char* filename);
 
 /*******************************************************************************
  * FORMATO DEL FILENAME

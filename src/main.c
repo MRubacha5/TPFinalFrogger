@@ -283,7 +283,8 @@ int main (void) {
 									difficulty = 0;
 									createMap(map,difficulty);
 									spawnRana(map, pRana);
-									inscreenscore = 0;
+									currentScore = 0;
+									intToChar (6,strscore,currentScore);
 									ct_score (0,5,0,5,0);
 								} 
 							}
@@ -864,7 +865,7 @@ int main (void) {
 						
 						
 
-						if (/*COMPARAR MAX SCORES ACA*/ 1)
+						if (IsMax(currentScore,"score.txt"))
 						{
 							al_draw_text(font,al_color_name("white"),(DISPLAY_X/2), (HEIGHT*3/5)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"PLEASE ENTER YOUR NAME:");
 							al_draw_text(fontL,al_color_name("white"),(DISPLAY_X/2), (HEIGHT*5/6)*GSIZEY,ALLEGRO_ALIGN_CENTRE,name);
@@ -874,7 +875,7 @@ int main (void) {
 								al_draw_text(font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "SUBMIT");
 								if(leftClick){
 									leftClick = 0;
-									// ACTUALIZAR SCORE TXT ACA
+									max_scores(currentScore,"score.txt",name);
 									screen = HISCORE;
 
 									//Reset input default for next time
