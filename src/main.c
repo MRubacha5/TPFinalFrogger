@@ -47,6 +47,7 @@ u_int16_t inscreenscore;
 
 char strscore [6] = {"00000"};
 int entregada;
+static char name[4] = {"AAA"};
 
 linea_t map[HEIGHT];
 rana_t rana;
@@ -433,7 +434,7 @@ int main (void) {
 							/******************
 							* LINEAS DE PASTO *
 							*******************/
-							if (i == 0 || i == HEIGHT/2) 
+							if (i == 0 || i == HEIGHT/2)
 							{
 
 								if(i==HEIGHT/2){
@@ -861,50 +862,73 @@ int main (void) {
 						al_draw_text(font,al_color_name("white"),(DISPLAY_X/2), (HEIGHT/4)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"FINAL SCORE:");
 						al_draw_textf(fontL, al_color_name("white"), DISPLAY_X/2.0,(HEIGHT/3)*GSIZEY, ALLEGRO_ALIGN_CENTRE, strscore);
 						
-						char name[4] = {"AAA"};
+						
 
 						if (/*COMPARAR MAX SCORES ACA*/ 1)
 						{
 							al_draw_text(font,al_color_name("white"),(DISPLAY_X/2), (HEIGHT*3/5)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"PLEASE ENTER YOUR NAME:");
 							al_draw_text(fontL,al_color_name("white"),(DISPLAY_X/2), (HEIGHT*5/6)*GSIZEY,ALLEGRO_ALIGN_CENTRE,name);
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "SUBMIT");
+
+							if((mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8) && (mouse_y > DISPLAY_Y*6/8 && mouse_y < DISPLAY_Y)){
+								al_draw_text(font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "SUBMIT");
+								if(leftClick){
+									leftClick = 0;
+									// ACTUALIZAR SCORE TXT ACA
+									screen = HISCORE;
+
+									//Reset input default for next time
+									for(int n = 0; n < 3; n++){
+										name[n] = 'A';
+									}
+								}
+							}
 							for (int f = -1; f < 2; f++)
 							{
-								al_draw_text(fontL,al_color_name("white"),(WIDTH/2)+f*GSIZEX, (HEIGHT*9/12)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"^");
-								al_draw_text(fontL,al_color_name("white"),(WIDTH/2)+f*GSIZEX, (HEIGHT*11/12)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"v");
+								al_draw_text(fontL,al_color_name("white"),(DISPLAY_X/2)+f*GSIZEX, DISPLAY_Y*6/11,ALLEGRO_ALIGN_CENTRE,"^");
+								al_draw_text(fontL,al_color_name("white"),(DISPLAY_X/2)+f*GSIZEX, DISPLAY_Y*7/11,ALLEGRO_ALIGN_CENTRE,"v");
+								if((mouse_x > (DISPLAY_X/2)+(f-0.5)*GSIZEX && mouse_x < (DISPLAY_X/2)+(f+0.5)*GSIZEX))
+								{
+									if(mouse_y > DISPLAY_Y*6/11 && mouse_y < DISPLAY_Y*6/11+GSIZEY)
+									{
+										
+										al_draw_text(fontL,al_color_name("yellow"),(DISPLAY_X/2)+f*GSIZEX, DISPLAY_Y*6/11,ALLEGRO_ALIGN_CENTRE,"^");
+										if(leftClick){
+											leftClick = 0;
+											name[f+1] = (name[f+1] == 'Z')? 'A':name[f+1]+1;
+										}
+									}
 
-								//if button is pressed
-								// name[f] ++/-- (remember to check for loopings to prevent unwanted characters)
+									if(mouse_y > DISPLAY_Y*7/11 && mouse_y < DISPLAY_Y*7/11+GSIZEY)
+									{
+										al_draw_text(fontL,al_color_name("yellow"),(DISPLAY_X/2)+f*GSIZEX, DISPLAY_Y*7/11,ALLEGRO_ALIGN_CENTRE,"v");
+										if(leftClick){
+											leftClick = 0;
+											name[f+1] = (name[f+1] == 'A')? 'Z':name[f+1]-1;
+										}
+									}
+								}
 							}
 							
+						}
+						else 
+						{
+							al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
+
+							if((mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8) && (mouse_y > DISPLAY_Y*6/8 && mouse_y < DISPLAY_Y)){
+								al_draw_text(font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
+								if(leftClick){
+									leftClick = 0;
+									screen = MENU;
+								
+								}
+							}
 						}
 						
-						//Botones (CAMBIAR POR UN BOTON DE TEXTO DONE QUE TE LLEVE A HISCORE SI EL SCORE FUE UN TOP 10)
-						//al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*6/8, DISPLAY_X*7/8, DISPLAY_Y, al_color_name("black"));
-						al_draw_text(font, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
-
-						if((mouse_x > DISPLAY_X/8 && mouse_x < DISPLAY_X*7/8) && (mouse_y > DISPLAY_Y*6/8 && mouse_y < DISPLAY_Y)){
-							al_draw_text(font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*7/8, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
-							if(leftClick){
-								leftClick = 0;
-								screen = MENU;
-							
-							}
-						}
 
 						al_flip_display();
 						break;
 					}
-					/*case GAMEOVERTOP:
-					{
-						char c1[1] = 'A',c2[1] = 'B',c3[1] = 'C';
-						al_clear_to_color(al_color_name("black"));
-						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/6, ALLEGRO_ALIGN_CENTER, "Introduce your nickname:");
-						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/2.0, ALLEGRO_ALIGN_CENTER, c1);
-						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/2.0, ALLEGRO_ALIGN_CENTER, c2);
-						al_draw_text(font, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y*4/6, ALLEGRO_ALIGN_CENTER, c3);
-						
-					}
-					*/
 						
 					}
 
