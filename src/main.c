@@ -465,27 +465,42 @@ int main (void) {
 										{
 										case IZQ:
 											if (i%3 == 1){
+												#ifdef DEBUG
+												al_draw_filled_rectangle(objx, (HEIGHT-i)*GSIZEY,objx+GSIZEX,(HEIGHT-i+1)*GSIZEY,(al_color_name("purple")));
+												#endif
 												al_draw_scaled_bitmap(car2_bitmap,0,0,16,16,
 													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 											}
 											else{
+												#ifdef DEBUG
+												al_draw_filled_rectangle(objx, (HEIGHT-i)*GSIZEY,objx+GSIZEX,(HEIGHT-i+1)*GSIZEY,(al_color_name("purple")));
+												#endif
 												al_draw_scaled_bitmap(car1_bitmap,0,0,16,16,
 													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 											}
 											break;
 										case DER:
 											if (i%3 == 1){
+												#ifdef DEBUG
+												al_draw_filled_rectangle(objx, (HEIGHT-i)*GSIZEY,objx+GSIZEX,(HEIGHT-i+1)*GSIZEY,(al_color_name("purple")));
+												#endif
 												al_draw_scaled_bitmap(car3_bitmap,0,0,16,16,
 													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 
 											}
 											else{
+												#ifdef DEBUG
+												al_draw_filled_rectangle(objx, (HEIGHT-i)*GSIZEY,objx+GSIZEX,(HEIGHT-i+1)*GSIZEY,(al_color_name("purple")));
+												#endif
 												al_draw_scaled_bitmap(car4_bitmap,0,0,16,16,
 													objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 											}
 										}
 											break;
 									case 2:
+										#ifdef DEBUG
+												al_draw_filled_rectangle(objx, (HEIGHT-i)*GSIZEY,objx+GSIZEX*2,(HEIGHT-i+1)*GSIZEY,(al_color_name("purple")));
+										#endif
 										al_draw_scaled_bitmap(truck_bitmap,0,0,32,16,
 											objx, (HEIGHT-i) * GSIZEY, GSIZEX *2, GSIZEY, 0);
 										break;
@@ -512,12 +527,15 @@ int main (void) {
 									{
 										if(size == 0){
 											#ifdef DEBUG
-												al_draw_filled_rectangle(objx, (HEIGHT-i)*GSIZEY,objx+GSIZEX,(HEIGHT-i+1)*GSIZEY,(al_color_name("red")));
+												al_draw_filled_rectangle(objx, (HEIGHT-i)*GSIZEY,objx+GSIZEX,(HEIGHT-i+1)*GSIZEY,(al_color_name("purple")));
 											#endif
 											al_draw_scaled_bitmap(logLeft_bitmap,0,0,16,16,
 												objx, (HEIGHT-i) * GSIZEY, GSIZEX, GSIZEY, 0);
 										}
 										else if (size == linea->size - 1){
+											#ifdef DEBUG
+												al_draw_filled_rectangle((objx+GSIZEX*size), (HEIGHT-i)*GSIZEY,objx+GSIZEX*(size+1),(HEIGHT-i+1)*GSIZEY,(al_color_name("purple")));
+											#endif
 											al_draw_scaled_bitmap(logRight_bitmap,0,0,16,16,
 												(objx+GSIZEX*size), (HEIGHT-i) * GSIZEY, GSIZEX,GSIZEY,0);
 										}
