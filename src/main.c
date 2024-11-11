@@ -956,7 +956,7 @@ int main (void) {
 						{
 							screen = PAUSE;
 						}
-						else if (!isMovingUp && !isMovingDown && !isMovingLeft && !isMovingRight && !deathTimer)
+						else if (!isMovingUp && !isMovingDown && !isMovingLeft && !isMovingRight && !deathTimer && !nextLevelFlag)
 						{
 							switch(ev.keyboard.keycode){
 								case ALLEGRO_KEY_DOWN:
