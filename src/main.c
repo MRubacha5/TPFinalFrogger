@@ -146,6 +146,7 @@ int main (void) {
 			return-1;
 		}
 
+		al_reserve_samples(10);
 		/*************** | BITMAPS | ******************************************/
 		//Cars
 		ALLEGRO_BITMAP * car1_bitmap = al_load_bitmap("../assets/Sprites/car1.png");
@@ -194,9 +195,9 @@ int main (void) {
 		// Variable que se va a utilizar para guardar el estado de la rana (direccion y animacion)
 		ALLEGRO_BITMAP * frog_bitmap = frogIdleFwd_bitmap;
 
-		ALLEGRO_SAMPLE * leap = al_load_sample("../assets/Audio/sound-frogger-squash.wav");
-		ALLEGRO_SAMPLE * crash;
-		ALLEGRO_SAMPLE * drown;
+		ALLEGRO_SAMPLE * leap = al_load_sample("../assets/Audio/sound-frogger-hop.wav");
+		ALLEGRO_SAMPLE * crash = al_load_sample("../assets/Audio/sound-frogger-squash.wav");
+		ALLEGRO_SAMPLE * drown = al_load_sample("../assets/Audio/sound-frogger-drown.wav");;
 		ALLEGRO_SAMPLE * coin;
 
 		ALLEGRO_SAMPLE * music;
@@ -414,6 +415,7 @@ int main (void) {
 						}
 						else if (deathTimer == 0) //La rana muere si se queda sin tiempo
 						{
+							al_play_sample(crash,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
 							deathTimer = FPS;
 						}
 
@@ -633,6 +635,14 @@ int main (void) {
 							{
 								if(deathTimer == 0) // Kill rana
 								{
+									if(pRana->posy > HEIGHT/2)
+									{
+										al_play_sample(drown,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+									}
+									else
+									{
+										al_play_sample(crash,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+									}
 									deathTimer = FPS;
 								} 
 								if (deathTimer == 1 && i == HEIGHT-1) // Respawn rana (i == HEIGHT-1 para asegurarse que lo haga solamente una vez por pasada)
@@ -683,6 +693,7 @@ int main (void) {
 
 						if (deathTimer == FPS) 
 						{
+							
 							//Inhibo el movimiento de la rana y guardo su posicion de muerte
 							isMovingDown = 0;
 							isMovingUp = 0;
