@@ -195,7 +195,7 @@ int RestarVidas(rana_t* pRana, int score, char* filename){
 }
 
 static int8_t Ganar (rana_t* pRana, uint8_t winPos){
-    int8_t i ,winningFlag = 2; // 2 para diferenciar del 1 en colisiones (que significa muerte)
+    int8_t iterations ,winningFlag = 2; // 2 para diferenciar del 1 en colisiones (que significa muerte)
 
     switch (winPos)
     {
@@ -218,17 +218,28 @@ static int8_t Ganar (rana_t* pRana, uint8_t winPos){
             break;
 
     }
-    
-    for(i=0; i < 5 ; i++){
 
-        if(winPosStates[i] == WIN_FREE){
+    //printf("ocupe bien\n");
+
+    //printf("iterations out: %d", iterations);
+    
+    iterations = 0;
+
+    for(iterations=0; iterations < 5 ; iterations++){
+
+        printf("iterations in: %d\n", iterations);
+        if(winPosStates[iterations] == WIN_FREE){
             winningFlag = 0;
+            printf("quedan flags libres\n");
         }
         
     }
+
+    printf("winning flag\n");
+
+    reSpawnRana(pRana);
     
     timeLeft = START_TIME;
-    reSpawnRana(pRana);
 
     return winningFlag;
 }

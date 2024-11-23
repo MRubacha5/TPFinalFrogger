@@ -147,7 +147,7 @@ int main(void)
     extern int vidas;
     extern int currentScore;
 
-    extern unsigned int difficulty;
+    unsigned int difficulty;
 
     int livesAnimationCounter = 0;
 
@@ -410,6 +410,44 @@ int main(void)
                             }                   
                         }
 
+                        pos.x = pRana->posx + 1;
+                        pos.y = HEIGHT - pRana->posy;
+                        ranaColorTimer++;
+                        if(ranaColorTimer == 5){
+                            ranaColorTimer = 0;
+                            ranaColor = !(ranaColor);
+                        }
+                        
+                        disp_write(pos, ranaColor); 
+
+                        if(!joyMoved){
+                            isMoving = 0;
+                        }
+                        
+                        if(joyMoved && !isMoving){
+                            isMoving = 1;
+                            switch (joyValue)
+                            {
+                            case UP:
+                                MoveRana(pRana, UP, map+rana.posy);
+                                break;
+                            case DOWN:
+                                if(!(pRana->posy == 0))
+                                    MoveRana(pRana, DOWN, map+rana.posy);
+                                break;
+                            case LEFT:
+                                if(!(pRana->posx == 0))
+                                    MoveRana(pRana, LEFT, map+rana.posy);
+                                break;
+                            case RIGHT:
+                                if(!(pRana->posx == WIDTH))
+                                    MoveRana(pRana, RIGHT, map+rana.posy);
+                                break;
+                            default:
+                                break;
+                            }
+                        }
+
                         if(linea->cant_obj > 0){
                             switch (linea->v)
                             {
@@ -435,14 +473,16 @@ int main(void)
                             }                        
                         }
 
-                        if(RanaCollisions(pRana, &map[pRana->posy]) == 1 || !timeLeft){
+                        int collisionValue = RanaCollisions(pRana, &map[pRana->posy]);
+
+                        if(collisionValue == 1 || !timeLeft){
                             RestarVidas(pRana, 0, "score.txt");
                             if(vidas == 0)
                                 screen = MENU;
                             timeLeft = START_TIME;
                             livesAnimationCounter = LIVES_ANIMATION;
                         }
-                        else if(RanaCollisions(pRana, &map[pRana->posy]) == 2){
+                        else if(collisionValue == 2){
                             printf("GANE!!");
                             
                             difficulty++;
@@ -450,43 +490,7 @@ int main(void)
                         }
                     }
 
-                    pos.x = pRana->posx + 1;
-                    pos.y = HEIGHT - pRana->posy;
-                    ranaColorTimer++;
-                    if(ranaColorTimer == 5){
-                        ranaColorTimer = 0;
-                        ranaColor = !(ranaColor);
-                    }
                     
-                    disp_write(pos, ranaColor); 
-
-                    if(!joyMoved){
-                        isMoving = 0;
-                    }
-                    
-                    if(joyMoved && !isMoving){
-                        isMoving = 1;
-                        switch (joyValue)
-                        {
-                        case UP:
-                            MoveRana(pRana, UP, map+rana.posy);
-                            break;
-                        case DOWN:
-                            if(!(pRana->posy == 0))
-                                MoveRana(pRana, DOWN, map+rana.posy);
-                            break;
-                        case LEFT:
-                            if(!(pRana->posx == 0))
-                                MoveRana(pRana, LEFT, map+rana.posy);
-                            break;
-                        case RIGHT:
-                            if(!(pRana->posx == WIDTH))
-                                MoveRana(pRana, RIGHT, map+rana.posy);
-                            break;
-                        default:
-                            break;
-                        }
-                    }
 
                     if(coord.sw == J_PRESS && joyPressed == 0){
                         joyPressed = 1;
