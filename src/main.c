@@ -779,7 +779,11 @@ int main (void) {
 							MoveRana(pRana, UP, map+rana.posy);
 
 							//printf ("%d\n", rana.posy);
-							
+							if (rana.posy == 12)
+							{
+								entregada = 1;
+							}
+							else entregada = 0;
 							currentScore = ct_score(rana.posy, timeLeft, HEIGHT, vidas, entregada);
 							intToChar (6, strscore, currentScore);
 
