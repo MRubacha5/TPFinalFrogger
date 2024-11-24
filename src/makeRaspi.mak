@@ -1,5 +1,5 @@
 froggerRaspi:  mainRaspi.o rana.o world.o score.o
-	gcc -o froggerRaspi mainRaspi.o rana.o world.o joydrv.o disdrv.o score.o -D RASPI -g
+	gcc -o froggerRaspi mainRaspi.o rana.o world.o joydrv.o disdrv.o score.o -D RASPI -g -lSDL2 -lSDL2_mixer
 
 mainRaspi.o: mainRaspi.c rana.h movement.h platformConfig.h score.h worldData.h
 	gcc -c mainRaspi.c -Wall -D RASPI

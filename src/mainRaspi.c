@@ -5,6 +5,8 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs
 //Como compilar: gcc testLibraries.c disdrv.o joydrv.o -Wall -o testLibs
 #include <stdio.h>
 #include <time.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "disdrv.h"
 #include "joydrv.h"
@@ -20,6 +22,7 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs
 #define GAME 1
 #define PAUSE 2
 #define LIVES_ANIMATION 3 * FPS
+#define LEVEL_ANIMATION 3 * FPS
 
 int mainMenu[16][16] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -107,6 +110,23 @@ int livesAnimation3[16][16] =  {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                 {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
                                 {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0}};
 
+int levelAnimation[16][16] =   {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
+                                {0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0},
+                                {0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0},
+                                {0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0},
+                                {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                                {0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                                {0,0,1,1,1,0,0,0,0,0,0,0,1,1,0,0},
+                                {0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,0},
+                                {0,0,0,0,1,1,0,1,1,0,1,0,0,0,0,0},
+                                {0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,0},
+                                {0,0,1,1,0,0,1,0,1,0,0,0,1,0,0,0},
+                                {0,0,1,0,0,1,0,0,0,1,1,0,1,0,0,0},
+                                {0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0},
+                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+
 unsigned int timeLeft = START_TIME; // valor en segundos 
 
 int main(void)
@@ -150,6 +170,29 @@ int main(void)
     unsigned int difficulty;
 
     int livesAnimationCounter = 0;
+    int levelAnimationCounter = 0;
+
+    SDL_Init(SDL_INIT_AUDIO);
+
+    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+
+    Mix_Chunk *sound_drown = Mix_LoadWAV("../assets/Audio/sound-frogger-drown.wav");
+    Mix_Chunk *sound_squash = Mix_LoadWAV("../assets/Audio/sound-frogger-squash.wav");
+    Mix_Chunk *sound_hop = Mix_LoadWAV("../assets/Audio/sound-frogger-hop.wav");
+    Mix_Chunk *sound_timer = Mix_LoadWAV("../assets/Audio/sound-frogger-time-running-out.wav");
+
+    if(sound_drown == NULL){
+        printf("%s\n", Mix_GetError());
+    }
+    if(sound_squash == NULL){
+        printf("error loading squash\n");
+    }
+    if(sound_hop == NULL){
+        printf("%s\n", Mix_GetError());
+    }
+    if(sound_timer == NULL){
+        printf("%s\n", Mix_GetError());
+    }
 
     do
 	{
@@ -309,6 +352,26 @@ int main(void)
                         
                     }
                 }
+                else if(levelAnimationCounter){
+                    levelAnimationCounter--;
+
+                    if(((levelAnimationCounter < LEVEL_ANIMATION*11/11 && levelAnimationCounter > LEVEL_ANIMATION*9/11)
+                        || (levelAnimationCounter < LEVEL_ANIMATION*8/11 && levelAnimationCounter > LEVEL_ANIMATION*6/11))
+                        || (levelAnimationCounter < LEVEL_ANIMATION*5/11 && levelAnimationCounter > LEVEL_ANIMATION*3/11)
+                        || (levelAnimationCounter < LEVEL_ANIMATION*2/11)){
+                        
+                        for(i = 0 ; i < 16 ; i++){
+                            for (c = 0 ; c < 16 ; c++){
+                                pos.x = c;
+                                pos.y = i;
+                                
+                                disp_write(pos, levelAnimation[i][c]);
+                                
+                            }
+                        }
+                        
+                    }
+                }
                 else{
  
                     fpsCounter++;
@@ -336,6 +399,9 @@ int main(void)
                             timerCoord.x--;
                         }
                         disp_write(timerCoord, 1);
+                    }
+                    if(timeLeft == START_TIME*0.25){
+                        Mix_PlayChannel(-1, sound_timer, 0);
                     }
 
                     
@@ -426,6 +492,7 @@ int main(void)
                         
                         if(joyMoved && !isMoving){
                             isMoving = 1;
+                            Mix_PlayChannel(-1, sound_hop, 0);
                             switch (joyValue)
                             {
                             case UP:
@@ -476,9 +543,21 @@ int main(void)
                         int collisionValue = RanaCollisions(pRana, &map[pRana->posy]);
 
                         if(collisionValue == 1 || !timeLeft){
+                            
+                            if(pRana->posy > HEIGHT/2){
+                                Mix_PlayChannel(-1, sound_drown, 0);
+                            }
+                            else if (pRana->posy <= HEIGHT/2){
+                                Mix_PlayChannel(-1, sound_squash, 0);
+                            }
+                            
                             RestarVidas(pRana, 0, "score.txt");
-                            if(vidas == 0)
+                            if(vidas == 0){
                                 screen = MENU;
+                            }
+
+                            
+                            
                             timeLeft = START_TIME;
                             livesAnimationCounter = LIVES_ANIMATION;
                         }
@@ -510,4 +589,10 @@ int main(void)
 	//Borro el display al salir
 	disp_clear();
     disp_update();
+    Mix_FreeChunk(sound_drown);
+    Mix_FreeChunk(sound_hop);
+    Mix_FreeChunk(sound_squash);
+    Mix_FreeChunk(sound_timer);
+    Mix_CloseAudio();
+    SDL_Quit();
 }
