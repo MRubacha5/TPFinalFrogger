@@ -18,9 +18,9 @@ Permite mover con el joystick un LED encendido en la matriz de LEDs
 
 #define FPS 60
 #define THRESHOLD 40	//Límite a partir del cual se mueve el LED encendido
-#define MENU 0
-#define GAME 1
-#define PAUSE 2
+
+enum {MENU, GAME, PAUSE, GAMEOVER, HIGHSCORE};
+
 #define LIVES_ANIMATION 3 * FPS
 #define LEVEL_ANIMATION 3 * FPS
 
@@ -127,41 +127,205 @@ int levelAnimation[16][16] =   {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                 {0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,0},
                                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
-unsigned int timeLeft = START_TIME; // valor en segundos 
+int letters[26][5][3] =   {{{1,1,1},
+                            {1,0,1},
+                            {1,1,1},
+                            {1,0,1},
+                            {1,0,1}},
+                           {{1,1,1},
+                            {1,0,1},
+                            {1,1,0},
+                            {1,0,1},
+                            {1,1,1}},
+                           {{1,1,1},
+                            {1,0,0},
+                            {1,0,0},
+                            {1,0,0},
+                            {1,1,1}},
+                           {{1,1,0},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,1,0}},
+                           {{1,1,1},
+                            {1,0,0},
+                            {1,1,1},
+                            {1,0,0},
+                            {1,1,1}},
+                           {{1,1,1},
+                            {1,0,0},
+                            {1,1,0},
+                            {1,0,0},
+                            {1,0,0}},
+                           {{1,1,1},
+                            {1,0,0},
+                            {1,1,0},
+                            {1,0,1},
+                            {1,1,1}},
+                           {{1,0,1},
+                            {1,0,1},
+                            {1,1,1},
+                            {1,0,1},
+                            {1,0,1}},
+                           {{1,1,1},
+                            {0,1,0},
+                            {0,1,0},
+                            {0,1,0},
+                            {1,1,1}},
+                           {{1,1,1},
+                            {0,1,0},
+                            {0,1,0},
+                            {0,1,0},
+                            {1,1,0}},
+                           {{1,0,1},
+                            {1,0,1},
+                            {1,1,0},
+                            {1,0,1},
+                            {1,0,1}},
+                           {{1,0,0},
+                            {1,0,0},
+                            {1,0,0},
+                            {1,0,0},
+                            {1,1,1}},
+                           {{1,0,1},
+                            {1,1,1},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,0,1}},
+                           {{1,0,1},
+                            {1,1,1},
+                            {1,1,1},
+                            {1,1,1},
+                            {1,0,1}},
+                           {{1,1,1},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,1,1}},
+                           {{1,1,1},
+                            {1,0,1},
+                            {1,1,1},
+                            {1,0,0},
+                            {1,0,0}},
+                           {{1,1,1},
+                            {1,0,1},
+                            {1,1,1},
+                            {0,0,1},
+                            {0,0,1}},
+                           {{1,1,1},
+                            {1,0,1},
+                            {1,1,0},
+                            {1,0,1},
+                            {1,0,1}},
+                           {{1,1,1},
+                            {1,0,0},
+                            {1,1,1},
+                            {0,0,1},
+                            {1,1,1}},
+                           {{1,1,1},
+                            {0,1,0},
+                            {0,1,0},
+                            {0,1,0},
+                            {0,1,0}},
+                           {{1,0,1},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,1,1}},
+                           {{1,0,01},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,0,1},
+                            {0,1,0}},
+                           {{1,0,1},
+                            {1,0,1},
+                            {1,0,1},
+                            {1,1,1},
+                            {1,0,1}},
+                           {{1,0,1},
+                            {1,0,1},
+                            {0,1,0},
+                            {1,0,1},
+                            {1,0,1}},
+                           {{1,0,1},
+                            {1,0,1},
+                            {0,1,0},
+                            {0,1,0},
+                            {0,1,0}},
+                           {{1,1,1},
+                            {0,0,1},
+                            {0,1,0},
+                            {1,0,0},
+                            {1,1,1}}};
+
+int numbers[10][5][3] = {{{1,1,1},
+                         {1,0,1},
+                         {1,0,1},
+                         {1,0,1},
+                         {1,1,1}},
+                         {{0,0,1},
+                         {0,0,1},
+                         {0,0,1},
+                         {0,0,1},
+                         {0,0,1}},
+                         {{1,1,1},
+                         {0,0,1},
+                         {1,1,1},
+                         {1,0,0},
+                         {1,1,1}},
+                        {{1,1,1},
+                         {0,0,1},
+                         {1,1,1},
+                         {0,0,1},
+                         {1,1,1}},
+                         {{1,0,1},
+                         {1,0,1},
+                         {1,1,1},
+                         {0,0,1},
+                         {0,0,1}},
+                         {{1,1,1},
+                         {1,0,0},
+                         {1,1,1},
+                         {0,0,1},
+                         {1,1,1}},
+                         {{1,1,1},
+                         {1,0,0},
+                         {1,1,1},
+                         {1,0,1},
+                         {1,1,1}},
+                         {{1,1,1},
+                         {0,0,1},
+                         {0,0,1},
+                         {0,0,1},
+                         {0,0,1}},
+                         {{1,1,1},
+                         {1,0,1},
+                         {1,1,1},
+                         {1,0,1},
+                         {1,1,1}},
+                         {{1,1,1},
+                         {1,0,1},
+                         {1,1,1},
+                         {0,0,1},
+                         {0,0,1}}};
 
 int main(void)
 {
-    clock_t before = clock(); //agarro tiempo antes de arrancar
+
+    /*************************************TIMER***************************************** */
+    clock_t before = clock(); 
     clock_t difference = 0;
     clock_t ini = clock();
     clock_t lap_time;
     int msec = 0;
+
+    int fpsCounter = 0;
+    /************************************************************************************ */
+
+    /**************************************LEVELGEN/VAR*********************************** */
     rana_t rana;
     rana_t * pRana = &rana;
     linea_t map[HEIGHT];
-	
-	joy_init();										//inicializa el joystick
-	disp_init();									//inicializa el display
-	disp_clear();									//limpia todo el display
-	dcoord_t pos = {DISP_MAX_X>>1 , DISP_MAX_Y>>1};	//pos es la posición actual, empieza en el centro de la matriz
-	joyinfo_t coord = {0,0,J_NOPRESS};							//coordenadas medidas del joystick
-
-    int fpsCounter = 0;
-    int screen = MENU;
-
-    int joyMoved = 0;
-    int joyValue = -1;
-    int joyPressed = 0;
-    int isMoving = 0;
-
-    int ranaColor = 0;
-    int ranaColorTimer = 0;
-
-    int optionSelected = 0;
-
-    int do_exit = 0;
-
-    dcoord_t timerCoord;
 
     extern int winPosStates[5];
     extern int vidas;
@@ -169,9 +333,52 @@ int main(void)
 
     unsigned int difficulty;
 
+    unsigned int timeLeft = START_TIME;
+	/************************************************************************************** */
+
+
+    /*****************************JOYSTICK AND DISPLAY************************************** */
+	joy_init();										
+	disp_init();									
+	disp_clear();									
+	dcoord_t pos = {DISP_MAX_X>>1 , DISP_MAX_Y>>1};	
+	joyinfo_t coord = {0,0,J_NOPRESS};					
+
+    int joyMoved = 0;
+    int joyValue = -1;
+    int joyPressed = 0;
+    int isMoving = 0;
+    /*************************************************************************************** */
+
+    /**************************************MENU********************************************* */
+    int screen = MENU;
+    //MENU
+    int optionSelected = 0;
+    int do_exit = 0;
+    //GAMEOVER
+    int charSelected = 0;
+    int charSelection[3] = {0, 0, 0};
+    //HIGHSCORE
+    int highSelected = 0;
+    int charToWrite = 0;
+    int intToWrite = 0;
+    /**************************************************************************************** */
+
+    /*******************************************SCORE*************************************** */
+    char name[4] = {"AAA"};
+    extern char topNames[10][4];
+    extern uint16_t topScores[10];
+    /*************************************************************************************** */
+
+    /*************************************ANIMATION****************************************** */
+    int ranaColor = 0;
+    int ranaColorTimer = 0;
+    dcoord_t timerCoord;
     int livesAnimationCounter = 0;
     int levelAnimationCounter = 0;
+    /*************************************************************************************** */
 
+    /***************************************SOUND******************************************* */
     SDL_Init(SDL_INIT_AUDIO);
 
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
@@ -193,13 +400,15 @@ int main(void)
     if(sound_timer == NULL){
         printf("%s\n", Mix_GetError());
     }
+    /****************************************************************************************** */
+
+    int i, c, j;
 
     do
 	{
         lap_time = clock();
         difference = lap_time - before;
         msec = difference * 1000 / CLOCKS_PER_SEC;
-        int i, c;
 
         if(msec > (1/FPS)*1000){ //falta el /FPS
             disp_update();	//Actualiza el display con el contenido del buffer
@@ -268,6 +477,7 @@ int main(void)
                         createMap(map,difficulty);
 					    spawnRana(map, pRana);
                         vidas = 3;
+                        currentScore = 0;
                         ct_score (0,5,0,5,0);
                         timerCoord.x = 0;
                         timerCoord.y = DISP_MAX_Y;
@@ -490,13 +700,16 @@ int main(void)
                             isMoving = 0;
                         }
                         
+                        //lo hago aca o lo hacemos afuera????
+
                         if(joyMoved && !isMoving){
                             isMoving = 1;
                             Mix_PlayChannel(-1, sound_hop, 0);
                             switch (joyValue)
                             {
                             case UP:
-                                MoveRana(pRana, UP, map+rana.posy);
+                                MoveRana(pRana, UP, map+rana.posy); 
+                                currentScore = (pRana->posy, timeLeft, HEIGHT, vidas, (pRana->posy == HEIGHT-1)?(1):(0));
                                 break;
                             case DOWN:
                                 if(!(pRana->posy == 0))
@@ -553,16 +766,19 @@ int main(void)
                             
                             RestarVidas(pRana, 0, "score.txt");
                             if(vidas == 0){
-                                screen = MENU;
+                                disp_clear();
+                                screen = GAMEOVER;
                             }
-
-                            
-                            
-                            timeLeft = START_TIME;
-                            livesAnimationCounter = LIVES_ANIMATION;
+                            else{
+                                timeLeft = START_TIME;
+                                livesAnimationCounter = LIVES_ANIMATION;
+                            }
+ 
                         }
                         else if(collisionValue == 2){
                             printf("GANE!!");
+
+                            levelAnimationCounter = LEVEL_ANIMATION;
                             
                             difficulty++;
 							createMap(map, difficulty);
@@ -578,7 +794,144 @@ int main(void)
                 }
                 disp_update();
                 break;
-            }      
+            case GAMEOVER:
+                
+                if(IsMax(currentScore, "score.txt")){
+
+                    for(i = 0 ; i < 3 ; i++){
+                        for(c = 0 ; c < 5 ; c++){
+                            for(j = 0 ; j < 3 ; j++){
+                                pos.x = 3 + i*4 + j;
+                                pos.y = 5 + c;
+                                if(i == charSelected){
+                                    disp_write(pos, !letters[charSelection[i]][c][j]);
+                                }
+                                else{
+                                    disp_write(pos, letters[charSelection[i]][c][j]);
+                                }
+                                
+                            }
+                        }
+                    }
+
+                    for(c = 0 ; c < 7 ; c++){
+                            for(j = 0 ; j < 5 ; j++){
+                                pos.x = 2 + charSelected*4 + j;
+                                pos.y = 4 + c;
+                                if(c == 0 || c == 6 || j == 0 || j == 4)
+                                    disp_write(pos, 1);
+                            }
+                        }
+
+                    if(!joyMoved){
+                        isMoving = 0;
+                    }
+
+                    if(joyMoved && !isMoving){
+                        isMoving = 1;
+
+                        switch (joyValue)
+                        {
+                        case DOWN:
+                            charSelection[charSelected] = (charSelection[charSelected] < 25)?(charSelection[charSelected]+1):0;
+                            break;
+                        case UP:
+                            charSelection[charSelected] = (charSelection[charSelected] > 0)?(charSelection[charSelected]-1):25;
+                            break;
+                        case RIGHT:
+                            charSelected = (charSelected < 2)?(charSelected+1):(charSelected);
+                            break;
+                        case LEFT:
+                            charSelected = (charSelected > 0)?(charSelected-1):(charSelected);
+                            break;
+                        }
+                    }
+
+                    if(coord.sw == J_PRESS && joyPressed == 0){
+                        joyPressed = 1;
+
+                        for(i = 0 ; i < 3 ; i++){
+                            name[i] = charSelection[i] + 'A';
+                        }
+
+                        max_scores(currentScore,"score.txt", name);
+
+                        charSelection[0] = 0;
+                        charSelection[1] = 0;
+                        charSelection[2] = 0;
+                        charSelected = 0;
+
+                        getTopScores("score.txt");
+                        screen = HIGHSCORE;
+
+                        disp_clear();
+                    }
+                }
+                else{
+                    screen = HIGHSCORE;
+                }
+
+                disp_update();
+                break;
+            case HIGHSCORE:
+                
+                disp_clear();
+
+                for(j = 0 ; j < 3 ; j++){
+                    for(i = 0 ; i < 5 ; i++){
+                        for(c = 0 ; c < 3 ; c++){
+                            pos.x = 3 + j*4 + c;
+                            pos.y = 1 + i;
+                            
+                            charToWrite = topNames[highSelected][j] - 'A';
+
+                            disp_write(pos, letters[charToWrite][i][c]);
+                        }
+                    }
+                }
+
+                char buffer[6]; 
+				intToChar(6, buffer ,topScores[highSelected]);
+
+                for(j = 0 ; j < 5 ; j++){
+                    for(i = 0 ; i < 5 ; i++){
+                        for(c = 0 ; c < 3 ; c++){
+                            pos.x = 1 + j*3 + c;
+                            pos.y = 7 + i;
+
+                            intToWrite = buffer[j] - '0';
+
+                            disp_write(pos, numbers[intToWrite][i][c]);
+                        }
+                    }
+                }
+
+                if(!joyMoved){
+                    isMoving = 0;
+                }
+
+                if(joyMoved && !isMoving){
+                    isMoving = 1;
+
+                    switch (joyValue)
+                    {
+                    case DOWN:
+                        highSelected = (highSelected < 9)?(highSelected+1):(highSelected);
+                        break;
+                    case UP:
+                        highSelected = (highSelected > 0)?(highSelected-1):(highSelected);
+                        break;
+                    }
+                }
+
+                if(coord.sw == J_PRESS && joyPressed == 0){
+                    joyPressed = 1;
+                    screen = MENU;
+                }
+
+                break;
+            } 
+                 
             before = clock();
         }
 		
