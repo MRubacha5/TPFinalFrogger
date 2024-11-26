@@ -82,8 +82,8 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
     if(!(pl->val_def) && ((prana->posx) > WIDTH - HITBOXWIDTH/2.0 || (prana->posx) < HITBOXWIDTH/2.0)){ //La rana se muere si se va por un costado del agua
         return 1;
     }
-    int i;
 
+    int i;
     switch(pl->val_def){
         case UNSAFE:
             if(prana->posy == HEIGHT-1)//Check for winning frog
@@ -94,6 +94,7 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                     {
                         return Ganar(prana,1);
                         timeLeft = START_TIME;
+                        
                     }
                     else
                     {
@@ -133,7 +134,6 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                     }
                     else 
                     {
-                        
                         return 1;
                     }
                 }
@@ -146,25 +146,26 @@ int RanaCollisions(rana_t * prana, linea_t * pl){
                     }
                     else 
                     {
-                        
                         return 1;
                     }
                 }
                 else
+                {
                     return 1;
+                }
             }
             else
             {
                 uint8_t isFloating = 0;
+
                 for(i = 0; i < pl->cant_obj; i++){
-                    
+
                     if(ISCOLLIDING){ //Si la rana esta parada en un tronco
                         isFloating = 1;
                     }
         
                 }
                 if(!isFloating){
-                    
                     return 1;
                 }
             }

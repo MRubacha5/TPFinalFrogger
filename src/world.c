@@ -17,6 +17,15 @@
 
 #define LEVELPOSIBILITIES 5
 
+#if defined(ALLEGRO)
+    #define LOGMOVEMENTCOND ((pRana->posx >= pl->po[i]) && (pRana->posx <= pl->po[i] + (pl->size-1)*GSIZEX)) || ((pRana->posx + GSIZEX >= pl->po[i]) && (pRana->posx + GSIZEX <= pl->po[i] + (pl->size-1)*GSIZEX))
+#elif defined(RASPI)
+    #define LOGMOVEMENTCOND ((pRana->posx >= pl->po[i]) && (pRana->posx <= pl->po[i] + (pl->size-1)))    
+#else
+    #error("No platform defined")
+#endif
+
+
 /**************************************************************************************************************
  * PRESETS MAPAS --> 2 niveles hardcodeados; a partir del tercer nivel, se genera pseudo-aleatoriamente
  *************************************************************************************************************/
@@ -147,9 +156,9 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
     
     if(lineaPosY > HEIGHT/2 && lineaPosY == pRana->posy){
         for(i=0; i < pl->cant_obj; i++){
-            if(((pRana->posx >= pl->po[i]) && (pRana->posx <= pl->po[i] + pl->size*GSIZEX)) || ((pRana->posx + GSIZEX >= pl->po[i]) && (pRana->posx + GSIZEX <= pl->po[i] + pl->size*GSIZEX))){ //Si la rana esta parada en un tronco, se mueve con el 
-                        pRana->posx += pl->dir;
-                    }
+            if(LOGMOVEMENTCOND){ //Si la rana esta parada en un tronco, se mueve con el 
+                pRana->posx += pl->dir;
+            }
         }   
     } 
 
