@@ -18,7 +18,7 @@
 #define LEVELPOSIBILITIES 5
 
 #if defined(ALLEGRO)
-    #define LOGMOVEMENTCOND ((pRana->posx >= pl->po[i]) && (pRana->posx <= pl->po[i] + (pl->size-1)*GSIZEX)) || ((pRana->posx + GSIZEX >= pl->po[i]) && (pRana->posx + GSIZEX <= pl->po[i] + (pl->size-1)*GSIZEX))
+    #define LOGMOVEMENTCOND (((pRana->posx - HITBOXWIDTH/2.0 >= pl->po[i]) && (pRana->posx - HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)) || ((pRana->posx + HITBOXWIDTH/2.0 >= pl->po[i]) && (pRana->posx + HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)))
 #elif defined(RASPI)
     #define LOGMOVEMENTCOND ((pRana->posx >= pl->po[i]) && (pRana->posx <= pl->po[i] + (pl->size-1)))    
 #else
