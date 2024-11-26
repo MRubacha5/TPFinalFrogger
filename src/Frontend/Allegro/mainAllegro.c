@@ -69,7 +69,7 @@ int main (void)
 			break;
 			
 		case GAMEOVER:
-			gameOverScreen(&Comps);
+			//gameOverScreen(&Comps);
 			break;
 		}
 

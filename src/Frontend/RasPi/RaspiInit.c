@@ -84,10 +84,6 @@ void mainMenuInit(screenHandler_t * screenHandler){
     return;
 }
 
-void gameStart(screenHandler_t * screenHandler){
-    return;
-}
-
 void gameOverInit(screenHandler_t * screenHandler, gameOverHandler_t * gameOverHandler){
     screenHandler->screen = GAMEOVER;
     screenHandler->optionSelected = 0;

@@ -24,14 +24,14 @@
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
  ******************************************************************************/
-
 static void reSpawnRana(rana_t* pRana);
 static int8_t Ganar (rana_t* pRana, uint8_t winPos, worldData_t * pWD);
 
-void spawnRana(linea_t* map, rana_t* pRana){
+void spawnRana(rana_t* pRana){
     pRana->posx = POSX_INI;
     pRana->posy = POSY_INI;
     pRana->dir = UP;
+    pRana->vidas = 3;
     
 }
 

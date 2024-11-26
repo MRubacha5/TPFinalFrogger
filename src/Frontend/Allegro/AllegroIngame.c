@@ -355,8 +355,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
         {
             pWD->difficulty++;
             
-            createMap(map, pWD->difficulty);
-            spawnRana(map, pRana);
+            createMap(map, pWD);
         }
     if(nextLevelFlag)
     {
@@ -523,7 +522,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
         
         al_draw_scaled_bitmap(assets->frogLeapLeft_bitmap,0,0,16,16,
             pRana->posx - GSIZEX/2.0, (HEIGHT - pRana->posy) * GSIZEY, GSIZEX,GSIZEY,0);
-        for (int n = 1; isMovingLeft > 0 && n < m; n++)
+        for (unsigned n = 1; isMovingLeft > 0 && n < m; n++)
         {
             isMovingLeft = (isMovingLeft-1 > 0)? isMovingLeft-1 : 0;
             MoveRana(pRana, LEFT, map + (pRana->posy));
@@ -536,7 +535,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
         
         al_draw_scaled_bitmap(assets->frogLeapRight_bitmap,0,0,16,16,
             pRana->posx - GSIZEX/2.0, (HEIGHT - pRana->posy) * GSIZEY, GSIZEX,GSIZEY,0);
-        for (int n = 1; isMovingRight > 0 && n < m; n++)
+        for (unsigned n = 1; isMovingRight > 0 && n < m; n++)
         {
             isMovingRight = (isMovingRight-1 > 0)? isMovingRight-1 : 0;
             MoveRana(pRana, RIGHT, map + (pRana->posy));

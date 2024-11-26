@@ -68,7 +68,6 @@ typedef struct hiscoreHandler{
 /*****************************SCREENS INIT AND RESETS**************************** */
 void screensInit(screenHandler_t * screenHandler, gameOverHandler_t * gameOverHandler, hiscoreHandler_t * highscoreHandler);
 void mainMenuInit(screenHandler_t * screenHandler);
-void gameStart(screenHandler_t * screenHandler);
 void gameOverInit(screenHandler_t * screenHandler, gameOverHandler_t * gameOverHandler);
 void hiscoreInit(screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler);
 /********************************************************************************** */
@@ -106,6 +105,14 @@ typedef struct animationHandler{
 /**************************************ANIMATION INIT********************************* */
 animationHandler_t animationInit(void);
 /************************************************************************************ */
+
+
+/***************************************MAIN MENU************************************* */
+void mainMenu(screenHandler_t * screenHandler, joystick_t * joystickHandler, rana_t * prana, worldData_t * worldData, linea_t * map);
+/***************************************PAUSE***************************************** */
+void pause(screenHandler_t * screenHandler, joystick_t * joystickHandler);
+/*****************************************GAME******************************************** */
+void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationsHandler_t * animationHandler, timer_t * timeHandler, soundHandler_t * soundHandler);
 
 
 #endif //RASPI_DATA_H

@@ -1,14 +1,14 @@
 #include "RaspiData.h"
 
-
-void mainMenu(screenHandler_t * screenHandler, joystick_t * joystickHandler, rana_t * prana, worldData_t * worldData, linea_t * map){
+void pause(screenHandler_t * screenHandler, joystick_t * joystickHandler){
+    
     int i, c;
     
     for(i = 0 ; i < DISP_CANT_Y_DOTS ; i++){
         for (c = 0 ; c < DISP_CANT_X_DOTS ; c++){
             joystickHandler->pos.x = c;
             joystickHandler->pos.y = i;
-            disp_write(joystickHandler->pos, mainMenu[i][c]);
+            disp_write(joystickHandler->pos, pauseMenu[i][c]);
         }
     }
 
@@ -16,7 +16,7 @@ void mainMenu(screenHandler_t * screenHandler, joystick_t * joystickHandler, ran
         for(c = 0 ; c < DISP_CANT_X_DOTS ; c++){
             joystickHandler->pos.x = c;
             joystickHandler->pos.y = i;
-            disp_write(joystickHandler->pos, !mainMenu[i][c]);
+            disp_write(joystickHandler->pos, !pauseMenu[i][c]);
         }
     }
 
@@ -33,14 +33,9 @@ void mainMenu(screenHandler_t * screenHandler, joystick_t * joystickHandler, ran
         joystickHandler->joyPressed = 1;
         if(screenHandler->optionSelected == 0){
             screenHandler->screen = GAME;
-            gameStart(map, worldData);
-            spawnRana(prana);
-            joystickHandler->timerCoord.x = 0;
-            joystickHandler->timerCoord.y = DISP_MAX_Y;
         }
         else if (screenHandler->optionSelected == 1){
-            screenHandler->do_exit = 1;
+            screenHandler->screen = MENU;
         }
     }
-
 }

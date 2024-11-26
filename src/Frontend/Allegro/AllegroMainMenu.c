@@ -51,7 +51,8 @@ void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * ma
             {
                 Components->leftClick = false;
                 Components->screen = GAME;
-                gameStart(map, pWorldData, pRana);
+                gameStart(map, pWorldData);
+                spawnRana(pRana);
                 pRana->vidas += konamiActivated? 7 : 0;
                 konamiActivated = false;
             } 

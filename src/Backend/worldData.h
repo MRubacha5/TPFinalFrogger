@@ -41,8 +41,15 @@ typedef struct worldData
 /**
  * @brief Inicializa el mapa con las distintas propiedades que deben tener sus lineas
  * @param p Puntero a la primera linea del mapa
- * @param difficulty Entero que determina la dificultad. Modifica algunos parametros en la generacion
+ * @param pWorldData puntero a los datos del mundo que inicializara
 */
-void createMap(linea_t * p, int difficulty);
+void createMap(linea_t * p,  worldData_t * pWorldData);
+
+/**
+ * @brief Funcion para empezar el juego desde cero
+ * @param map puntero al mapa
+ * @param pWorldData puntero a estructura world data con la informacion del juego
+ */
+void gameStart (linea_t * map, worldData_t * pWorldData);
 
 #endif //WORLDDATA_H

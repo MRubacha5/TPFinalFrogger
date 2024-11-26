@@ -34,11 +34,10 @@ typedef struct{
  ******************************************************************************/
 
 /** 
-* @brief Inicializa (PERO NO DEFINE) la rana en el mapa que se le indique con su posicion y direccion inicial
-* @param map mapa donde estara la rana
+* @brief Inicializa (PERO NO DEFINE) la rana con su posicion, vidas y direccion inicial
 * @param pRana rana a inicializar
 */
-void spawnRana(linea_t* map, rana_t* pRana);
+void spawnRana(rana_t* pRana);
 
 /**
  * @brief Resta una vida cuando es llamada. En caso de llegar a cero, se ocupa de accionar el game over.

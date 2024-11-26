@@ -178,12 +178,10 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
     }
 }
 
-void gameStart (linea_t * map, rana_t * pRana, worldData_t * pWorldData)
+void gameStart (linea_t * map, worldData_t * pWorldData)
 {
-    pRana->vidas = 3;
     pWorldData->difficulty = 0;
-    createMap(map,pWorldData->difficulty);
-    spawnRana(map, pRana);
+    createMap(map,pWorldData);
     currentScore = 0;
     intToChar (6,scorestr,currentScore);
     ct_score (0,5,0,5,0);
