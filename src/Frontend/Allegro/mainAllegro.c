@@ -2,7 +2,6 @@
  * HEADERS
  ******************************************************************************/
 
-#include <allegro5/allegro.h>
 #include "../../Backend/worldData.h"
 #include "../../Backend/platformConfig.h"
 #include "../../Backend/rana.h"

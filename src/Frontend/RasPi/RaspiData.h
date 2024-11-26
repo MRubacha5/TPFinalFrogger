@@ -32,6 +32,8 @@ typedef struct joystick{
 }   joystick_t;
 /*******************************JOYSTICK INIT******************************** */
 joystick_t joystickInit(void);
+
+void joystickUpdate(joystick_t * handler)
 /**************************************************************************** */
 
 /********************************TIMER HANDLER******************************* */

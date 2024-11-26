@@ -30,38 +30,11 @@ int main(void)
 
         timerUpdate(&timerHandler);
 
-        if(msec > (1/FPS)*1000){ 
-            disp_update();
-            coord = joy_read();
-            disp_clear();
-
-            if(coord.y > THRESHOLD && !joyMoved){
-                joyValue = UP;
-                joyMoved = 1;
-            }
-            else if(coord.y < -THRESHOLD && !joyMoved) {
-                joyValue = DOWN;
-                joyMoved = 1;
-            }
-            else if(coord.x > THRESHOLD && !joyMoved){
-                joyValue = RIGHT;
-                joyMoved = 1;
-            }
-            else if (coord.x < -THRESHOLD && !joyMoved){
-                joyValue = LEFT;
-                joyMoved = 1;
-            }
-
-            if(coord.x < THRESHOLD && coord.x > -THRESHOLD && coord.y < THRESHOLD && coord.y > -THRESHOLD){
-                joyMoved = 0;
-            }
-
-            if(coord.sw == J_NOPRESS){
-                joyPressed = 0;
-            }
+        if(timerHandler.msec > (1/FPS)*1000){ 
             
+            joystickUpdate(&joystickHandler);
 
-            switch (screen)
+            switch (screenHandler.screen)
             {
             case MENU:
                 for(i = 0 ; i < 16 ; i++){

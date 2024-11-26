@@ -16,6 +16,37 @@ joystick_t joystickInit(void){
     return holder;
 }
 
+void joystickUpdate(joystick_t * handler){
+    disp_update();
+    handler->coord = joy_read();
+    disp_clear();
+
+    if(handler->coord.y > THRESHOLD && !(handler->joyMoved)){
+        handler->joyValue = UP;
+        handler->joyMoved = 1;
+    }
+    else if(handler->coord.y < -THRESHOLD && !(handler->joyMoved)) {
+        handler->joyValue = DOWN;
+        handler->joyMoved = 1;
+    }
+    else if(handler->coord.x > THRESHOLD && !(handler->joyMoved)){
+        handler->joyValue = RIGHT;
+        handler->joyMoved = 1;
+    }
+    else if (handler->coord.x < -THRESHOLD && !(handler->joyMoved)){
+        handler->joyValue = LEFT;
+        handler->joyMoved = 1;
+    }
+
+    if(handler->coord.x < THRESHOLD && handler->coord.x > -THRESHOLD && handler->coord.y < THRESHOLD && handler->coord.y > -THRESHOLD){
+        handler->joyMoved = 0;
+    }
+
+    if(handler->coord.sw == J_NOPRESS){
+        handler->joyPressed = 0;
+    }
+}
+
 timer_t timeInit(void){
     timer_t holder;
     holder->before = clock(); 
@@ -25,6 +56,15 @@ timer_t timeInit(void){
     holder->fpsCounter = 0;
     return holder;
 }
+
+void timerUpdate(timer_t * handler){
+    
+    handler->lap_time = clock();
+    handler->difference = handler->lap_time - handler->before;
+    handler->msec = handler->difference * 1000 / CLOCKS_PER_SEC;
+
+}
+
 
 void screensInit(screenHandler_t * screenHandler, gameOverHandler_t * gameOverHandler, hiscoreHandler_t * highscoreHandler){
     screenHandler->screen = MENU;
