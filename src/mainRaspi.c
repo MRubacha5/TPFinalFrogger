@@ -255,6 +255,8 @@ int main(void)
                 break;
             case GAME:
 
+                printf("vidas: %d", vidas);
+
                 if(livesAnimationCounter){
                     livesAnimationCounter--;
 
