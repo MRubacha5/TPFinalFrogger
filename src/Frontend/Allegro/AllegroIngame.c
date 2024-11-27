@@ -15,7 +15,7 @@
 /*******************************************************************************
  * MACROS Y VARIABLES DE ALCANCE LOCAL
  ******************************************************************************/
-#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((pWD->timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
+#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
 #define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(assets->grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
 
 // Valores para movimiento. Se encargan de hacer que el movimiento se vea fluido. Funcionan tanto como flags como contadores
@@ -71,11 +71,13 @@ static void inputHandler(allegroComponents_t * Components, rana_t * pRana, world
 void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_t * pRana, worldData_t * pWD)
 {
 
+    int timeLeft = pWD->timeLeft;
+
     if(Comp->fpsCounter >= FPS){
         Comp->fpsCounter = 0;
         if(!deathTimer)
         {
-            pWD->timeLeft--;
+            timeLeft--;
         }
         
     }
@@ -95,15 +97,15 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     //dibujo el tiempo restante
     al_draw_text(Comp->font,al_color_name("yellow"),GSIZEX,GSIZEY*(HEIGHT+2),0,"TIME");
 
-    if (pWD->timeLeft > 30)
+    if (timeLeft > 30)
     {
         DRAW_TIMELEFT("green");
     }
-    else if (pWD->timeLeft > 10)
+    else if (timeLeft > 10)
     {
         DRAW_TIMELEFT("yellow");
     }
-    else if (pWD->timeLeft > 0)
+    else if (timeLeft > 0)
     {
         DRAW_TIMELEFT("red");
     }
@@ -392,7 +394,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     // Animacion de ahogado solo en las lineas con troncos. Si se muere en otro lugar (o por tiempo) la animacion es explosion
     if (deathTimer >= FPS * 0.75)
     {
-        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
+        if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
         {
             al_draw_scaled_bitmap(assets->drown1_bitmap,0,0,16,16,
                     deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -406,7 +408,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
     else if (deathTimer >= FPS / 2)
     {
-        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
+        if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
         {
             al_draw_scaled_bitmap(assets->drown2_bitmap,0,0,16,16,
                     deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -420,7 +422,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
     else if (deathTimer > FPS/4)
     {
-        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
+        if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
         {
             al_draw_scaled_bitmap(assets->drown3_bitmap,0,0,16,16,
                     deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);

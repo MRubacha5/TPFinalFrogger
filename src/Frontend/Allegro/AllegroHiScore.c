@@ -4,7 +4,6 @@
 
 #include "../../Backend/score.h"
 #include "AllegroSetup.h"
-#include <time.h>
 
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
@@ -51,24 +50,9 @@ void hiScoreScreen (allegroComponents_t * Components)
         
         drawTopScores(Components->font, topNames[s], buffer, DISPLAY_X*9/24, DISPLAY_X*7/12, DISPLAY_Y*(s+2.5)/15);
     }
-    //delay(1);   
-
+    
     if(Components->key_pressed == ALLEGRO_KEY_ESCAPE)
     {
 		Components->screen = MENU;
 	}
 }
-/*
-static void delay(int number_of_seconds)
-{
-    // Converting time into milli_seconds
-    int milli_seconds = 1000 * number_of_seconds;
-
-    // Storing start time
-    clock_t start_time = clock();
-
-    // looping till required time is not achieved
-    while (clock() < start_time + milli_seconds)
-        ;
-}
-*/
