@@ -77,9 +77,10 @@ int main (void)
 		mouseHandler(&Comps);
 		
 	}
-
-	destroy_allegro(&Comps);
+	
 	destroy_assets(&assets);
+	destroy_allegro(&Comps);
+	//destroy_assets(&assets);
 
 	return 0;
 }

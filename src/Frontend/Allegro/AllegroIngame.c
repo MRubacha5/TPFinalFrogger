@@ -15,7 +15,7 @@
 /*******************************************************************************
  * MACROS Y VARIABLES DE ALCANCE LOCAL
  ******************************************************************************/
-#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
+#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((pWD->timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
 #define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(assets->grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
 
 // Valores para movimiento. Se encargan de hacer que el movimiento se vea fluido. Funcionan tanto como flags como contadores
@@ -24,6 +24,7 @@ static uint8_t isMovingRight = 0, isMovingLeft = 0, isMovingUp = 0, isMovingDown
 //Se setean como FPS cuando hay una muerte/cambio de nivel. Inhibe el movimiento y el contador hasta que termine el evento
 static uint8_t deathTimer = 0; 
 static uint16_t nextLevelFlag = 0;
+static uint16_t ranaEntregada = 0;
 
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
@@ -70,14 +71,11 @@ static void inputHandler(allegroComponents_t * Components, rana_t * pRana, world
 
 void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_t * pRana, worldData_t * pWD)
 {
-
-    int timeLeft = pWD->timeLeft;
-
     if(Comp->fpsCounter >= FPS){
         Comp->fpsCounter = 0;
         if(!deathTimer)
         {
-            timeLeft--;
+            pWD->timeLeft--;
         }
         
     }
@@ -97,15 +95,15 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     //dibujo el tiempo restante
     al_draw_text(Comp->font,al_color_name("yellow"),GSIZEX,GSIZEY*(HEIGHT+2),0,"TIME");
 
-    if (timeLeft > 30)
+    if (pWD->timeLeft > 30)
     {
         DRAW_TIMELEFT("green");
     }
-    else if (timeLeft > 10)
+    else if (pWD->timeLeft > 10)
     {
         DRAW_TIMELEFT("yellow");
     }
-    else if (timeLeft > 0)
+    else if (pWD->timeLeft > 0)
     {
         DRAW_TIMELEFT("red");
     }
@@ -394,7 +392,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     // Animacion de ahogado solo en las lineas con troncos. Si se muere en otro lugar (o por tiempo) la animacion es explosion
     if (deathTimer >= FPS * 0.75)
     {
-        if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
+        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
         {
             al_draw_scaled_bitmap(assets->drown1_bitmap,0,0,16,16,
                     deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -408,7 +406,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
     else if (deathTimer >= FPS / 2)
     {
-        if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
+        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
         {
             al_draw_scaled_bitmap(assets->drown2_bitmap,0,0,16,16,
                     deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -422,7 +420,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
     else if (deathTimer > FPS/4)
     {
-        if (deathY > HEIGHT/2 && timeLeft && deathY != HEIGHT-1)
+        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
         {
             al_draw_scaled_bitmap(assets->drown3_bitmap,0,0,16,16,
                     deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -469,7 +467,12 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
         {
             al_play_sample(assets->homed,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
         }
-        currentScore = ct_score(pRana->posy,pWD->timeLeft, pRana->vidas, (status == NEXTLEVELTRUE)? true : false);
+        if (pRana->posy == HEIGHT-1)
+        {
+            ranaEntregada = 1;
+        }
+        else ranaEntregada = 0;
+        currentScore = ct_score(pRana->posy,pWD->timeLeft, pRana->vidas,ranaEntregada);
         intToChar (6, scorestr, currentScore);
 
         isMovingUp--;

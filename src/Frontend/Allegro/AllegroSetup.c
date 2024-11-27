@@ -161,7 +161,7 @@ assets_t load_assets (void)
 
 void destroy_assets (assets_t* assets)
 {
-   /* al_destroy_bitmap(assets->car1_bitmap);
+    al_destroy_bitmap(assets->car1_bitmap);
     al_destroy_bitmap(assets->car2_bitmap);
     al_destroy_bitmap(assets->car3_bitmap);
     al_destroy_bitmap(assets->car4_bitmap);
@@ -192,13 +192,13 @@ void destroy_assets (assets_t* assets)
     al_destroy_bitmap(assets->titleF_bitmap);
     al_destroy_bitmap(assets->titleG_bitmap);
     al_destroy_bitmap(assets->titleO_bitmap);
-    al_destroy_bitmap(assets->titleR_bitmap);*/
+    al_destroy_bitmap(assets->titleR_bitmap);
 
-    /*al_destroy_sample(assets->crash);
+    al_destroy_sample(assets->crash);
     al_destroy_sample(assets->drown);
     al_destroy_sample(assets->homed);
-    al_destroy_sample(assets->leap);*/
-    //al_destroy_sample(assets->music);
-    //al_destroy_sample_instance(assets->musicInstance);
+    al_destroy_sample(assets->leap);
+    al_destroy_sample(assets->music);
+    al_destroy_sample_instance(assets->musicInstance);
 
 }

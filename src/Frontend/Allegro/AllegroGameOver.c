@@ -49,6 +49,7 @@ void gameOverScreen (allegroComponents_t * Components)
                         Components->leftClick = 0;
                         name[f+1] = (name[f+1] == 'Z')? 'A':name[f+1]+1;
                     }
+                    
                 }
 
                 if(Components->mouse_y > DISPLAY_Y*7/11 && Components->mouse_y < DISPLAY_Y*7/11+GSIZEY)
