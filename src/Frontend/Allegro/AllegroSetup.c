@@ -150,10 +150,12 @@ assets_t load_assets (void)
         .extra_life = al_load_sample("assets/Audio/sound-frogger-extra-life.wav"),
 
         //Music
-		//.music = NULL,
-		//.musicInstance = NULL
+		.music = al_load_sample("assets/Audio/Main-Theme-Fixed.wav"),
+		.musicInstance = al_create_sample_instance(assets.music)
     };
 
+    al_set_sample_instance_playmode(assets.musicInstance, ALLEGRO_PLAYMODE_LOOP);
+    
     return assets;
 }
 

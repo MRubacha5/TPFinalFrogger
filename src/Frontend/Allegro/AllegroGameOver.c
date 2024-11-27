@@ -13,7 +13,7 @@ void gameOverScreen (allegroComponents_t * Components)
 
     al_draw_text(Components->fontL, al_color_name("white"), DISPLAY_X/2.0, DISPLAY_Y/16, ALLEGRO_ALIGN_CENTER, "GAME OVER");
     al_draw_text(Components->font,al_color_name("white"),(DISPLAY_X/2), (HEIGHT/4)*GSIZEY,ALLEGRO_ALIGN_CENTRE,"FINAL SCORE:");
-    al_draw_textf(Components->fontL, al_color_name("white"), DISPLAY_X/2.0,(HEIGHT/3)*GSIZEY, ALLEGRO_ALIGN_CENTRE, scorestr);
+    al_draw_text(Components->fontL, al_color_name("white"), DISPLAY_X/2.0,(HEIGHT/3)*GSIZEY, ALLEGRO_ALIGN_CENTRE, scorestr);
     
     // If the game resulted in a Top 10 score
     if (IsMax(currentScore,"score.txt"))
