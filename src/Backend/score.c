@@ -11,7 +11,7 @@
 
 //variables globales (son multiarchivo)
 uint16_t currentScore = 0;
-char topNames [10] [4] = {"   ","   " ,"   ","   ","   ","   ","   " ,"   ","   ","   "};
+char topNames [10] [4] = {"XXX","XXX" ,"XXX","XXX","XXX","XXX","XXX" ,"XXX","XXX","XXX"};
 uint16_t topScores [10] = {0,0,0,0,0,0,0,0,0,0};
 char scorestr [6];
 char highscorestr [6];
@@ -26,14 +26,14 @@ static void fwr_sc (FILE* fp , int l);
 
 static int compare_scores (uint16_t fscore); //devuelve posicion en el ranking
 
-static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore);
+static void int_swap_sc (uint16_t* p2arr, int rank, uint16_t fscore);
 
-static void str_swap_al (char plr [][4],  int nel, int rank, char* alias);
+static void str_swap_al (char plr [][4], int rank, char* alias);
 
 /*************************************************************************************************** */
 
 
-uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t lines, uint8_t vidas, uint8_t lvlend)
+uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend)
 {
 	
 	static uint16_t score, finalscore;
@@ -112,8 +112,8 @@ int max_scores (uint16_t fscore, char* filename, char* alias)
 	//(si rank =10 -> no entra en el top)
 	rank = compare_scores (fscore );
 
-	int_swap_sc (topScores,TOP,rank, fscore);
-	str_swap_al (topNames,TOP,rank, alias);
+	int_swap_sc (topScores,rank, fscore);
+	str_swap_al (topNames,rank, alias);
 	fwr_sc (fp,TOP); //reimprimo la lista con las modificaciones ya hechas
 
 	fclose(fp);
@@ -124,6 +124,7 @@ int max_scores (uint16_t fscore, char* filename, char* alias)
 
 int IsMax (uint16_t fscore, char* filename)
 {
+	getTopScores ("score.txt");
 	int rank = compare_scores (fscore);
 	if (rank < TOP)
 	{
@@ -165,7 +166,7 @@ static void fwr_sc (FILE* fp, int l)
 
 
 
-static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore)
+static void int_swap_sc (uint16_t* p2arr, int rank, uint16_t fscore)
 {
 	//printf("entro\n");
 	uint16_t tempa;
@@ -186,7 +187,7 @@ static void int_swap_sc (uint16_t* p2arr,  int nel, int rank, uint16_t fscore)
 
 
 
-static void str_swap_al (char plr [][4],  int nel, int rank, char* alias)
+static void str_swap_al (char plr [][4], int rank, char* alias)
 {
 	char temp [4];
 	int n,i;
@@ -223,6 +224,7 @@ int getTopScores (char* filename)
 	fp = fopen(filename,"r+");
 	if (fp == NULL)
 	{
+		printf ("-1");
 		return-1;
 	} 
 	//creo un buffer y voy leyendo los scores de los mejores jugadores

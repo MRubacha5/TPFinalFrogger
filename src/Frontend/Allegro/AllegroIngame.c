@@ -34,7 +34,7 @@ static void inputHandler(allegroComponents_t * Components, rana_t * pRana, world
 {
     if(Components->ev.type == ALLEGRO_EVENT_KEY_DOWN){
     
-        ct_score(pRana->posy, pWD->timeLeft, HEIGHT, pRana->vidas, entregada);
+        ct_score(pRana->posy, pWD->timeLeft, pRana->vidas, entregada);
         if (Components->ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) //Escape key fuera del switch case para permitir pausar durante movimiento/muerte
         {
             Components->screen = PAUSE;
@@ -469,7 +469,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
         {
             al_play_sample(assets->homed,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
         }
-        currentScore = ct_score(pRana->posy,pWD->timeLeft, HEIGHT, pRana->vidas, (status == NEXTLEVELTRUE)? true : false);
+        currentScore = ct_score(pRana->posy,pWD->timeLeft, pRana->vidas, (status == NEXTLEVELTRUE)? true : false);
         intToChar (6, scorestr, currentScore);
 
         isMovingUp--;

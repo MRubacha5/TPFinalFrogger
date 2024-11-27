@@ -40,7 +40,7 @@ void hiScoreScreen (allegroComponents_t * Components)
 
     // Fetch top scores
     getTopScores("score.txt");
-    
+
     // Imprimo los 10 scores
     for (int s = 0; s < 10; s++)
     {

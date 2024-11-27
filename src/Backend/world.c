@@ -184,5 +184,5 @@ void gameStart (linea_t * map, worldData_t * pWorldData)
     createMap(map,pWorldData);
     currentScore = 0;
     intToChar (6,scorestr,currentScore);
-    ct_score (0,5,0,5,0);
+    ct_score (0,5,5,0);
 }

@@ -48,12 +48,11 @@ extern char name [4];
 * @param y la posicion en y 
 * @param t_time tiempo total del nivel 
 * @param time tiempo sobrante 
-* @param lines cantidad de lineas en el nivel
 * @param vidas cantidad de vidas restantes
 * @param lvlend valor booleano que describe el estado del nivel
 * @return el puntaje
 */
-uint16_t ct_score (uint8_t y,unsigned int timeleft, uint8_t lines, uint8_t vidas, uint8_t lvlend);
+uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend);
 
 
 
