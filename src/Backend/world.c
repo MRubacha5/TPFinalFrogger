@@ -180,6 +180,8 @@ void moveLine(linea_t * pl, int lineaPosY, rana_t* pRana){
 
 void gameStart (linea_t * map, worldData_t * pWorldData)
 {
+    getTopScores ("score.txt");
+    intToChar (6, highscorestr, topScores[0]);
     pWorldData->difficulty = 0;
     createMap(map,pWorldData);
     currentScore = 0;
