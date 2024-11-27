@@ -51,8 +51,8 @@ void hiScoreScreen (allegroComponents_t * Components)
         drawTopScores(Components->font, topNames[s], buffer, DISPLAY_X*9/24, DISPLAY_X*7/12, DISPLAY_Y*(s+2.5)/15);
     }
     
-    if(Components->key_pressed == ALLEGRO_KEY_ESCAPE)
-    {
-		Components->screen = MENU;
+    //Tecla de escape lleva a menu principal
+    if(Components->ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE){
+					Components->screen = MENU;
 	}
 }

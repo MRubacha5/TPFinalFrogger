@@ -106,9 +106,6 @@ typedef struct allegroComponents
 	int fpsCounter;
 	int screen;
     int do_exit;
-
-    int key_pressed; //Utilizado para poder pasar la tecla a las distintas pantallas sin interrumpir la fsm (por la condicion de ev.type == ALLEGRO_TIMER)
-
 } allegroComponents_t;
 
 /*******************************************************************************

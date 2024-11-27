@@ -66,7 +66,7 @@ allegroComponents_t initialize_allegro (void)
 	    .leftClick = 0,
 	    .fpsCounter = 0,
 	    .screen = MENU,
-        .do_exit = 0,
+        .do_exit = 0
     };
 
     al_register_event_source(Components.event_queue, al_get_display_event_source(Components.display));
@@ -195,14 +195,7 @@ void destroy_assets (assets_t* assets)
     al_destroy_bitmap(assets->titleO_bitmap);
     al_destroy_bitmap(assets->titleR_bitmap);
 
-    
-    
-   //al_stop_sample(0);
-
-
-
     /*
-
     al_destroy_sample(assets->crash);
     al_destroy_sample(assets->drown);
     al_destroy_sample(assets->homed);
