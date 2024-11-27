@@ -74,7 +74,7 @@ allegroComponents_t initialize_allegro (void)
     al_register_event_source(Components.event_queue, al_get_keyboard_event_source());
     al_register_event_source(Components.event_queue, al_get_mouse_event_source());
 
-    al_start_timer(Components.timer);
+   
 
     return Components;
 }
