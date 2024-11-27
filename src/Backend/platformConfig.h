@@ -30,7 +30,7 @@
     #define WINPOS5 WIDTH - GSIZEX
 
     //HABILITAR DEBUG (hitboxes)
-    #define DEBUG
+    //#define DEBUG
 
 //CONFIGURACIONES DE RASPI
 #elif defined(RASPI)

@@ -7,20 +7,56 @@
 #include <stdio.h>
 allegroComponents_t initialize_allegro (void)
 {
-    al_init_font_addon();
-    al_init_ttf_addon();
-    al_init();
-    al_install_keyboard();
-    al_install_mouse();
-    al_init_primitives_addon();
-    al_init_image_addon();
-    al_install_audio();
-    al_init_acodec_addon();
+    if(!al_init())
+    {
+        fprintf(stderr, "failed to initialize allegro!\n");
+        
+	}
+    if (!al_install_keyboard()) 
+    {
+		fprintf(stderr, "failed to initialize the keyboard!\n");
+		
+	}
+    if (!al_init_ttf_addon()) 
+    {
+		fprintf(stderr, "failed to initialize the ttf addon!\n");
+		
+	}
+    if (!al_init_font_addon()) 
+    {
+		fprintf(stderr, "failed to initialize the font addon!\n");
+		
+	}
+    if (!al_install_mouse()) 
+    {
+		fprintf(stderr, "failed to initialize the mouse!\n");
+		
+	}
+    if (!al_init_primitives_addon()) 
+    {
+		fprintf(stderr, "failed to initialize the primitives addon!\n");
+		
+	}
+     if (!al_init_image_addon()) 
+    {
+		fprintf(stderr, "failed to initialize the image addon!\n");
+		
+	}
+    if(!al_install_audio())
+    {
+        fprintf(stderr, "failed to initialize audio module!\n");
+        
+	}
+    if(!al_init_acodec_addon())
+    {
+        fprintf(stderr, "failed to initialize audio codec addon!\n");
+        
+    }
 
     allegroComponents_t Components =
     {
-        .font = al_load_font("../assets/Sprites/arcadeFont.ttf",GSIZEX*0.5,0),
-        .fontL = al_load_font("../assets/Sprites/arcadeFont.ttf",GSIZEX,0),
+        .font = al_load_font("assets/Sprites/arcadeFont.ttf",GSIZEX*0.5,0),
+        .fontL = al_load_font("assets/Sprites/arcadeFont.ttf",GSIZEX,0),
         .event_queue = al_create_event_queue(),
         .display = al_create_display(DISPLAY_X, DISPLAY_Y),
         .timer = al_create_timer(1.0/FPS),
@@ -61,57 +97,57 @@ assets_t load_assets (void)
     assets_t assets = 
     {
         //Cars
-		.car1_bitmap = al_load_bitmap("../assets/Sprites/car1.png"),
-		.car2_bitmap = al_load_bitmap("../assets/Sprites/car2.png"),
-		.car3_bitmap = al_load_bitmap("../assets/Sprites/car3.png"),
-		.car4_bitmap = al_load_bitmap("../assets/Sprites/car4.png"),
-		.truck_bitmap = al_load_bitmap("../assets/Sprites/truck.png"),
+		.car1_bitmap = al_load_bitmap("assets/Sprites/car1.png"),
+		.car2_bitmap = al_load_bitmap("assets/Sprites/car2.png"),
+		.car3_bitmap = al_load_bitmap("assets/Sprites/car3.png"),
+		.car4_bitmap = al_load_bitmap("assets/Sprites/car4.png"),
+		.truck_bitmap = al_load_bitmap("assets/Sprites/truck.png"),
 
 		//Death animations
-		.crash1_bitmap = al_load_bitmap("../assets/Sprites/crash1.png"),
-		.crash2_bitmap = al_load_bitmap("../assets/Sprites/crash2.png"),
-		.crash3_bitmap = al_load_bitmap("../assets/Sprites/crash3.png"),
-		.death_bitmap = al_load_bitmap("../assets/Sprites/death.png"),
-		.drown1_bitmap = al_load_bitmap("../assets/Sprites/drown1.png"),
-		.drown2_bitmap = al_load_bitmap("../assets/Sprites/drown2.png"),
-		.drown3_bitmap = al_load_bitmap("../assets/Sprites/drown3.png"),
+		.crash1_bitmap = al_load_bitmap("assets/Sprites/crash1.png"),
+		.crash2_bitmap = al_load_bitmap("assets/Sprites/crash2.png"),
+		.crash3_bitmap = al_load_bitmap("assets/Sprites/crash3.png"),
+		.death_bitmap = al_load_bitmap("assets/Sprites/death.png"),
+		.drown1_bitmap = al_load_bitmap("assets/Sprites/drown1.png"),
+		.drown2_bitmap = al_load_bitmap("assets/Sprites/drown2.png"),
+		.drown3_bitmap = al_load_bitmap("assets/Sprites/drown3.png"),
 
 		//Frog animations
-		.frogIdleBack_bitmap = al_load_bitmap("../assets/Sprites/frogIdleBack.png"),
-		.frogIdleFwd_bitmap = al_load_bitmap("../assets/Sprites/frogIdleFwd.png"),
-		.frogIdleLeft_bitmap = al_load_bitmap("../assets/Sprites/frogIdleLeft.png"),
-		.frogIdleRight_bitmap = al_load_bitmap("../assets/Sprites/frogIdleRight.png"),
-		.frogLeapBack_bitmap = al_load_bitmap("../assets/Sprites/frogLeapBack.png"),
-		.frogLeapFwd_bitmap = al_load_bitmap("../assets/Sprites/frogLeapFwd.png"),
-		.frogLeapLeft_bitmap = al_load_bitmap("../assets/Sprites/frogLeapLeft.png"),
-		.frogLeapRight_bitmap = al_load_bitmap("../assets/Sprites/frogLeapRight.png"),
-		.frogWin_bitmap = al_load_bitmap("../assets/Sprites/frogWin.png"),
+		.frogIdleBack_bitmap = al_load_bitmap("assets/Sprites/frogIdleBack.png"),
+		.frogIdleFwd_bitmap = al_load_bitmap("assets/Sprites/frogIdleFwd.png"),
+		.frogIdleLeft_bitmap = al_load_bitmap("assets/Sprites/frogIdleLeft.png"),
+		.frogIdleRight_bitmap = al_load_bitmap("assets/Sprites/frogIdleRight.png"),
+		.frogLeapBack_bitmap = al_load_bitmap("assets/Sprites/frogLeapBack.png"),
+		.frogLeapFwd_bitmap = al_load_bitmap("assets/Sprites/frogLeapFwd.png"),
+		.frogLeapLeft_bitmap = al_load_bitmap("assets/Sprites/frogLeapLeft.png"),
+		.frogLeapRight_bitmap = al_load_bitmap("assets/Sprites/frogLeapRight.png"),
+		.frogWin_bitmap = al_load_bitmap("assets/Sprites/frogWin.png"),
 
 		//Grass
-		.grassWinFrame_bitmap = al_load_bitmap("../assets/Sprites/grassWinFrame.png"),
-		.grassWinSeparator_bitmap = al_load_bitmap("../assets/Sprites/grassWinSeparator.png"),
-		.purpleGrass_bitmap = al_load_bitmap("../assets/Sprites/purpleGrass.png"),
+		.grassWinFrame_bitmap = al_load_bitmap("assets/Sprites/grassWinFrame.png"),
+		.grassWinSeparator_bitmap = al_load_bitmap("assets/Sprites/grassWinSeparator.png"),
+		.purpleGrass_bitmap = al_load_bitmap("assets/Sprites/purpleGrass.png"),
 
 		//Logs
-		.logLeft_bitmap = al_load_bitmap("../assets/Sprites/logLeft.png"),
-		.logMiddle_bitmap = al_load_bitmap("../assets/Sprites/logMiddle.png"),
-		.logRight_bitmap = al_load_bitmap("../assets/Sprites/logRight.png"),
+		.logLeft_bitmap = al_load_bitmap("assets/Sprites/logLeft.png"),
+		.logMiddle_bitmap = al_load_bitmap("assets/Sprites/logMiddle.png"),
+		.logRight_bitmap = al_load_bitmap("assets/Sprites/logRight.png"),
 
 		//Title Text
-		.titleE_bitmap = al_load_bitmap("../assets/Sprites/titleE.png"),
-		.titleF_bitmap = al_load_bitmap("../assets/Sprites/titleF.png"),
-		.titleG_bitmap = al_load_bitmap("../assets/Sprites/titleG.png"),
-		.titleO_bitmap = al_load_bitmap("../assets/Sprites/titleO.png"),
-		.titleR_bitmap = al_load_bitmap("../assets/Sprites/titleR.png"),
+		.titleE_bitmap = al_load_bitmap("assets/Sprites/titleE.png"),
+		.titleF_bitmap = al_load_bitmap("assets/Sprites/titleF.png"),
+		.titleG_bitmap = al_load_bitmap("assets/Sprites/titleG.png"),
+		.titleO_bitmap = al_load_bitmap("assets/Sprites/titleO.png"),
+		.titleR_bitmap = al_load_bitmap("assets/Sprites/titleR.png"),
 
 		.frog_bitmap = assets.frogIdleFwd_bitmap,
 
         //SFX
-		.leap = al_load_sample("../assets/Audio/sound-frogger-hop.wav"),
-		.crash = al_load_sample("../assets/Audio/sound-frogger-squash.wav"),
-		.drown = al_load_sample("../assets/Audio/sound-frogger-drown.wav"),
-		.homed = al_load_sample("../assets/Audio/sound-frogger-homed.wav"),
-        .extra_life = al_load_sample("../assets/Audio/sound-frogger-extra-life.wav"),
+		.leap = al_load_sample("assets/Audio/sound-frogger-hop.wav"),
+		.crash = al_load_sample("assets/Audio/sound-frogger-squash.wav"),
+		.drown = al_load_sample("assets/Audio/sound-frogger-drown.wav"),
+		.homed = al_load_sample("assets/Audio/sound-frogger-homed.wav"),
+        .extra_life = al_load_sample("assets/Audio/sound-frogger-extra-life.wav"),
 
         //Music
 		//.music = NULL,
@@ -123,7 +159,7 @@ assets_t load_assets (void)
 
 void destroy_assets (assets_t* assets)
 {
-    al_destroy_bitmap(assets->car1_bitmap);
+   /* al_destroy_bitmap(assets->car1_bitmap);
     al_destroy_bitmap(assets->car2_bitmap);
     al_destroy_bitmap(assets->car3_bitmap);
     al_destroy_bitmap(assets->car4_bitmap);
@@ -154,12 +190,13 @@ void destroy_assets (assets_t* assets)
     al_destroy_bitmap(assets->titleF_bitmap);
     al_destroy_bitmap(assets->titleG_bitmap);
     al_destroy_bitmap(assets->titleO_bitmap);
-    al_destroy_bitmap(assets->titleR_bitmap);
+    al_destroy_bitmap(assets->titleR_bitmap);*/
 
-    al_destroy_sample(assets->crash);
+    /*al_destroy_sample(assets->crash);
     al_destroy_sample(assets->drown);
     al_destroy_sample(assets->homed);
-    al_destroy_sample(assets->leap);
-    al_destroy_sample(assets->music);
-    al_destroy_sample_instance(assets->musicInstance);
+    al_destroy_sample(assets->leap);*/
+    //al_destroy_sample(assets->music);
+    //al_destroy_sample_instance(assets->musicInstance);
+
 }

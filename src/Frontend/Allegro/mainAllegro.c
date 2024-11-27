@@ -38,10 +38,9 @@ int main (void)
 	linea_t map[HEIGHT];
 	rana_t rana;
 	rana_t * pRana = &rana;
+ 	allegroComponents_t Comps = initialize_allegro();
 	assets_t assets = load_assets();
-	allegroComponents_t Comps = initialize_allegro();
 	worldData_t worldData;
-
 
 	while(!Comps.do_exit){
 
@@ -69,7 +68,7 @@ int main (void)
 			break;
 			
 		case GAMEOVER:
-			//gameOverScreen(&Comps);
+			gameOverScreen(&Comps);
 			break;
 		}
 

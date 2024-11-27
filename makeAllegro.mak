@@ -1,15 +1,17 @@
 # flags
 CFLAGS = -Wall -Wextra -g
-AL_LIBS = -lallegro -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_color -lallegro_image -lallegro_acodec -lallegro_audio
+AL_LIBS = -lallegro -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_color -lallegro_image -lallegro_acodec -lallegro_audio -O1
 
 #Directories
 AL = src/Frontend/Allegro/
 BC = src/Backend/
 BLD = build/
 
-froggerAllegro: AllegroSetup.o mainAllegro.o AllegroPause.o AllegroMainMenu.o AllegroIngame.o AllegroHiScore.o score.o world.o rana.o
-	gcc -o froggerAllegro AllegroSetup.o mainAllegro.o AllegroPause.o AllegroMainMenu.o AllegroHiScore.o score.o world.o rana.o AllegroIngame.o $(AL_LIBS)mak 
-	mv *.o /build
+froggerAllegro: AllegroSetup.o mainAllegro.o AllegroGameOver.o AllegroPause.o AllegroMainMenu.o AllegroIngame.o AllegroHiScore.o score.o world.o rana.o
+	gcc -o froggerAllegro AllegroSetup.o mainAllegro.o AllegroPause.o AllegroMainMenu.o AllegroGameOver.o AllegroHiScore.o score.o world.o rana.o AllegroIngame.o $(AL_LIBS)
+
+# mkdir -p $(BLD)
+# mv *.o $(BLD)
 
 AllegroSetup.o: $(AL)AllegroSetup.c $(BC)platformConfig.h $(AL)AllegroSetup.h
 	gcc -c $(AL)AllegroSetup.c $(CFLAGS) -D ALLEGRO
@@ -30,7 +32,7 @@ AllegroHiScore.o: $(AL)AllegroHiScore.c $(BC)score.h $(AL)AllegroSetup.h
 	gcc -c $(AL)AllegroHiScore.c $(CFLAGS) -D ALLEGRO
 
 AllegroGameOver.o: $(AL)AllegroGameOver.c $(BC)platformConfig.h $(BC)score.h $(AL)AllegroSetup.h
-	gcc -c $(AL)AllegroSetup.c $(CFLAGS) -D ALLEGRO
+	gcc -c $(AL)AllegroGameOver.c $(CFLAGS) -D ALLEGRO
 
 world.o: $(BC)world.c $(BC)worldData.h $(BC)movement.h $(BC)platformConfig.h $(BC)rana.h $(BC)score.h
 	gcc -c $(BC)world.c -D ALLEGRO $(CFLAGS)
