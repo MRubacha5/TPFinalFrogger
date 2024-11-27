@@ -212,7 +212,7 @@ void intToChar (int strLong, char* str, uint16_t score)
         return;
     }
     // Convertir el número a string
-    snprintf(str, strLong, "%05u", score);
+    snprintf(str, strLong, "%05u" , score);
 	return;
 }
 

@@ -117,7 +117,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
 
     //dibujo el score
     al_draw_text(Comp->font,al_color_name("white"),GSIZEX, (HEIGHT+2.75)*GSIZEY,0,"SCORE");
-    al_draw_textf(Comp->font, al_color_name("white"), GSIZEX*4,(HEIGHT+2.75)*GSIZEY, 0, scorestr);
+    al_draw_text(Comp->font, al_color_name("white"), GSIZEX*4,(HEIGHT+2.75)*GSIZEY, 0, scorestr);
 
     //high score
     al_draw_text(Comp->font,al_color_name("white"),GSIZEX*9, (HEIGHT+2.75)*GSIZEY,0,"HI");
@@ -354,7 +354,6 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     if (nextLevelFlag == 1)
         {
             pWD->difficulty++;
-            
             createMap(map, pWD);
         }
     if(nextLevelFlag)

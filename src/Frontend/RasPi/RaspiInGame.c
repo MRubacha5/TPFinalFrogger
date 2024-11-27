@@ -1,6 +1,8 @@
 #include "RaspiData.h"
 
-void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationsHandler_t * animationHandler, timer_t * timeHandler, soundHandler_t * soundHandler){
+void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationsHandler_t * animationHandler, timer_t * timeHandler, soundHandler_t * soundHandler, gameOverHandler_t * gameOverHandler, gameOverHandler_t * gameOverHandler){
+
+    int i, c;
 
     if(animationHandler->livesAnimationCounter){
         animationHandler->livesAnimationCounter--;
@@ -241,7 +243,7 @@ void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandle
             RestarVidas(pRana, worldData);
             if(vidas == 0){
                 disp_clear();
-                screenHandler->screen = GAMEOVER;
+                gameOverInit(screenHandler, gameOverHandler)verHandler);
             }
             else {
                 animationHandler->livesAnimationCounter = LIVES_ANIMATION;

@@ -7,14 +7,15 @@ AL = src/Frontend/Allegro/
 BC = src/Backend/
 BLD = build/
 
-froggerAllegro: mainAllegro.o AllegroSetup.o AllegroPause.o AllegroMainMenu.o AllegroIngame.o AllegroHiScore.o score.o world.o rana.o
-	gcc -o froggerAllegro AllegroSetup.o mainAllegro.o AllegroPause.o AllegroMainMenu.o AllegroHiScore.o score.o world.o rana.o AllegroIngame.o $(AL_LIBS) 
-
-mainAllegro.o: $(AL)mainAllegro.c $(BC)worldData.h $(BC)rana.h $(BC)platformConfig.h $(AL)AllegroSetup.h
-	gcc -c $(AL)mainAllegro.c $(CFLAGS) -D ALLEGRO
+froggerAllegro: AllegroSetup.o mainAllegro.o AllegroPause.o AllegroMainMenu.o AllegroIngame.o AllegroHiScore.o score.o world.o rana.o
+	gcc -o froggerAllegro AllegroSetup.o mainAllegro.o AllegroPause.o AllegroMainMenu.o AllegroHiScore.o score.o world.o rana.o AllegroIngame.o $(AL_LIBS)mak 
+	mv *.o /build
 
 AllegroSetup.o: $(AL)AllegroSetup.c $(BC)platformConfig.h $(AL)AllegroSetup.h
 	gcc -c $(AL)AllegroSetup.c $(CFLAGS) -D ALLEGRO
+
+mainAllegro.o: $(AL)mainAllegro.c $(BC)worldData.h $(BC)rana.h $(BC)platformConfig.h $(AL)AllegroSetup.h
+	gcc -c $(AL)mainAllegro.c $(CFLAGS) -D ALLEGRO
 
 AllegroMainMenu.o: $(AL)AllegroMainMenu.c $(BC)platformConfig.h $(AL)AllegroSetup.h $(BC)worldData.h $(BC)rana.h
 	gcc -c $(AL)AllegroMainMenu.c $(CFLAGS) -D ALLEGRO

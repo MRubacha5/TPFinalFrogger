@@ -30,9 +30,18 @@ typedef struct joystick{
     int joyPressed;
     int isMoving;
 }   joystick_t;
+
 /*******************************JOYSTICK INIT******************************** */
+
+/**
+ * @brief Returns and initializes the joystick variables and settings
+ */
 joystick_t joystickInit(void);
 
+/**
+ * @brief updates the joystick variables with the inputs
+ * @param handler ptr to the struct with variables
+ */
 void joystickUpdate(joystick_t * handler)
 /**************************************************************************** */
 
@@ -45,8 +54,16 @@ typedef struct time{
     int fpsCounter;
 } timer_t;
 /********************************TIMER INIT*********************************** */
+
+/**
+ * @brief Returns and initializes the timer variables and settings
+ */
 timer_t timeInit(void);
 
+/**
+ * @brief updates the timer variables
+ * @param handler ptr to the struct with variables
+ */
 void timerUpdate(timer_t * handler);
 /***************************************************************************** */
 
@@ -66,9 +83,33 @@ typedef struct hiscoreHandler{
     int intToWrite;
 } hiscoreHandler_t;
 /*****************************SCREENS INIT AND RESETS**************************** */
-void screensInit(screenHandler_t * screenHandler, gameOverHandler_t * gameOverHandler, hiscoreHandler_t * highscoreHandler);
+
+/**
+ * @brief Initializes the screen variables
+ * @param screenHandler ptr to the general screen variable struct
+ * @param gameOverHandler ptr to the gameover screen varaible struct
+ * @param hiscoreHandler ptr to the hiscore screen variable struct
+ */
+void screensInit(screenHandler_t * screenHandler, gameOverHandler_t * gameOverHandler, hiscoreHandler_t * hiscoreHandler);
+
+/**
+ * @brief Initializes the Menu screen variables
+ * @param screenHandler ptr to the general screen variable struct
+ */
 void mainMenuInit(screenHandler_t * screenHandler);
+
+/**
+ * @brief Initializes the game over screen variables
+ * @param screenHandler ptr to the general screen variable struct
+ * @param gameOverHandler ptr to the gameover screen varaible struct
+ */
 void gameOverInit(screenHandler_t * screenHandler, gameOverHandler_t * gameOverHandler);
+
+/**
+ * @brief Initializes the hiscore screen variables
+ * @param screenHandler ptr to the general screen variable struct
+ * @param hiscoreHandler ptr to the hiscore screen variable struct
+ */
 void hiscoreInit(screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler);
 /********************************************************************************** */
 
@@ -103,6 +144,10 @@ typedef struct animationHandler{
     int levelAnimationCounter;
 } animationsHandler_t;
 /**************************************ANIMATION INIT********************************* */
+
+/**
+ * @brief Returns and initializes the animation variables and settings
+ */
 animationHandler_t animationInit(void);
 /************************************************************************************ */
 
@@ -112,7 +157,15 @@ void mainMenu(screenHandler_t * screenHandler, joystick_t * joystickHandler, ran
 /***************************************PAUSE***************************************** */
 void pause(screenHandler_t * screenHandler, joystick_t * joystickHandler);
 /*****************************************GAME******************************************** */
-void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationsHandler_t * animationHandler, timer_t * timeHandler, soundHandler_t * soundHandler);
+void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationsHandler_t * animationHandler, timer_t * timeHandler, soundHandler_t * soundHandler, gameOverHandler_t * gameOverHandler);
+/*******************************************GAMEOVER************************************** */
+void gameover(joystick_t * joystickHandler, gameOverHandler_t * gameOverHandler, screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler);
+/*******************************************HISCORE**************************************** */
+void hiscoreScreen(joystick_t * joystickHandler, screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler);
+/******************************************************************************************* */
 
+
+/********************************************DESTRUCTOR************************************ */
+void destroyEverything(soundHandler_t * soundHandler);
 
 #endif //RASPI_DATA_H

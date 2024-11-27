@@ -4,7 +4,7 @@
 
 #include "../../Backend/platformConfig.h"
 #include "AllegroSetup.h"
-
+#include <stdio.h>
 allegroComponents_t initialize_allegro (void)
 {
     al_init_font_addon();
@@ -114,8 +114,8 @@ assets_t load_assets (void)
         .extra_life = al_load_sample("../assets/Audio/sound-frogger-extra-life.wav"),
 
         //Music
-		.music = NULL,
-		.musicInstance = NULL
+		//.music = NULL,
+		//.musicInstance = NULL
     };
 
     return assets;

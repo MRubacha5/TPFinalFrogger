@@ -137,3 +137,14 @@ animationHandler_t animationInit(void){
     holder->levelAnimationCounter = 0;
     return holder;
 }
+
+void destroyEverything(soundHandler_t * soundHandler){
+    disp_clear();
+    disp_update();
+    Mix_FreeChunk(soundHandler->sound_drown);
+    Mix_FreeChunk(soundHandler->sound_hop);
+    Mix_FreeChunk(soundHandler->sound_squash);
+    Mix_FreeChunk(soundHandler->sound_timer);
+    Mix_CloseAudio();
+    SDL_Quit();
+}
