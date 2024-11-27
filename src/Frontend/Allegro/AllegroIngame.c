@@ -29,44 +29,33 @@ static uint16_t ranaEntregada = 0;
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
  ******************************************************************************/
-static void inputHandler(allegroComponents_t * Components, rana_t * pRana, worldData_t * pWD, assets_t assets, bool entregada);
+static void inputInterpreter(allegroComponents_t * Components, rana_t * pRana, worldData_t * pWD, assets_t assets, bool entregada);
 
-static void inputHandler(allegroComponents_t * Components, rana_t * pRana, worldData_t * pWD, assets_t assets, bool entregada)
+static void inputInterpreter(allegroComponents_t * Components, rana_t * pRana, worldData_t * pWD, assets_t assets, bool entregada)
 {
-    if(Components->ev.type == ALLEGRO_EVENT_KEY_DOWN){
+    ct_score(pRana->posy, pWD->timeLeft, pRana->vidas, entregada);
     
-        ct_score(pRana->posy, pWD->timeLeft, pRana->vidas, entregada);
-        if (Components->ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) //Escape key fuera del switch case para permitir pausar durante movimiento/muerte
-        {
-            Components->screen = PAUSE;
+    if (!isMovingUp && !isMovingDown && !isMovingLeft && !isMovingRight && !deathTimer && !nextLevelFlag)
+    {
+        switch(Components->keycode){
+            case ALLEGRO_KEY_DOWN:
+                isMovingDown = GSIZEY;
+                al_play_sample(assets.leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+                break;
+            case ALLEGRO_KEY_UP:
+                isMovingUp = GSIZEY;
+                al_play_sample(assets.leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+                break;
+            case ALLEGRO_KEY_LEFT:
+                isMovingLeft = GSIZEX;
+                al_play_sample(assets.leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+                break;
+            case ALLEGRO_KEY_RIGHT:
+                isMovingRight = GSIZEX;
+                al_play_sample(assets.leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+                break;
         }
-        else if (!isMovingUp && !isMovingDown && !isMovingLeft && !isMovingRight && !deathTimer && !nextLevelFlag)
-        {
-            switch(Components->ev.keyboard.keycode){
-                case ALLEGRO_KEY_DOWN:
-                case ALLEGRO_KEY_S:
-                    isMovingDown = GSIZEY;
-                    al_play_sample(assets.leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-                    break;
-                case ALLEGRO_KEY_UP:
-                case ALLEGRO_KEY_W:
-                    isMovingUp = GSIZEY;
-                    al_play_sample(assets.leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-                    break;
-                case ALLEGRO_KEY_LEFT:
-                case ALLEGRO_KEY_A:
-                    isMovingLeft = GSIZEX;
-                    al_play_sample(assets.leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-                    break;
-                case ALLEGRO_KEY_RIGHT:
-                case ALLEGRO_KEY_D:
-                    isMovingRight = GSIZEX;
-                    al_play_sample(assets.leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-                    break;
-            }
-
-        } 
-    }
+    } 
 }
 
 void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_t * pRana, worldData_t * pWD)
@@ -465,11 +454,12 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
 
         if (status == NEXTLEVELTRUE)
         {
-            al_play_sample(assets->homed,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+            
         }
-        if (pRana->posy == HEIGHT-1)
+        if (pRana->posy == HEIGHT-1) // ESTO VA EN COLISIONES
         {
             ranaEntregada = 1;
+            al_play_sample(assets->homed,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
         }
         else ranaEntregada = 0;
         currentScore = ct_score(pRana->posy,pWD->timeLeft, pRana->vidas,ranaEntregada);
@@ -573,5 +563,5 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     // Game tick update
     Comp->fpsCounter++;
 
-    inputHandler(Comp, pRana, pWD, *assets, (status == NEXTLEVELTRUE)? true : false);
+    inputInterpreter(Comp, pRana, pWD, *assets, (status == NEXTLEVELTRUE)? true : false);
 }

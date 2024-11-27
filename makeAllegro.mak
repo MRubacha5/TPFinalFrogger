@@ -7,14 +7,14 @@ AL = src/Frontend/Allegro/
 BC = src/Backend/
 BLD = build/
 
-froggerAllegro: AllegroSetup.o mainAllegro.o AllegroGameOver.o AllegroPause.o AllegroMainMenu.o AllegroIngame.o AllegroHiScore.o score.o world.o rana.o
-	gcc -o froggerAllegro AllegroSetup.o mainAllegro.o AllegroPause.o AllegroMainMenu.o AllegroGameOver.o AllegroHiScore.o score.o world.o rana.o AllegroIngame.o $(AL_LIBS)
-
-# mkdir -p $(BLD)
-# mv *.o $(BLD)
+froggerAllegro: AllegroSetup.o mainAllegro.o AllegroGameOver.o AllegroInput.o AllegroPause.o AllegroMainMenu.o AllegroIngame.o AllegroHiScore.o score.o world.o rana.o
+	gcc -o froggerAllegro AllegroSetup.o mainAllegro.o AllegroInput.o AllegroPause.o AllegroMainMenu.o AllegroGameOver.o AllegroHiScore.o score.o world.o rana.o AllegroIngame.o $(AL_LIBS)
 
 AllegroSetup.o: $(AL)AllegroSetup.c $(BC)platformConfig.h $(AL)AllegroSetup.h
 	gcc -c $(AL)AllegroSetup.c $(CFLAGS) -D ALLEGRO
+
+AllegroInput.o: $(AL)AllegroInput.c $(AL)AllegroSetup.h
+	gcc -c $(AL)AllegroInput.c $(CFLAGS) -D ALLEGRO
 
 mainAllegro.o: $(AL)mainAllegro.c $(BC)worldData.h $(BC)rana.h $(BC)platformConfig.h $(AL)AllegroSetup.h
 	gcc -c $(AL)mainAllegro.c $(CFLAGS) -D ALLEGRO

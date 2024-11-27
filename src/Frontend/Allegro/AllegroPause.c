@@ -34,9 +34,4 @@ void pauseScreen (allegroComponents_t * Components)
         }
     }
 
-    //Tecla de escape reanuda el juego
-    if(Components->ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE){
-					Components->screen = GAME;
-	}
-
 }

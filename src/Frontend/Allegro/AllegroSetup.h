@@ -106,18 +106,48 @@ typedef struct allegroComponents
 	int fpsCounter;
 	int screen;
     int do_exit;
+
+    int keycode; //Allegro Constant keycode value
+    int flagValue; //Easter Egg
+
 } allegroComponents_t;
 
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
  ******************************************************************************/
 
+/**
+* @brief Inicializa todos los componentes de Allegro necesarios
+* @return Estructura que contiene todas las variables necesarias para operar con Allegro
+*/
 allegroComponents_t initialize_allegro (void);
+
+/**
+* @brief Libera de forma segura toda la memoria reservada por initialize_allegro. Tambien desinstala los modulos
+* @param Components Puntero a los componentes que se utilizaron durante la ejecucion
+*/
 void destroy_allegro (allegroComponents_t* Components);
 
+/**
+* @brief Carga todos los bitmaps, la fuente de texto y los samples de audio que se utilizaran
+* @return Estructura que contiene todos los assets que se utilizan
+*/
 assets_t load_assets (void);
+
+/**
+* @brief Procesa todos los inputs y actualiza sus valores para que el resto de las funciones tengan acceso.
+* @param Components Los componentes que se utilicen durante la ejecucion
+* @param
+*/
+void inputHandler(allegroComponents_t * Components);
+
+/**
+* @brief Libera de forma segura toda la memoria utilizada por los assets
+* @param assets Puntero a los assets que se utilizaron
+*/
 void destroy_assets (assets_t* assets);
 
+// PANTALLAS DEL JUEGO
 void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * map, rana_t * pRana, worldData_t * pWorldData);
 void pauseScreen (allegroComponents_t * Components);
 void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_t * pRana, worldData_t * pWD);

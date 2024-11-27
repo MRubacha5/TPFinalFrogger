@@ -7,14 +7,6 @@
 #include "../../Backend/rana.h"
 #include "AllegroSetup.h"
 
-// Easter egg
-static const int konami[10] =
-{
-    ALLEGRO_KEY_UP, ALLEGRO_KEY_UP, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_LEFT, 
-    ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_RIGHT, ALLEGRO_KEY_B, ALLEGRO_KEY_A
-};
-static int i = false, konamiActivated = false;
-
 void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * map, rana_t * pRana, worldData_t * pWorldData)
 {
     // Fondo
@@ -35,6 +27,13 @@ void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * ma
                 GSIZEX*9.2, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
     al_draw_scaled_bitmap(assets.titleR_bitmap,0,0,32,32,
                 GSIZEX*10.7, 2*GSIZEY, GSIZEX*3.0,GSIZEY*3.0,0);
+
+    //Easter Egg
+    if (Components->flagValue == 2)
+    {
+        al_play_sample(assets.extra_life,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+        Components->flagValue--;
+    }
     
     // Botones
     al_draw_text(Components->fontL, al_color_name("white"), DISPLAY_X/2, DISPLAY_Y*4.0/8, ALLEGRO_ALIGN_CENTER, "START");
@@ -53,8 +52,11 @@ void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * ma
                 Components->screen = GAME;
                 gameStart(map, pWorldData);
                 spawnRana(pRana);
-                pRana->vidas += konamiActivated? 7 : 0;
-                konamiActivated = false;
+                if (Components->flagValue) //Easter Egg
+                {
+                    pRana->vidas += 7;
+                    Components->flagValue = false;
+                }
             } 
         }
         else if(Components->mouse_y > DISPLAY_Y*8.5/16+GSIZEY && Components->mouse_y < DISPLAY_Y*9.5/16+2*GSIZEY)
@@ -64,7 +66,7 @@ void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * ma
             {
                 Components->leftClick = false;
                 Components->screen = HISCORE;
-                konamiActivated = false;
+                Components->flagValue = false;
             }
         }
         else if(Components->mouse_y > DISPLAY_Y*9.5/16+2*GSIZEY && Components->mouse_y < DISPLAY_Y*10.5/16+3*GSIZEY)
@@ -74,31 +76,10 @@ void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * ma
             {
                 Components->leftClick = false;
                 Components->do_exit = true;
-                konamiActivated = false;
+                Components->flagValue = false;
             }
         }
     }
-
-    //Easter Egg 
-    if(Components->ev.type == ALLEGRO_EVENT_KEY_DOWN)
-    {
-        if(Components->ev.keyboard.keycode == konami[i])
-        {
-            i++;
-        }
-        else
-        {
-            i = 0;
-        }
-        if(i == 10)
-        {
-            konamiActivated = true;
-            al_play_sample(assets.extra_life,5,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-            i = 0;
-        }
-
-	}
-
 }
 
 

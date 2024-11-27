@@ -69,12 +69,13 @@ allegroComponents_t initialize_allegro (void)
         .do_exit = 0
     };
 
+    al_start_timer(Components.timer);    
+
     al_register_event_source(Components.event_queue, al_get_display_event_source(Components.display));
     al_register_event_source(Components.event_queue, al_get_timer_event_source(Components.timer));
     al_register_event_source(Components.event_queue, al_get_keyboard_event_source());
     al_register_event_source(Components.event_queue, al_get_mouse_event_source());
 
-   
 
     return Components;
 }

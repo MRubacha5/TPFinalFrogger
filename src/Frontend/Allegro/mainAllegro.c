@@ -7,36 +7,6 @@
 #include "../../Backend/rana.h"
 #include "AllegroSetup.h"
 
-/*******************************************************************************
- * PROTOTIPOS DE FUNCIONES
- ******************************************************************************/
-static void inputHandler (allegroComponents_t * Components);
-
-static void inputHandler (allegroComponents_t * Components)
-{
-		if(Components->ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-		{
-			Components->do_exit = true;
-		}
-		else if(Components->ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
-		{
-			Components->leftClick = true;
-		}
-		else if(Components->ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP)
-		{
-			Components->leftClick = false;
-		}
-		else if(Components->ev.type == ALLEGRO_EVENT_MOUSE_AXES)
-		{
-			Components->mouse_x = Components->ev.mouse.x;
-			Components->mouse_y = Components->ev.mouse.y;
-		}
-		else if(Components->ev.type == ALLEGRO_EVENT_KEY_DOWN)
-		{
-
-		}
-}
-
 int main (void) 
 {
 
@@ -87,8 +57,7 @@ int main (void)
 			else
 			{
 				inputHandler(&Comps);
-			}
-				
+			}	
 		}
 	}
 	
