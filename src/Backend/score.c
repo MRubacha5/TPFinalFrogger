@@ -124,7 +124,7 @@ int max_scores (uint16_t fscore, char* filename, char* alias)
 
 int IsMax (uint16_t fscore, char* filename)
 {
-	getTopScores ("score.txt");
+	getTopScores (filename);
 	int rank = compare_scores (fscore);
 	if (rank < TOP)
 	{
