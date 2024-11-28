@@ -50,53 +50,29 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
         C->flagValue = 1; //no cero asi input no lo vuelve a setear
         deathX = pRana->posx;
         deathY = pRana->posy;
-
+        al_play_sample((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown : assets->crash,
+                        1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
         deathTimer--;
         
     }
     // Animacion de ahogado solo en las lineas con troncos. Si se muere en otro lugar (o por tiempo) la animacion es explosion
     if (deathTimer >= FPS * 0.75)
     {
-        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
-        {
-            al_draw_scaled_bitmap(assets->drown1_bitmap,0,0,16,16,
-                    deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        }
-        else
-        {
-            al_draw_scaled_bitmap(assets->crash1_bitmap,0,0,16,16,
-                    deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        }
-            deathTimer--;
+        al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown1_bitmap : assets->crash1_bitmap,
+                    0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
+        deathTimer--;
     }
     else if (deathTimer >= FPS / 2)
     {
-        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
-        {
-            al_draw_scaled_bitmap(assets->drown2_bitmap,0,0,16,16,
-                    deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        }
-        else
-        {
-            al_draw_scaled_bitmap(assets->crash2_bitmap,0,0,16,16,
-                    deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        }
+        al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown2_bitmap : assets->crash2_bitmap,
+                    0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
         deathTimer--;
     }
     else if (deathTimer > FPS/4)
     {
-        if (deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)
-        {
-            al_draw_scaled_bitmap(assets->drown3_bitmap,0,0,16,16,
-                    deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        }
-        else
-        {
-            al_draw_scaled_bitmap(assets->crash3_bitmap,0,0,16,16,
-                    deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        }
+        al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown3_bitmap : assets->crash3_bitmap,
+                    0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
         deathTimer--;
-        
     }
     else if (deathTimer > 0)
     {
@@ -158,7 +134,7 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
             if (C->flagValue == GSIZEY && pRana->posy == 0) //No permite que la rana baje del origen
             {
                 C->flagValue = 0;
-                al_draw_scaled_bitmap(assets->frogLeapBack_bitmap,0,0,16,16,
+                al_draw_scaled_bitmap(assets->frog_bitmap,0,0,16,16,
                     pRana->posx - GSIZEX/2.0, (HEIGHT - pRana->posy) * GSIZEY, GSIZEX,GSIZEY,0);
             }
             else if (C->flagValue == GSIZEY)
@@ -266,7 +242,6 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
     else if (deathTimer == 0) //La rana muere si se queda sin tiempo
     {
-        al_play_sample(assets->crash,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
         deathTimer = FPS;
     }
 
@@ -490,7 +465,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
             }
             else
             {
-                al_play_sample(assets->crash,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+                
             }
             deathTimer = FPS;
         } 
