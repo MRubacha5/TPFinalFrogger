@@ -149,6 +149,7 @@ assets_t load_assets (void)
 		.drown = al_load_sample("assets/Audio/sound-frogger-drown.wav"),
 		.homed = al_load_sample("assets/Audio/sound-frogger-homed.wav"),
         .extra_life = al_load_sample("assets/Audio/sound-frogger-extra-life.wav"),
+        .time_running_out = al_load_sample("assets/Audio/sound-frogger-time-running-out.wav"),
         .stage_clear = al_load_sample("assets/Audio/Stage-Clear.wav"),
         .stage_clearInstance = al_create_sample_instance(assets.stage_clear),
         .game_start = al_load_sample("assets/Audio/game_start.wav"),
@@ -203,6 +204,7 @@ void destroy_assets (assets_t* assets)
     al_destroy_sample(assets->drown);
     al_destroy_sample(assets->homed);
     al_destroy_sample(assets->leap);
+    al_destroy_sample(assets->time_running_out);
     al_destroy_sample(assets->stage_clear);
     al_destroy_sample_instance(assets->stage_clearInstance);
     al_destroy_sample(assets->game_start);

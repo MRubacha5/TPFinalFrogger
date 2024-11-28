@@ -110,11 +110,6 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
                         pRana->posx - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (C->flagValue*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
                 MoveRana(pRana, UP, map + (pRana->posy));
 
-                if (pRana->posy == HEIGHT-1)
-                {
-                    al_play_sample(assets->homed,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-                }
-                
                 C->flagValue--;
 
             }
@@ -232,6 +227,11 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     else if (pWD->timeLeft > 10)
     {
         DRAW_TIMELEFT("yellow");
+    }
+    else if (pWD->timeLeft == 10)
+    {
+        DRAW_TIMELEFT("red");
+        al_play_sample(assets->time_running_out,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
     }
     else if (pWD->timeLeft > 0)
     {
@@ -456,6 +456,8 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     if (status == NEXTLEVELTRUE || status == NEXTLEVELFALSE)
     {
         ranaEntregadaFlag = 1;
+        al_play_sample(assets->homed,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+
     }
     else 
     {
