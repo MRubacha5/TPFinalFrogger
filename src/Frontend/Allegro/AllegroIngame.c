@@ -111,10 +111,8 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
                         pRana->posx - GSIZEX/2.0, (HEIGHT - pRana->posy - 1 + (C->flagValue*m/(double)GSIZEY)) * GSIZEY, GSIZEX,GSIZEY,0);
                 MoveRana(pRana, UP, map + (pRana->posy));
 
-                uint16_t ranaEntregada = 0;
                 if (pRana->posy == HEIGHT-1)
                 {
-                    ranaEntregada = 1;
                     al_play_sample(assets->homed,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
                 }
                 

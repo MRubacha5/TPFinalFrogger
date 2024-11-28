@@ -39,6 +39,7 @@ static void reSpawnRana(rana_t* pRana){
     pRana->posx = POSX_INI;
     pRana->posy = POSY_INI;
     pRana->dir = UP;
+    ct_score(0,0,5,0,1);
 }
 
 void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
@@ -226,7 +227,6 @@ static int8_t Ganar (rana_t* pRana, uint8_t winPos, worldData_t * pWD){
     reSpawnRana(pRana);
     
     pWD->timeLeft = START_TIME/(1+(pWD->difficulty/10.0)); // valor en segundos 
-    ct_score(0,0,5,0,1);
 
     return winningFlag;
 }
