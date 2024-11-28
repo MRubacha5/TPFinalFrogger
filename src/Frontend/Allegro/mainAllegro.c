@@ -20,6 +20,7 @@ int main (void)
 	assets_t assets = load_assets();
 	worldData_t worldData;
 
+	al_play_sample(assets.game_start,0.5,0,1,ALLEGRO_PLAYMODE_ONCE,0);
 	while(!Comps.do_exit){
 
 		/***********************

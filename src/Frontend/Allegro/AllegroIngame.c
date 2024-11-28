@@ -20,7 +20,6 @@
 
 //Se setean como FPS cuando hay una muerte/cambio de nivel. Inhibe el movimiento y el contador hasta que termine el evento
 static uint8_t deathTimer = 0; 
-static uint16_t nextLevelFlag = 0;
 static uint16_t ranaEntregadaFlag = 0;
 
 /*******************************************************************************
@@ -136,6 +135,7 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
             }
             else if (C->flagValue == GSIZEY)
             {
+                al_play_sample(assets->leap,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
                 C->flagValue = C->flagValue/m;
                 al_draw_scaled_bitmap(assets->frogLeapBack_bitmap,0,0,16,16,
                         pRana->posx - GSIZEX/2.0, (HEIGHT - pRana->posy + 1 - (C->flagValue*m)/(double)GSIZEY) * GSIZEY, GSIZEX,GSIZEY,0);
@@ -467,14 +467,6 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     {
         if(deathTimer == 0) // Kill rana
         {
-            if(pRana->posy > HEIGHT/2 && pRana->posy != HEIGHT - 1)
-            {
-                al_play_sample(assets->drown,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-            }
-            else
-            {
-                
-            }
             deathTimer = FPS;
         } 
         if (deathTimer == 1) // Respawn rana
@@ -486,19 +478,11 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
     else if (status == NEXTLEVELTRUE) // Win
     {
-        nextLevelFlag = FPS *2;
-        
-    }
-    if (nextLevelFlag == 1)
-        {
-            pWD->difficulty++;
-            createMap(map, pWD);
-        }
-    if(nextLevelFlag)
-    {
         al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*7/16, DISPLAY_X*7/8, DISPLAY_Y*9/16, al_color_name("black"));
         al_draw_text(Comp->fontL, al_color_name("red"), DISPLAY_X/2, (DISPLAY_Y-GSIZEY)/2, ALLEGRO_ALIGN_CENTER, "LEVEL UP");
-        nextLevelFlag--;
+        al_play_sample(assets->stage_clear,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+        pWD->difficulty++;
+        createMap(map, pWD);
     }
 
     ranaAnimate (Comp, assets, map, pRana, pWD);

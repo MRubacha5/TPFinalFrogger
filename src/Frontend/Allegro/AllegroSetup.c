@@ -141,6 +141,8 @@ assets_t load_assets (void)
 		.titleO_bitmap = al_load_bitmap("assets/Sprites/titleO.png"),
 		.titleR_bitmap = al_load_bitmap("assets/Sprites/titleR.png"),
 
+        .upArr = al_load_bitmap("assets/Sprites/upArrow.png"),
+
 		.frog_bitmap = assets.frogIdleFwd_bitmap,
 
         //SFX
@@ -149,6 +151,10 @@ assets_t load_assets (void)
 		.drown = al_load_sample("assets/Audio/sound-frogger-drown.wav"),
 		.homed = al_load_sample("assets/Audio/sound-frogger-homed.wav"),
         .extra_life = al_load_sample("assets/Audio/sound-frogger-extra-life.wav"),
+        .stage_clear = al_load_sample("assets/Audio/Stage-Clear.wav"),
+        .stage_clearInstance = al_create_sample_instance(assets.stage_clear),
+        .game_start = al_load_sample("assets/Audio/game_start.wav"),
+        .game_startInstance = al_create_sample_instance(assets.game_start),
 
         //Music
 		.music = al_load_sample("assets/Audio/Main-Theme-Fixed.wav"),
@@ -199,6 +205,10 @@ void destroy_assets (assets_t* assets)
     al_destroy_sample(assets->drown);
     al_destroy_sample(assets->homed);
     al_destroy_sample(assets->leap);
+    al_destroy_sample(assets->stage_clear);
+    al_destroy_sample_instance(assets->stage_clearInstance);
+    al_destroy_sample(assets->game_start);
+    al_destroy_sample_instance(assets->game_startInstance);
     al_destroy_sample(assets->music);
     al_destroy_sample_instance(assets->musicInstance);
 

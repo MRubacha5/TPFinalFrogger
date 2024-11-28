@@ -31,7 +31,7 @@ void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * ma
     //Easter Egg
     if (Components->flagValue == 2)
     {
-        al_play_sample(assets.extra_life,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+        al_play_sample(assets.extra_life,4,0,1,ALLEGRO_PLAYMODE_ONCE,0);
         Components->flagValue--;
     }
     
