@@ -16,7 +16,7 @@
 #define POSY_INI (0)
 
 #define NEXTLEVELTRUE 3
-#define NEXTLEVELFALSE 0
+#define NEXTLEVELFALSE 2
 
 /*******************************************************************************
  * ESTRUCTURAS Y TIPOS DE DATOS

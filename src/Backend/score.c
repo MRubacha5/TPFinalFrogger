@@ -20,7 +20,7 @@ char name [4] = {"AAA"};
 
 static uint16_t time_bonus (unsigned int timeleft); //calcula el bonus
 
-static uint16_t in_game_score (uint8_t y); //lleva el puntaje durante cada vida/nivel
+static uint16_t in_game_score (uint8_t y, uint8_t reset); //lleva el puntaje durante cada vida/nivel
 
 static void fwr_sc (FILE* fp , int l);
 
@@ -33,7 +33,7 @@ static void str_swap_al (char plr [][4], int rank, char* alias);
 /*************************************************************************************************** */
 
 
-uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend)
+uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend, uint8_t reset)
 {
 	
 	static uint16_t score, finalscore;
@@ -41,7 +41,7 @@ uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvle
 	
 	if (vidas != 0)
 	{
-		score += in_game_score(y);
+		score += in_game_score(y, reset);
 		if (lvlend)
 		{
 			score += time_bonus(timeleft);
@@ -60,23 +60,21 @@ uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvle
 
 
 
-static uint16_t in_game_score (uint8_t y)
+static uint16_t in_game_score (uint8_t y, uint8_t reset)
 {
 	
 	static uint8_t yMax;
 	uint16_t sc = 0;
 	
 
-	if (y == 0) //solo al principio de cada nivel/vida
+	if (reset) //solo al principio de cada nivel/vida
 	{
 		yMax = 0;
 	} 
-	else if (y>yMax) //si la posicion de la rana es mayor a una alcanzada previamente, el puntaje se incrementa
+	else if ( y > yMax) //si la posicion de la rana es mayor a una alcanzada previamente, el puntaje se incrementa
 	{
 		sc = 10;
 		yMax = y;
-		//printf ("%u   %u \n", y, yMax);
-
 	}
 	else sc = 0;
 

@@ -46,13 +46,13 @@ extern char name [4];
 /**
 * @brief Lleva la cuenta del puntaje. Se actualiza cada vez que el jugador avanza en el eje y
 * @param y la posicion en y 
-* @param t_time tiempo total del nivel 
-* @param time tiempo sobrante 
+* @param timeleft tiempo sobrante 
 * @param vidas cantidad de vidas restantes
 * @param lvlend valor booleano que describe el estado del nivel
+* @param reset indica si se volvio al comienzo por muerte 
 * @return el puntaje
 */
-uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend);
+uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend, uint8_t reset);
 
 
 

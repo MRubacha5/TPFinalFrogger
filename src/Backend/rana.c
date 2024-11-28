@@ -13,7 +13,7 @@
  ******************************************************************************/
 #if defined(ALLEGRO)
     #define ISCOLLIDING (((prana->posx - HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx - HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)) || ((prana->posx + HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx + HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)))
-    #define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + HITBOXWIDTH/3.0))))
+    #define WINS(x) (((prana->posx - 0/*HITBOXWIDTH/2.0*/ >= (x) - /*HITBOXWIDTH/3.0*/6) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + /*HITBOXWIDTH/3.0*/6)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - 6 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + 6))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - 6 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + 6))))
 #elif defined(RASPI)
     #define ISCOLLIDING ((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + (pl->size-1)*GSIZEX))
     #define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + HITBOXWIDTH/3.0))))
@@ -39,7 +39,6 @@ static void reSpawnRana(rana_t* pRana){
     pRana->posx = POSX_INI;
     pRana->posy = POSY_INI;
     pRana->dir = UP;
-    //ct_score (0,5,0,3,0);
 }
 
 void MoveRana(rana_t* prana, uint8_t dir, linea_t * pl){
@@ -227,6 +226,7 @@ static int8_t Ganar (rana_t* pRana, uint8_t winPos, worldData_t * pWD){
     reSpawnRana(pRana);
     
     pWD->timeLeft = START_TIME/(1+(pWD->difficulty/10.0)); // valor en segundos 
+    ct_score(0,0,5,0,1);
 
     return winningFlag;
 }
