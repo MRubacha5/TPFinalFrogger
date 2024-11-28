@@ -21,6 +21,7 @@
 //Se setean como FPS cuando hay una muerte/cambio de nivel. Inhibe el movimiento y el contador hasta que termine el evento
 static uint8_t deathTimer = 0; 
 static uint16_t nextLevelFlag = 0;
+static uint16_t ranaEntregadaFlag = 0;
 
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
@@ -116,9 +117,7 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
                     ranaEntregada = 1;
                     al_play_sample(assets->homed,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
                 }
-                currentScore = ct_score(pRana->posy,pWD->timeLeft, pRana->vidas,ranaEntregada);
-                intToChar (6, scorestr, currentScore);
-
+                
                 C->flagValue--;
 
             }
@@ -454,7 +453,18 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
 
     // Calculo colisiones
     int status = RanaCollisions(pRana, &map[pRana->posy], pWD);
+    
+    //Me fijo si se entrego la rana o no
+    if (status == NEXTLEVELTRUE || status == NEXTLEVELFALSE)
+    {
+        ranaEntregadaFlag = 1;
+    }
+    else 
+    {
+        ranaEntregadaFlag = 0;
+    }
 
+    
     if (deathTimer != 0 || status == 1) // Death
     {
         if(deathTimer == 0) // Kill rana
@@ -500,8 +510,8 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
         Comp->screen = GAMEOVER;
         Comp->flagValue = 0;
     }
-
+    currentScore = ct_score(pRana->posy,pWD->timeLeft, pRana->vidas,ranaEntregadaFlag, 0);
+    intToChar (6, scorestr, currentScore);
     // Game tick update
     Comp->fpsCounter++;
-    ct_score(pRana->posy, pWD->timeLeft, pRana->vidas, (status == NEXTLEVELTRUE)? true : false);
 }
