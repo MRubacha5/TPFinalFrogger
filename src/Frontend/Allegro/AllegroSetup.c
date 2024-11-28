@@ -141,8 +141,6 @@ assets_t load_assets (void)
 		.titleO_bitmap = al_load_bitmap("assets/Sprites/titleO.png"),
 		.titleR_bitmap = al_load_bitmap("assets/Sprites/titleR.png"),
 
-        .upArr = al_load_bitmap("assets/Sprites/upArrow.png"),
-
 		.frog_bitmap = assets.frogIdleFwd_bitmap,
 
         //SFX

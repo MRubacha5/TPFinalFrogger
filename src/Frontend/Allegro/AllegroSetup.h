@@ -75,8 +75,6 @@ typedef struct assets
     ALLEGRO_BITMAP * titleO_bitmap;
     ALLEGRO_BITMAP * titleR_bitmap;
 
-    ALLEGRO_BITMAP * upArr;
-
     // Variable que se va a utilizar para guardar el estado de la rana (direccion y animacion)
     ALLEGRO_BITMAP * frog_bitmap;
 
