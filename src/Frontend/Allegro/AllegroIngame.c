@@ -34,7 +34,7 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
     unsigned int m = 8; //Velocidad de movimiento de la rana
 
     /****************************************************************
-     * DIBUJO LA RANA Y LLAMO LAS FUNCIONES NECESARIAS PARA MOVERLA *
+     * DIBUJO LA RANA Y LLAMO LAS FUNCIONES LOGICAS NECESARIAS      *
      * **************************************************************/
     // SI LA RANA ESTA MURIENDO, NO LA DIBUJO
 

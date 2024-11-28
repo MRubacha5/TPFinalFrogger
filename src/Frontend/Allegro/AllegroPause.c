@@ -28,8 +28,9 @@ void pauseScreen (allegroComponents_t * Components)
         else if(Components->mouse_y > DISPLAY_Y*5/8 && Components->mouse_y < DISPLAY_Y*7/8){
             al_draw_text(Components->font, al_color_name("yellow"), DISPLAY_X/2, DISPLAY_Y*3/4, ALLEGRO_ALIGN_CENTER, "MAIN MENU");
             if(Components->leftClick){
-                Components->leftClick = 0;
+                Components->leftClick = false;
                 Components->screen = MENU;
+                Components->flagValue = false;
             }
         }
     }
