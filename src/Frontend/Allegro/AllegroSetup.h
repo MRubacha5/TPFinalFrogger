@@ -108,7 +108,7 @@ typedef struct allegroComponents
     int do_exit;
 
     int keycode; //Allegro Constant keycode value
-    int flagValue; //Easter Egg
+    unsigned int flagValue; //Easter Egg
 
 } allegroComponents_t;
 
