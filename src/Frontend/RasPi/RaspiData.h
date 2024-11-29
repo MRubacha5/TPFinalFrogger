@@ -8,18 +8,18 @@
 
 #include "disdrv.h"
 #include "joydrv.h"
-#include "../src/Backend/worldData.h"
-#include "../src/Backend/score.h"
-#include "../src/Backend/rana.h"
-#include "../src/Backend/movement.h"
-#include "../src/Backend/platformConfig.h"
+#include "../../Backend/worldData.h"
+#include "../../Backend/score.h"
+#include "../../Backend/rana.h"
+#include "../../Backend/movement.h"
+#include "../../Backend/platformConfig.h"
 
 #define THRESHOLD 40
 
 enum {MENU, GAME, PAUSE, GAMEOVER, HISCORE};
 
 #define LIVES_ANIMATION 3 * FPS
-#define LEVEL_ANIMATION 3 * FPS
+#define LEVEL_ANIMATION 7 * FPS
 
 /***************************JOYSTICK HANDLER*********************************** */
 typedef struct joystick{
@@ -42,7 +42,7 @@ joystick_t joystickInit(void);
  * @brief updates the joystick variables with the inputs
  * @param handler ptr to the struct with variables
  */
-void joystickUpdate(joystick_t * handler)
+void joystickUpdate(joystick_t * handler);
 /**************************************************************************** */
 
 /********************************TIMER HANDLER******************************* */
@@ -52,19 +52,19 @@ typedef struct time{
     clock_t lap_time;
     int msec ;
     int fpsCounter;
-} timer_t;
+} timerStruct_t;
 /********************************TIMER INIT*********************************** */
 
 /**
  * @brief Returns and initializes the timer variables and settings
  */
-timer_t timeInit(void);
+timerStruct_t timeInit(void);
 
 /**
  * @brief updates the timer variables
  * @param handler ptr to the struct with variables
  */
-void timerUpdate(timer_t * handler);
+void timerUpdate(timerStruct_t * handler);
 /***************************************************************************** */
 
 /**********************************SCREEN MANAGER**************************** */
@@ -73,6 +73,10 @@ typedef struct screenHandler{
     int do_exit;
     int optionSelected;
 } screenHandler_t;
+
+typedef struct mainMenuHandler {
+    int screenSelected;
+} mainMenuHandler_t;
 
 typedef struct gameOverHandler{
     int charSelection[3];
@@ -90,13 +94,13 @@ typedef struct hiscoreHandler{
  * @param gameOverHandler ptr to the gameover screen varaible struct
  * @param hiscoreHandler ptr to the hiscore screen variable struct
  */
-void screensInit(screenHandler_t * screenHandler, gameOverHandler_t * gameOverHandler, hiscoreHandler_t * hiscoreHandler);
+void screensInit(screenHandler_t * screenHandler, mainMenuHandler_t * mainMenuHandler, gameOverHandler_t * gameOverHandler, hiscoreHandler_t * hiscoreHandler);
 
 /**
  * @brief Initializes the Menu screen variables
  * @param screenHandler ptr to the general screen variable struct
  */
-void mainMenuInit(screenHandler_t * screenHandler);
+void mainMenuInit(screenHandler_t * screenHandler, mainMenuHandler_t * mainMenuHandler);
 
 /**
  * @brief Initializes the game over screen variables
@@ -119,6 +123,9 @@ typedef struct soundHandler{
     Mix_Chunk *sound_squash;
     Mix_Chunk *sound_hop;
     Mix_Chunk *sound_timer;
+    Mix_Chunk *sound_level_clear;
+    Mix_Chunk *sound_homed;
+    Mix_Music *sound_main_theme;
 } soundHandler_t;
 /*******************************************INIT************************************ */
 soundHandler_t soundInit(void);
@@ -126,6 +133,7 @@ soundHandler_t soundInit(void);
 
 /******************************************SCREENS*********************************** */
 extern int mainMenu[16][16];
+extern int mainMenu2[16][16];
 extern int pauseMenu[16][16];
 extern int livesAnimation1[16][16];
 extern int livesAnimation2[16][16];
@@ -142,7 +150,7 @@ typedef struct animationHandler{
     dcoord_t timerCoord;
     int livesAnimationCounter;
     int levelAnimationCounter;
-} animationsHandler_t;
+} animationHandler_t;
 /**************************************ANIMATION INIT********************************* */
 
 /**
@@ -153,15 +161,15 @@ animationHandler_t animationInit(void);
 
 
 /***************************************MAIN MENU************************************* */
-void mainMenu(screenHandler_t * screenHandler, joystick_t * joystickHandler, rana_t * prana, worldData_t * worldData, linea_t * map);
+void menu(mainMenuHandler_t * mainMenuHandler, animationHandler_t * animationHandler, hiscoreHandler_t * hiscoreHandler, screenHandler_t * screenHandler, joystick_t * joystickHandler, rana_t * prana, worldData_t * worldData, linea_t * map);
 /***************************************PAUSE***************************************** */
-void pause(screenHandler_t * screenHandler, joystick_t * joystickHandler);
+void pause(screenHandler_t * screenHandler, joystick_t * joystickHandler, mainMenuHandler_t * mainMenuHandler);
 /*****************************************GAME******************************************** */
-void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationsHandler_t * animationHandler, timer_t * timeHandler, soundHandler_t * soundHandler, gameOverHandler_t * gameOverHandler);
+void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationHandler_t * animationHandler, timerStruct_t * timeHandler, soundHandler_t * soundHandler, gameOverHandler_t * gameOverHandler);
 /*******************************************GAMEOVER************************************** */
 void gameover(joystick_t * joystickHandler, gameOverHandler_t * gameOverHandler, screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler);
 /*******************************************HISCORE**************************************** */
-void hiscoreScreen(joystick_t * joystickHandler, screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler);
+void hiscoreScreen(joystick_t * joystickHandler, screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler, mainMenuHandler_t * mainMenuHandler);
 /******************************************************************************************* */
 
 
