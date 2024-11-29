@@ -1,6 +1,6 @@
 #include "RaspiData.h"
 
-void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationsHandler_t * animationHandler, timer_t * timeHandler, soundHandler_t * soundHandler, gameOverHandler_t * gameOverHandler, gameOverHandler_t * gameOverHandler){
+void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandler_t * screenHandler, joystick_t * joystickHandler, animationHandler_t * animationHandler, timerStruct_t * timeHandler, soundHandler_t * soundHandler, gameOverHandler_t * gameOverHandler){
 
     int i, c;
 
@@ -57,6 +57,10 @@ void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandle
                 }
             }
             
+        }
+
+        if(animationHandler->levelAnimationCounter == 1){
+            Mix_PlayMusic(soundHandler->sound_main_theme, -1);
         }
     }
     else{
@@ -210,7 +214,7 @@ void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandle
             {
             case UP:
                 MoveRana(pRana, UP, map+(pRana->posy)); 
-                currentScore = ct_score(pRana->posy, worldData->timeLeft, HEIGHT, pRana->vidas, (pRana->posy == HEIGHT-1)?(1):(0));
+                currentScore = ct_score(pRana->posy, worldData->timeLeft, pRana->vidas, (pRana->posy == HEIGHT-1)?(1):(0));
                 break;
             case DOWN:
                 if(!(pRana->posy == 0))
@@ -229,7 +233,7 @@ void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandle
             }
         }
 
-        int collisionValue = RanaCollisions(pRana, map+(pRana->posy));
+        int collisionValue = RanaCollisions(pRana, map+(pRana->posy), worldData);
 
         if(collisionValue == 1 || !(worldData->timeLeft)){
 
@@ -241,19 +245,24 @@ void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandle
             }
             
             RestarVidas(pRana, worldData);
-            if(vidas == 0){
+            if(pRana->vidas == 0){
                 disp_clear();
-                gameOverInit(screenHandler, gameOverHandler)verHandler);
+                gameOverInit(screenHandler, gameOverHandler);
             }
             else {
                 animationHandler->livesAnimationCounter = LIVES_ANIMATION;
             }
 
         }
-        else if(collisionValue == 2){
+        else if(collisionValue == NEXTLEVELFALSE){
+            Mix_PlayChannel(-1, soundHandler->sound_homed, 0);
+        }
+        else if(collisionValue == NEXTLEVELTRUE){
             animationHandler->levelAnimationCounter = LEVEL_ANIMATION;
+            Mix_HaltMusic();
+            Mix_PlayChannel(-1, soundHandler->sound_level_clear, 0);
             worldData->difficulty++;
-            createMap(map, worldData->difficulty);
+            createMap(map, worldData);
         }
 
         if(joystickHandler->coord.sw == J_PRESS && joystickHandler->joyPressed == 0){
