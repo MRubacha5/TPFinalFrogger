@@ -137,8 +137,14 @@ void destroy_allegro (allegroComponents_t* Components);
 */
 assets_t load_assets (void);
 
+/** 
+* @brief Permite inhibir el input 
+* @param condition input ON/OFF
+*/
+void InhibitInput(bool condition);
+
 /**
-* @brief Procesa todos los inputs y actualiza sus valores para que el resto de las funciones tengan acceso.
+* @brief Procesa todos los inputs y actualiza sus valores para que el resto de las funciones tengan acceso. Ademas se ocupa del manejo de la musica que depende de la pantalla
 * @param Components Los componentes que se utilicen durante la ejecucion
 * @param
 */
@@ -152,9 +158,10 @@ void destroy_assets (assets_t* assets);
 
 // PANTALLAS DEL JUEGO
 void menuScreen (assets_t assets, allegroComponents_t * Components, linea_t * map, rana_t * pRana, worldData_t * pWorldData);
-void pauseScreen (allegroComponents_t * Components);
+void pauseScreen (allegroComponents_t * Components, assets_t assets);
 void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_t * pRana, worldData_t * pWD);
 void hiScoreScreen (allegroComponents_t * Components);
 void gameOverScreen (allegroComponents_t * Components);
+
 
 #endif //ALLEGRO_SETUP_H

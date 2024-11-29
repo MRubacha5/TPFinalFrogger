@@ -14,6 +14,17 @@ static const int konami[10] =
 };
 
 static int i = 0; 
+static bool inhibitInput = false;
+
+/*******************************************************************************
+ * PROTOTIPOS DE FUNCIONES
+ ******************************************************************************/
+void InhibitInput(bool condition);
+
+void InhibitInput(bool condition)
+{
+    inhibitInput = condition;
+}
 
 void inputHandler (allegroComponents_t * Components)
 {
@@ -68,39 +79,41 @@ void inputHandler (allegroComponents_t * Components)
             break;
 
             case GAME:
-            switch (Components->ev.keyboard.keycode)
-            {
-                case ALLEGRO_KEY_ESCAPE:
-                Components->screen = PAUSE;
-                break;
+            if (!inhibitInput)
+                {
+                switch (Components->ev.keyboard.keycode)
+                {
+                    case ALLEGRO_KEY_ESCAPE:
+                    Components->screen = PAUSE;
+                    break;
 
-                case ALLEGRO_KEY_UP:
-                case ALLEGRO_KEY_W:
-                Components->keycode = (Components->flagValue)? Components->keycode : ALLEGRO_KEY_UP;
-                Components->flagValue = (Components->flagValue)? Components->flagValue : GSIZEY;
-                break;
+                    case ALLEGRO_KEY_UP:
+                    case ALLEGRO_KEY_W:
+                    Components->keycode = (Components->flagValue)? Components->keycode : ALLEGRO_KEY_UP;
+                    Components->flagValue = (Components->flagValue)? Components->flagValue : GSIZEY;
+                    break;
 
-                case ALLEGRO_KEY_DOWN:
-                case ALLEGRO_KEY_S:
-                Components->keycode = (Components->flagValue)? Components->keycode : ALLEGRO_KEY_DOWN;
-                Components->flagValue = (Components->flagValue)? Components->flagValue : GSIZEY;
-                break;
+                    case ALLEGRO_KEY_DOWN:
+                    case ALLEGRO_KEY_S:
+                    Components->keycode = (Components->flagValue)? Components->keycode : ALLEGRO_KEY_DOWN;
+                    Components->flagValue = (Components->flagValue)? Components->flagValue : GSIZEY;
+                    break;
 
-                case ALLEGRO_KEY_LEFT:
-                case ALLEGRO_KEY_A:
-                Components->keycode = (Components->flagValue)? Components->keycode : ALLEGRO_KEY_LEFT;
-                Components->flagValue = (Components->flagValue)? Components->flagValue : GSIZEX;
-                break;
+                    case ALLEGRO_KEY_LEFT:
+                    case ALLEGRO_KEY_A:
+                    Components->keycode = (Components->flagValue)? Components->keycode : ALLEGRO_KEY_LEFT;
+                    Components->flagValue = (Components->flagValue)? Components->flagValue : GSIZEX;
+                    break;
 
-                case ALLEGRO_KEY_RIGHT:
-                case ALLEGRO_KEY_D:
-                Components->keycode = (Components->flagValue)? Components->keycode : ALLEGRO_KEY_RIGHT;
-                Components->flagValue = (Components->flagValue)? Components->flagValue : GSIZEX;
-                break;
+                    case ALLEGRO_KEY_RIGHT:
+                    case ALLEGRO_KEY_D:
+                    Components->keycode = (Components->flagValue)? Components->keycode : ALLEGRO_KEY_RIGHT;
+                    Components->flagValue = (Components->flagValue)? Components->flagValue : GSIZEX;
+                    break;
 
-            }                
-            break;
-            
+                }                
+                break;
+            }
         }
     }
 }

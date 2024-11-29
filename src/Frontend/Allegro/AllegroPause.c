@@ -5,8 +5,9 @@
 #include "AllegroSetup.h"
 
 
-void pauseScreen (allegroComponents_t * Components)
+void pauseScreen (allegroComponents_t * Components, assets_t assets)
 {
+
     //PAUSE
     al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*7/16, DISPLAY_X*7/8, DISPLAY_Y*9/16, al_color_name("black"));
     al_draw_text(Components->fontL, al_color_name("red"), DISPLAY_X/2, (DISPLAY_Y-GSIZEY)/2, ALLEGRO_ALIGN_CENTER, "PAUSE");
@@ -30,6 +31,7 @@ void pauseScreen (allegroComponents_t * Components)
             if(Components->leftClick){
                 Components->leftClick = false;
                 Components->screen = MENU;
+                al_set_sample_instance_playing(assets.musicInstance, false);
                 Components->flagValue = false;
             }
         }

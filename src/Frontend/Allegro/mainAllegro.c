@@ -20,7 +20,8 @@ int main (void)
 	assets_t assets = load_assets();
 	worldData_t worldData;
 
-	al_play_sample(assets.game_start,0.5,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+	al_play_sample_instance(assets.game_startInstance);
+
 	while(!Comps.do_exit){
 
 		/***********************
@@ -41,7 +42,7 @@ int main (void)
 					break;
 
 				case PAUSE:
-					pauseScreen(&Comps);
+					pauseScreen(&Comps, assets);
 					break;
 
 				case GAME:

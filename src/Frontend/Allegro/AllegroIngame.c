@@ -19,8 +19,9 @@
 #define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(assets->grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
 
 //Se setean como FPS cuando hay una muerte/cambio de nivel. Inhibe el movimiento y el contador hasta que termine el evento
-static uint8_t deathTimer = 0; 
-static uint16_t ranaEntregadaFlag = 0;
+static uint16_t deathTimer = false; 
+static bool ranaEntregadaFlag = false;
+static bool nextLevelFlag = false;
 
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
@@ -46,13 +47,13 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
     if (deathTimer == FPS) 
     {
         
-        //Inhibo el movimiento de la rana y guardo su posicion de muerte
+        //Inhibo el movimiento (NO INPUT ASI SI PERMITO PAUSA) de la rana y guardo su posicion de muerte
         C->flagValue = 1; //no cero asi input no lo vuelve a setear
         deathX = pRana->posx;
         deathY = pRana->posy;
         al_play_sample((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown : assets->crash,
                         1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-        deathTimer--;
+        printf("0/4 ");
         
     }
     // Animacion de ahogado solo en las lineas con troncos. Si se muere en otro lugar (o por tiempo) la animacion es explosion
@@ -61,26 +62,30 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
         al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown1_bitmap : assets->crash1_bitmap,
                     0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
         deathTimer--;
+        printf("1/4 ");
     }
     else if (deathTimer >= FPS / 2)
     {
         al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown2_bitmap : assets->crash2_bitmap,
                     0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        deathTimer--;
+        //deathTimer--;
+        printf("2/4 ");
     }
     else if (deathTimer > FPS/4)
     {
         al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown3_bitmap : assets->crash3_bitmap,
                     0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        deathTimer--;
+        //deathTimer--;
+        printf("3/4 ");
     }
     else if (deathTimer > 0)
     {
         al_draw_scaled_bitmap(assets->death_bitmap,0,0,16,16,
                     deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
     
-        deathTimer--;
+        //deathTimer--;
         C->flagValue = deathTimer == 1 ? 0 : C->flagValue;
+        printf("4/4 ");
     }
 
 
@@ -196,6 +201,10 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
 
 void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_t * pRana, worldData_t * pWD)
 {
+    if(!al_get_sample_instance_playing(assets->game_startInstance) && !nextLevelFlag)
+    {
+        al_set_sample_instance_playing(assets->musicInstance, true);
+    }
     if(Comp->fpsCounter >= FPS){
         Comp->fpsCounter = 0;
         if(!deathTimer)
@@ -480,11 +489,24 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
     else if (status == NEXTLEVELTRUE) // Win
     {
+        nextLevelFlag = true;
+        InhibitInput(true);
+        al_set_sample_instance_playing(assets->musicInstance,false);
+        al_set_sample_instance_playing(assets->stage_clearInstance, true);
+    }
+    if (nextLevelFlag)
+    {
         al_draw_filled_rectangle(DISPLAY_X/8, DISPLAY_Y*7/16, DISPLAY_X*7/8, DISPLAY_Y*9/16, al_color_name("black"));
         al_draw_text(Comp->fontL, al_color_name("red"), DISPLAY_X/2, (DISPLAY_Y-GSIZEY)/2, ALLEGRO_ALIGN_CENTER, "LEVEL UP");
-        al_play_sample(assets->stage_clear,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-        pWD->difficulty++;
-        createMap(map, pWD);
+        if(!al_get_sample_instance_playing(assets->stage_clearInstance))
+        {
+            pWD->difficulty++;
+            createMap(map, pWD);
+            al_rest(0.5);
+            InhibitInput(false);
+            al_set_sample_instance_playing(assets->musicInstance,true);
+            nextLevelFlag = false;
+        }
     }
 
     ranaAnimate (Comp, assets, map, pRana, pWD);
@@ -493,6 +515,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     {
         Comp->screen = GAMEOVER;
         Comp->flagValue = 0;
+        al_stop_sample_instance(assets->musicInstance);
     }
     currentScore = ct_score(pRana->posy,pWD->timeLeft, pRana->vidas,ranaEntregadaFlag, 0);
     intToChar (6, scorestr, currentScore);

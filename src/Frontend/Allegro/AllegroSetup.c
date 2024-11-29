@@ -5,6 +5,7 @@
 #include "../../Backend/platformConfig.h"
 #include "AllegroSetup.h"
 #include <stdio.h>
+
 allegroComponents_t initialize_allegro (void)
 {
     if(!al_init())
@@ -94,7 +95,7 @@ void destroy_allegro (allegroComponents_t* Components)
 
 assets_t load_assets (void)
 {
-    al_reserve_samples(10);
+    al_reserve_samples(12);
     assets_t assets = 
     {
         //Cars
@@ -159,8 +160,13 @@ assets_t load_assets (void)
 		.music = al_load_sample("assets/Audio/Main-Theme-Fixed.wav"),
 		.musicInstance = al_create_sample_instance(assets.music)
     };
-
+    al_set_sample_instance_playmode(assets.game_startInstance, ALLEGRO_PLAYMODE_ONCE);
+    al_set_sample_instance_gain(assets.game_startInstance, 0.5);
+    al_attach_sample_instance_to_mixer(assets.game_startInstance, al_get_default_mixer());
+    al_set_sample_instance_playmode(assets.stage_clearInstance, ALLEGRO_PLAYMODE_ONCE);
+    al_attach_sample_instance_to_mixer(assets.stage_clearInstance, al_get_default_mixer());
     al_set_sample_instance_playmode(assets.musicInstance, ALLEGRO_PLAYMODE_LOOP);
+    al_attach_sample_instance_to_mixer(assets.musicInstance, al_get_default_mixer());
     
     return assets;
 }
