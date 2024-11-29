@@ -1,6 +1,6 @@
 # flags
 CC = gcc
-CFLAGS = -c -Wall -Wextra -g -D RASPI
+CFLAGS = -c -Wall -Wextra -D RASPI
 
 #libraries
 LIB = build/joydrv.o build/disdrv.o

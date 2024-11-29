@@ -186,7 +186,7 @@ void gameStart (linea_t * map, worldData_t * pWorldData)
 {
     getTopScores ("score.txt");
     intToChar (6, highscorestr, topScores[0]);
-    pWorldData->difficulty = 3;
+    pWorldData->difficulty = 0;
     createMap(map,pWorldData);
     currentScore = 0;
     intToChar (6,scorestr,currentScore);
