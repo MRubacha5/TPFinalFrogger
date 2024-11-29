@@ -9,19 +9,21 @@ Este repo cuenta con el código para ejecutar el juego tanto en una PC con Linux
 
 ### 2. Instalar allegro 5 (No es necesario en Raspberry Pi)
 En terminal, utilizar el comando:
-> sudo apt-get install liballegro5-dev 
+``` sudo apt-get install liballegro5-dev ```
 
 ### 3. Compilar con Makefile
 En terminal, utilizar el comando correspondiente:
-> make froggerAllegro
-> make froggerRaspi
+``` make froggerAllegro ```
+ó
+``` make froggerRaspi ```
     
 Para borrar los archivos .o generados, utilizar el comando:
-> make clean 
+``` make clean ```
 
-Para desinstalar el juego,  utilizar el comandocorrespondiente:
-> make uninstall_froggerAllegro
-> make uninstall_froggerRaspi
+Para desinstalar el juego,  utilizar el comando correspondiente:
+``` make uninstall_froggerAllegro ```
+ó
+``` make uninstall_froggerRaspi ```
 
 > NOTA: Este comando SOLAMENTE desinstala el ejecutable; es decir, NO borra los archivos .o
 
