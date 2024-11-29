@@ -1,6 +1,6 @@
 #include "RaspiData.h"
 
-void pause(screenHandler_t * screenHandler, joystick_t * joystickHandler){
+void pause(screenHandler_t * screenHandler, joystick_t * joystickHandler, mainMenuHandler_t * mainMenuHandler){
     
     int i, c;
     
@@ -35,7 +35,7 @@ void pause(screenHandler_t * screenHandler, joystick_t * joystickHandler){
             screenHandler->screen = GAME;
         }
         else if (screenHandler->optionSelected == 1){
-            screenHandler->screen = MENU;
+            mainMenuInit(screenHandler, mainMenuHandler);
         }
     }
 }
