@@ -10,15 +10,18 @@ int main(void)
 
     worldData_t worldData;
     screenHandler_t screenHandler;
+    mainMenuHandler_t mainMenuHandler;
     gameOverHandler_t gameOverHandler;
     hiscoreHandler_t hiscoreHandler;
     
     joystick_t joystickHandler = joystickInit();
-    timer_t timerHandler = timerInit();
+    timerStruct_t timerHandler = timeInit();
     soundHandler_t soundHandler = soundInit();
     animationHandler_t animationHandler = animationInit();
 
-    screensInit(&screenHandler, &gameOverHandler, &hiscoreHandler);
+    screensInit(&screenHandler, &mainMenuHandler, &gameOverHandler, &hiscoreHandler);
+
+    Mix_PlayMusic(soundHandler.sound_main_theme, -1);
 
     do
 	{
@@ -32,10 +35,10 @@ int main(void)
             switch (screenHandler.screen)
             {
             case MENU:
-                mainMenu(&screenHandler, &joystickHandler, pRana, &worldData, map);
+                menu(&mainMenuHandler, &animationHandler, &hiscoreHandler, &screenHandler, &joystickHandler, pRana, &worldData, map);
                 break;
             case PAUSE:
-                pause(&screenHandler, &joystickHandler);
+                pause(&screenHandler, &joystickHandler, &mainMenuHandler);
                 break;
             case GAME:
                 inGame(map, pRana, &worldData, &screenHandler, &joystickHandler, &animationHandler, &timerHandler, &soundHandler, &gameOverHandler);
@@ -43,9 +46,9 @@ int main(void)
             case GAMEOVER:
                 gameover(&joystickHandler, &gameOverHandler, &screenHandler, &hiscoreHandler);
                 break;
-            case HIGHSCORE:
+            case HISCORE:
                 
-                hiscoreScreen(&joystickHandler, &screenHandler, &hiscoreHandler);
+                hiscoreScreen(&joystickHandler, &screenHandler, &hiscoreHandler, &mainMenuHandler);
                 break;
             } 
                  
@@ -55,5 +58,7 @@ int main(void)
 	} while(!(screenHandler.do_exit));	//termina si se presiona el switch
 	
 	//Borro el display al salir
+
+    destroyEverything(&soundHandler);
 	
 }
