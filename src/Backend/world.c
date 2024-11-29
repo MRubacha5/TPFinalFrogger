@@ -38,39 +38,43 @@ static const linea_t agua0[] =  {   {.size = 3, .cant_obj = 4, .v = 2, .po = {0,
                         {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
                         {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
  
-static const linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
+static const linea_t piso0[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH + 2*GSIZEX, WIDTH - 2*GSIZEX, WIDTH - 6*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 1, .cant_obj = 3, .v = 1, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
                         {.size = 1, .cant_obj = 2, .v = 5, .po = {0, 4*GSIZEX}},
                         {.size = 2, .cant_obj = 2, .v = 1, .po = {0, 6*GSIZEX}}};         
 
  //Difficulty 1
  
-static const linea_t agua1[] =  {   {.size = 3, .cant_obj = 4, .v = 4, .po = {0, 4*GSIZEX, 8*GSIZEX, 12*GSIZEX}},
-                        {.size = 2, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 6, .cant_obj = 2, .v = 2, .po = {2*GSIZEX, 10*GSIZEX}},
+static const linea_t agua1[] =  {   {.size = 3, .cant_obj = 4, .v = 2, .po = {0, 4*GSIZEX, 8*GSIZEX, 12*GSIZEX}},
+                        {.size = 2, .cant_obj = 3, .v = 3, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+                        {.size = 3, .cant_obj = 3, .v = 2, .po = {GSIZEX, 10*GSIZEX, 6 * GSIZEX}},
                         {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
-                        {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
+                        {.size = 4, .cant_obj = 3, .v = 1, .po = {0, 6*GSIZEX, 12*GSIZEX}}};
  
-static const  linea_t piso1[] =  {    {.size = 1, .cant_obj = 3, .v = 4, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
+static const  linea_t piso1[] =  {   {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH + 2*GSIZEX, WIDTH - 2*GSIZEX, WIDTH - 6*GSIZEX}},
+                        {.size = 1, .cant_obj = 4, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX, WIDTH - 12*GSIZEX}},
                         {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 1, .cant_obj = 2, .v = 5, .po = {0, 4*GSIZEX}},
-                        {.size = 2, .cant_obj = 2, .v = 1, .po = {0, 6*GSIZEX}}};
+                        {.size = 1, .cant_obj = 3, .v = 5, .po = {0, 4*GSIZEX, 10*GSIZEX}},
+                        {.size = 2, .cant_obj = 3, .v = 2, .po = {0, 6*GSIZEX, 11*GSIZEX}}}; 
 
  //Difficulty 2 (No son constantes asi la generacion puede modificar algunos parametros)
  
 static linea_t agua2[] =  {   {.size = 3, .cant_obj = 4, .v = 4, .po = {0, 4*GSIZEX, 8*GSIZEX, 12*GSIZEX}},
                         {.size = 2, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 6, .cant_obj = 2, .v = 2, .po = {2*GSIZEX, 10*GSIZEX}},
+                        {.size = 6, .cant_obj = 2, .v = 2, .po = {2*GSIZEX, 11*GSIZEX}},
                         {.size = 3, .cant_obj = 2, .v = 2, .po = {GSIZEX, 7*GSIZEX}},
-                        {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}}};
+                        {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 3*GSIZEX, 6*GSIZEX, 9*GSIZEX}},
+                        {.size = 4, .cant_obj = 3, .v = 3, .po = {WIDTH, WIDTH-GSIZEX*5, WIDTH-GSIZEX*11}},
+                        {.size = 2, .cant_obj = 2, .v = 2, .po = {WIDTH, GSIZEX*7}}};
  
-static linea_t piso2[] =  {    {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
-                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
-                        {.size = 1, .cant_obj = 3, .v = 2, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX}},
+static linea_t piso2[] =  {    {.size = 1, .cant_obj = 3, .v = 3, .po = {WIDTH + 2*GSIZEX, WIDTH - 4*GSIZEX+2*GSIZEX, WIDTH - 8*GSIZEX+2*GSIZEX}},
+                        {.size = 1, .cant_obj = 4, .v = 3, .po = {WIDTH, WIDTH - 4*GSIZEX, WIDTH - 8*GSIZEX, GSIZEX*3}},
+                        {.size = 1, .cant_obj = 5, .v = 2, .po = {WIDTH - 2*GSIZEX, WIDTH - 4*GSIZEX, GSIZEX*6, GSIZEX*3,0}},
                         {.size = 1, .cant_obj = 2, .v = 5, .po = {0, 4*GSIZEX}},
-                        {.size = 2, .cant_obj = 2, .v = 1, .po = {0, 6*GSIZEX}}};
+                        {.size = 2, .cant_obj = 4, .v = 1, .po = {0, 4*GSIZEX, 9*GSIZEX, 13*GSIZEX}},
+                        {.size = 1, .cant_obj = 3, .v = 4, .po = {GSIZEX, GSIZEX*5, GSIZEX*12}},
+                        {.size = 2, .cant_obj = 3, .v = 2, .po = {0, 4*GSIZEX, 10*GSIZEX}},};
 
 
 /*******************************************************************************/
@@ -110,10 +114,10 @@ void createMap(linea_t * p, worldData_t * worldData){
         else // Generacion aleatoria a partir del nivel 3; usa presets[2] pero varia los parametros
         {
             if(i<HEIGHT/2 && i != 0){
-                *(linea) = pisoPresets[2][rand()%5];
+                *(linea) = pisoPresets[2][rand()%7];
             }
             else if(i > HEIGHT/2 && i != HEIGHT-1){
-                *(linea) = aguaPresets[2][rand()%5];
+                *(linea) = aguaPresets[2][rand()%7];
             }
             else{
                 linea->cant_obj = 0;
@@ -140,7 +144,7 @@ void createMap(linea_t * p, worldData_t * worldData){
        if(worldData->difficulty > 2)
        {
             //25% mas velocidad (recortado al valor entero) por nivel a partir del 4
-            linea->v = (int)((linea->v)*((worldData->difficulty)/4.0)); 
+            linea->v = (int)((linea->v)*((worldData->difficulty+2)/4.0)); 
        }
  
     }
@@ -182,7 +186,7 @@ void gameStart (linea_t * map, worldData_t * pWorldData)
 {
     getTopScores ("score.txt");
     intToChar (6, highscorestr, topScores[0]);
-    pWorldData->difficulty = 0;
+    pWorldData->difficulty = 3;
     createMap(map,pWorldData);
     currentScore = 0;
     intToChar (6,scorestr,currentScore);

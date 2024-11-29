@@ -178,7 +178,7 @@ static void int_swap_sc (uint16_t* p2arr, int rank, uint16_t fscore)
 			p2arr[i-1] = p2arr[i];
 			p2arr[i] = tempa;
 		}
-		printf ("%d \n",p2arr[9]);
+		//printf ("%d \n",p2arr[9]);
 	}
 	return;
 }
@@ -222,7 +222,7 @@ int getTopScores (char* filename)
 	fp = fopen(filename,"r+");
 	if (fp == NULL)
 	{
-		printf ("-1");
+		printf ("Error: Exit Code -1");
 		return-1;
 	} 
 	//creo un buffer y voy leyendo los scores de los mejores jugadores

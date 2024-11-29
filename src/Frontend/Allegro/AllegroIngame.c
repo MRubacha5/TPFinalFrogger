@@ -23,6 +23,7 @@ static uint16_t deathTimer = false;
 static bool ranaEntregadaFlag = false;
 static bool nextLevelFlag = false;
 
+static long int deathX, deathY;
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
  ******************************************************************************/
@@ -30,8 +31,6 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
 
 static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * map, rana_t * pRana, worldData_t * pWD)
 {
-    long int deathX;
-    long int deathY;
     unsigned int m = 8; //Velocidad de movimiento de la rana
 
     /****************************************************************
@@ -53,8 +52,6 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
         deathY = pRana->posy;
         al_play_sample((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown : assets->crash,
                         1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
-        printf("0/4 ");
-        
     }
     // Animacion de ahogado solo en las lineas con troncos. Si se muere en otro lugar (o por tiempo) la animacion es explosion
     if (deathTimer >= FPS * 0.75)
@@ -62,30 +59,25 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
         al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown1_bitmap : assets->crash1_bitmap,
                     0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
         deathTimer--;
-        printf("1/4 ");
     }
     else if (deathTimer >= FPS / 2)
     {
         al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown2_bitmap : assets->crash2_bitmap,
                     0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        //deathTimer--;
-        printf("2/4 ");
+        deathTimer--;
     }
     else if (deathTimer > FPS/4)
     {
         al_draw_scaled_bitmap((deathY > HEIGHT/2 && pWD->timeLeft && deathY != HEIGHT-1)? assets->drown3_bitmap : assets->crash3_bitmap,
                     0,0,16,16, deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-        //deathTimer--;
-        printf("3/4 ");
+        deathTimer--;
     }
     else if (deathTimer > 0)
     {
         al_draw_scaled_bitmap(assets->death_bitmap,0,0,16,16,
                     deathX - GSIZEX/2.0, (HEIGHT - deathY) * GSIZEY, GSIZEX,GSIZEY,0);
-    
-        //deathTimer--;
+        deathTimer--;
         C->flagValue = deathTimer == 1 ? 0 : C->flagValue;
-        printf("4/4 ");
     }
 
 
