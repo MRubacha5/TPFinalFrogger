@@ -1,8 +1,11 @@
 #include "RaspiData.h"
 
-void hiscoreScreen(joystick_t * joystickHandler, screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler){
+void hiscoreScreen(joystick_t * joystickHandler, screenHandler_t * screenHandler, hiscoreHandler_t * hiscoreHandler, mainMenuHandler_t * mainMenuHandler){
     
     int i, c, j;
+
+    // Fetch top scores
+    getTopScores("score.txt");
     
     disp_clear();
     for(j = 0 ; j < 3 ; j++){
@@ -52,7 +55,7 @@ void hiscoreScreen(joystick_t * joystickHandler, screenHandler_t * screenHandler
 
     if(joystickHandler->coord.sw == J_PRESS && joystickHandler->joyPressed == 0){
         joystickHandler->joyPressed = 1;
-        mainMenuInit(screenHandler);
+        mainMenuInit(screenHandler, mainMenuHandler);
     }
 
 }
