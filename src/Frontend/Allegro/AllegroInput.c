@@ -14,7 +14,7 @@ static const int konami[10] =
 };
 
 static int i = 0; 
-static bool inhibitInput = false;
+static bool inhibitInput = false; //Inhibe input de movimiento en GAME
 
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES

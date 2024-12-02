@@ -139,7 +139,7 @@ void destroy_allegro (allegroComponents_t* Components);
 assets_t load_assets (void);
 
 /** 
-* @brief Permite inhibir el input 
+* @brief Permite inhibir el input.  
 * @param condition input ON/OFF
 */
 void InhibitInput(bool condition);
