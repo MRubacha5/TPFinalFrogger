@@ -214,7 +214,7 @@ void inGame(linea_t * map, rana_t * pRana, worldData_t * worldData, screenHandle
             {
             case UP:
                 MoveRana(pRana, UP, map+(pRana->posy)); 
-                currentScore = ct_score(pRana->posy, worldData->timeLeft, pRana->vidas, (pRana->posy == HEIGHT-1)?(1):(0));
+                currentScore = ct_score(pRana->posy, worldData->timeLeft, pRana->vidas, (pRana->posy == HEIGHT-1)?(1):(0), 0);
                 break;
             case DOWN:
                 if(!(pRana->posy == 0))
