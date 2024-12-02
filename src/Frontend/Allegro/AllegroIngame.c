@@ -13,17 +13,15 @@
 #include "../../Backend/platformConfig.h"
 
 /*******************************************************************************
- * MACROS Y VARIABLES DE ALCANCE LOCAL
+ * VARIABLES DE ALCANCE LOCAL
  ******************************************************************************/
-#define DRAW_TIMELEFT(color) al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((pWD->timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name(color))
-#define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(assets->grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
-
 //Se setean como FPS cuando hay una muerte/cambio de nivel. Inhibe el movimiento y el contador hasta que termine el evento
 static uint16_t deathTimer = false; 
 static bool ranaEntregadaFlag = false;
 static bool nextLevelFlag = false;
 
 static long int deathX, deathY;
+
 /*******************************************************************************
  * PROTOTIPOS DE FUNCIONES
  ******************************************************************************/
@@ -199,7 +197,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
     if(Comp->fpsCounter >= FPS){
         Comp->fpsCounter = 0;
-        if(!deathTimer)
+        if(!deathTimer && !nextLevelFlag)
         {
             pWD->timeLeft--;
         }
@@ -223,20 +221,20 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
 
     if (pWD->timeLeft > 30)
     {
-        DRAW_TIMELEFT("green");
+        al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((pWD->timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name("green"));
     }
     else if (pWD->timeLeft > 10)
     {
-        DRAW_TIMELEFT("yellow");
+        al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((pWD->timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name("yellow"));
     }
     else if (pWD->timeLeft == 10)
     {
-        DRAW_TIMELEFT("red");
+        al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((pWD->timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name("red"));
         al_play_sample(assets->time_running_out,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
     }
     else if (pWD->timeLeft > 0)
     {
-        DRAW_TIMELEFT("red");
+        al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((pWD->timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name("red"));
     }
     else if (deathTimer == 0) //La rana muere si se queda sin tiempo
     {
@@ -392,31 +390,26 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
                     HITBOX_WINPOS(WINPOS5);
             #endif //DEBUG (Hitbox display)
 
+            //Casillas donde van las ranas (macro para simplificar codigo)
+            #define DRAW_GRASSWINFRAME(x) (al_draw_scaled_bitmap(assets->grassWinFrame_bitmap,0,0,32,24,(x)-GSIZEX, (HEIGHT-i-1) * GSIZEY, GSIZEX *2,GSIZEY*2,0))
             DRAW_GRASSWINFRAME(WINPOS1);
             DRAW_GRASSWINFRAME(WINPOS2);
             DRAW_GRASSWINFRAME(WINPOS3);
             DRAW_GRASSWINFRAME(WINPOS4);
             DRAW_GRASSWINFRAME(WINPOS5);
 
-            //Separadores
-            al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,
-                GSIZEX*2,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-            al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,
-                GSIZEX*2 + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-            al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,
-                WINPOS2+GSIZEX,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-            al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,
-                WINPOS2 +GSIZEX + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-            al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,
-                WINPOS3+GSIZEX,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-            al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,
-                WINPOS3 +GSIZEX+ GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-            al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,
-                WINPOS4+GSIZEX,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
-            al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,
-                WINPOS4 + GSIZEX + GSIZEX/2.0,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);
+            //Separadores (macro para simplificar codigo)
+            #define DRAW_GRASSWINSEPARATORS(winpos) al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,  \
+                                                        (winpos)+GSIZEX,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0);    \
+                                                    al_draw_scaled_bitmap(assets->grassWinSeparator_bitmap,0,0,16,24,  \
+                                                        (winpos)+GSIZEX*1.5,(HEIGHT-i-1) * GSIZEY, GSIZEX, GSIZEY*2,0) 
+            DRAW_GRASSWINSEPARATORS(WINPOS1);
+            DRAW_GRASSWINSEPARATORS(WINPOS2);
+            DRAW_GRASSWINSEPARATORS(WINPOS3);
+            DRAW_GRASSWINSEPARATORS(WINPOS4);
+            DRAW_GRASSWINSEPARATORS(WINPOS5);
 
-            /// Dibujo ranas que ya llegaron
+            /// Dibujo ranas que ya llegaron (macro para simplificar codigo)
             #define DRAW_FROGWIN(x) (al_draw_scaled_bitmap(assets->frogWin_bitmap,0,0,16,16,(x)-0.5*GSIZEX, GSIZEY *0.75, GSIZEX,GSIZEY,0))
             if(pWD->winPosStates[0] == WIN_OCC){
                 DRAW_FROGWIN(WINPOS1);
@@ -466,13 +459,13 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     }
 
     
-    if (deathTimer != 0 || status == 1) // Death
+    if (deathTimer != 0 || status == 1) // Death check
     {
-        if(deathTimer == 0) // Kill rana
+        if(deathTimer == 0) // Kill rana (acaba de colisionar)
         {
             deathTimer = FPS;
         } 
-        if (deathTimer == 1) // Respawn rana
+        if (deathTimer == 1) // Respawn rana (finishing respawn animation)
         {
             RestarVidas(pRana, pWD);
             assets->frog_bitmap = assets->frogIdleFwd_bitmap;

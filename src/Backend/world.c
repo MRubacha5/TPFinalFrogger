@@ -143,8 +143,8 @@ void createMap(linea_t * p, worldData_t * worldData){
     
        if(worldData->difficulty > 2)
        {
-            //25% mas velocidad (recortado al valor entero) por nivel a partir del 4
-            linea->v = (int)((linea->v)*((worldData->difficulty+2)/4.0)); 
+            //16.67% mas velocidad (recortado al valor entero) por nivel a partir del 4 (difficulty 3)
+            linea->v = (int)((linea->v)*((worldData->difficulty+4)/6.0)); 
        }
  
     }
