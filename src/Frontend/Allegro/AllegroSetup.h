@@ -86,6 +86,7 @@ typedef struct assets
     ALLEGRO_SAMPLE * homed;
     ALLEGRO_SAMPLE * extra_life;
     ALLEGRO_SAMPLE * time_running_out;
+    ALLEGRO_SAMPLE_INSTANCE * time_running_outInstance;
     ALLEGRO_SAMPLE * game_start;
     ALLEGRO_SAMPLE_INSTANCE * game_startInstance;
     ALLEGRO_SAMPLE * stage_clear;

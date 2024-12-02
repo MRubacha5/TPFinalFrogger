@@ -230,7 +230,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     else if (pWD->timeLeft == 10)
     {
         al_draw_filled_rectangle(GSIZEX*3.5,(HEIGHT + 2)*GSIZEY,3.5*GSIZEX + ((pWD->timeLeft) * GSIZEX/6.333) , (HEIGHT+2.5)*GSIZEY, al_color_name("red"));
-        al_play_sample(assets->time_running_out,1,0,1,ALLEGRO_PLAYMODE_ONCE,0);
+        al_set_sample_instance_playing(assets->time_running_outInstance, true);
     }
     else if (pWD->timeLeft > 0)
     {

@@ -151,6 +151,7 @@ assets_t load_assets (void)
 		.homed = al_load_sample("assets/Audio/sound-frogger-homed.wav"),
         .extra_life = al_load_sample("assets/Audio/sound-frogger-extra-life.wav"),
         .time_running_out = al_load_sample("assets/Audio/sound-frogger-time-running-out.wav"),
+        .time_running_outInstance = al_create_sample_instance(assets.time_running_out),
         .stage_clear = al_load_sample("assets/Audio/Stage-Clear.wav"),
         .stage_clearInstance = al_create_sample_instance(assets.stage_clear),
         .game_start = al_load_sample("assets/Audio/game_start.wav"),
@@ -160,6 +161,9 @@ assets_t load_assets (void)
 		.music = al_load_sample("assets/Audio/Main-Theme-Fixed.wav"),
 		.musicInstance = al_create_sample_instance(assets.music)
     };
+    al_set_sample_instance_playmode(assets.time_running_outInstance, ALLEGRO_PLAYMODE_ONCE);
+    al_set_sample_instance_gain(assets.time_running_outInstance, 2);
+    al_attach_sample_instance_to_mixer(assets.time_running_outInstance, al_get_default_mixer());
     al_set_sample_instance_playmode(assets.game_startInstance, ALLEGRO_PLAYMODE_ONCE);
     al_set_sample_instance_gain(assets.game_startInstance, 0.5);
     al_attach_sample_instance_to_mixer(assets.game_startInstance, al_get_default_mixer());
