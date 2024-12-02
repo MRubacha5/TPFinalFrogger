@@ -32,6 +32,10 @@ int main(void)
             
             joystickUpdate(&joystickHandler);
 
+            /***********************
+            * FINITE STATE MACHINE * 
+            ************************/
+
             switch (screenHandler.screen)
             {
             case MENU:
