@@ -14,9 +14,9 @@
  * GLOBAL SCORE VARIABLES
 ********************************************************************************** */
 
-extern uint16_t currentScore;
+extern uint32_t currentScore;
 extern char topNames[10][4];
-extern uint16_t topScores[10];
+extern uint32_t topScores[10];
 extern char scorestr [6];
 extern char highscorestr [6];
 extern char name [4]; 
@@ -52,7 +52,7 @@ extern char name [4];
 * @param reset indica si se volvio al comienzo por muerte 
 * @return el puntaje
 */
-uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend, uint8_t reset);
+uint32_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend, uint8_t reset);
 
 
 
@@ -63,7 +63,7 @@ uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvle
 * @param alias
 * @return 
 */
-int max_scores (uint16_t fscore, char* filename,  char* alias); 
+int max_scores (uint32_t fscore, char* filename,  char* alias); 
 
 
 
@@ -74,11 +74,11 @@ int max_scores (uint16_t fscore, char* filename,  char* alias);
 	@param filename TOPSCORESLIST 
 	@return boolean value indicating whether the score is top 10 or not
 */
-int IsMax (uint16_t fscore, char* filename);
+int IsMax (uint32_t fscore, char* filename);
 
 
 
-void intToChar (int strLong, char* str, uint16_t score);
+void intToChar (int strLong, char* str, uint32_t score);
 
 
 

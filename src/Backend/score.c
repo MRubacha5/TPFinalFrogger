@@ -10,9 +10,9 @@
 #define TOP 10
 
 //variables globales (son multiarchivo)
-uint16_t currentScore = 0;
+uint32_t currentScore = 0;
 char topNames [10] [4] = {"XXX","XXX" ,"XXX","XXX","XXX","XXX","XXX" ,"XXX","XXX","XXX"};
-uint16_t topScores [10] = {0,0,0,0,0,0,0,0,0,0};
+uint32_t topScores [10] = {0,0,0,0,0,0,0,0,0,0};
 char scorestr [6];
 char highscorestr [6];
 char name [4] = {"AAA"};
@@ -24,19 +24,19 @@ static uint16_t in_game_score (uint8_t y, uint8_t reset); //lleva el puntaje dur
 
 static void fwr_sc (FILE* fp , int l);
 
-static int compare_scores (uint16_t fscore); //devuelve posicion en el ranking
+static int compare_scores (uint32_t fscore); //devuelve posicion en el ranking
 
-static void int_swap_sc (uint16_t* p2arr, int rank, uint16_t fscore);
+static void int_swap_sc (uint32_t* p2arr, int rank, uint32_t fscore);
 
 static void str_swap_al (char plr [][4], int rank, char* alias);
 
 /*************************************************************************************************** */
 
 
-uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend, uint8_t reset)
+uint32_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvlend, uint8_t reset)
 {
 	
-	static uint16_t score, finalscore;
+	static uint32_t score, finalscore;
 	score = currentScore;
 	
 	if (vidas != 0)
@@ -53,7 +53,10 @@ uint16_t ct_score (uint8_t y, unsigned int timeleft, uint8_t vidas, uint8_t lvle
 		score = 0;
 		return finalscore;
 	}
-	
+	if (score >= 99999)
+	{
+		score = 99999;
+	}
 	return score;
 	
 }
@@ -93,7 +96,7 @@ static uint16_t time_bonus (unsigned int timeleft) //Bonus al ganar un nivel seg
 
 
 
-int max_scores (uint16_t fscore, char* filename, char* alias)
+int max_scores (uint32_t fscore, char* filename, char* alias)
 { 
 	int rank;
 
@@ -120,7 +123,7 @@ int max_scores (uint16_t fscore, char* filename, char* alias)
 
 
 
-int IsMax (uint16_t fscore, char* filename)
+int IsMax (uint32_t fscore, char* filename)
 {
 	getTopScores (filename);
 	int rank = compare_scores (fscore);
@@ -136,7 +139,7 @@ int IsMax (uint16_t fscore, char* filename)
 
 
 
-static int compare_scores (uint16_t fscore)
+static int compare_scores (uint32_t fscore)
 {
 	int i;
 	for (i=10; i>0; i--)
@@ -164,10 +167,10 @@ static void fwr_sc (FILE* fp, int l)
 
 
 
-static void int_swap_sc (uint16_t* p2arr, int rank, uint16_t fscore)
+static void int_swap_sc (uint32_t* p2arr, int rank, uint32_t fscore)
 {
 	//printf("entro\n");
-	uint16_t tempa;
+	uint32_t tempa;
 	int n, i;
 	if (rank < 10)
 	{
@@ -203,7 +206,7 @@ static void str_swap_al (char plr [][4], int rank, char* alias)
 }
 
 
-void intToChar (int strLong, char* str, uint16_t score)
+void intToChar (int strLong, char* str, uint32_t score)
 {
     // Verificar que el tamaño del buffer sea adecuado
     if (strLong < 6) { // 5 dígitos + '\0'
