@@ -215,6 +215,8 @@ void destroy_assets (assets_t* assets)
     al_destroy_sample(assets->homed);
     al_destroy_sample(assets->leap);
     al_destroy_sample(assets->time_running_out);
+    al_destroy_sample(assets->extra_life);
+    al_destroy_sample_instance(assets->time_running_outInstance);
     al_destroy_sample(assets->stage_clear);
     al_destroy_sample_instance(assets->stage_clearInstance);
     al_destroy_sample(assets->game_start);
