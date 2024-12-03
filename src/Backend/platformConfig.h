@@ -17,7 +17,7 @@
     #define GSIZEY 50
 
     //Ancho de la rana; valor ajustado para ser lo mas preciso posible en terminos del modelo 
-    #define HITBOXWIDTH 13.0/16 * GSIZEX
+    #define HITBOXWIDTH 0.75 * GSIZEX
 
    //Valor de ancho para Allegro. El alto es constante entre plataformas
     #define WIDTH GSIZEX * 14

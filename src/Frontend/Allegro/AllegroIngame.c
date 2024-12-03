@@ -239,6 +239,7 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
     else if (deathTimer == 0) //La rana muere si se queda sin tiempo
     {
         deathTimer = FPS;
+        InhibitInput(true);
     }
 
     //dibujo el score
@@ -464,11 +465,13 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
         if(deathTimer == 0) // Kill rana (acaba de colisionar)
         {
             deathTimer = FPS;
+            InhibitInput(true);
         } 
         if (deathTimer == 1) // Respawn rana (finishing respawn animation)
         {
             RestarVidas(pRana, pWD);
             assets->frog_bitmap = assets->frogIdleFwd_bitmap;
+            InhibitInput(false);
         }
     
     }
