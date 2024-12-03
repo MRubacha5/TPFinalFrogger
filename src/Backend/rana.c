@@ -13,7 +13,7 @@
  ******************************************************************************/
 #if defined(ALLEGRO)
     #define ISCOLLIDING (((prana->posx - HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx - HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)) || ((prana->posx + HITBOXWIDTH/2.0 >= pl->po[i]) && (prana->posx + HITBOXWIDTH/2.0 <= pl->po[i] + (pl->size)*GSIZEX)))
-    #define WINS(x) (((prana->posx - 0/*HITBOXWIDTH/2.0*/ >= (x) - /*HITBOXWIDTH/3.0*/6) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + /*HITBOXWIDTH/3.0*/6)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - 6 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + 6))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - 6 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + 6))))
+    #define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + HITBOXWIDTH/3.0))))
 #elif defined(RASPI)
     #define ISCOLLIDING ((prana->posx >= pl->po[i]) && (prana->posx <= pl->po[i] + (pl->size-1)*GSIZEX))
     #define WINS(x) (((prana->posx - HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0) && (prana->posx - HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0)) || ((prana->posx + HITBOXWIDTH/2.0 >= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 <= (x) + HITBOXWIDTH/3.0))) || ((prana->posx - HITBOXWIDTH/2.0 <= (x) - HITBOXWIDTH/3.0 && (prana->posx + HITBOXWIDTH/2.0 >= (x) + HITBOXWIDTH/3.0))))

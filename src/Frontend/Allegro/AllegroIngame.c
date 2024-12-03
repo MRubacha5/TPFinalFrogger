@@ -38,7 +38,7 @@ static void ranaAnimate (allegroComponents_t * C, assets_t * assets, linea_t * m
 
     #ifdef DEBUG
     al_draw_filled_rectangle(pRana->posx-HITBOXWIDTH/2.0,(HEIGHT-pRana->posy)*GSIZEY, 
-            pRana->posx+HITBOXWIDTH/2,(HEIGHT-pRana->posy)*GSIZEY+GSIZEY,al_color_name("red"));
+            pRana->posx+HITBOXWIDTH/2.0,(HEIGHT-pRana->posy)*GSIZEY+GSIZEY,al_color_name("red"));
     #endif //DEBUG (Hitbox display)
 
     if (deathTimer == FPS) 
