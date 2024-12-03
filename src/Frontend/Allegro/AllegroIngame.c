@@ -490,7 +490,6 @@ void inGame (allegroComponents_t * Comp, assets_t * assets, linea_t * map, rana_
         {
             pWD->difficulty++;
             createMap(map, pWD);
-            al_rest(0.5);
             InhibitInput(false);
             al_set_sample_instance_playing(assets->musicInstance,true);
             nextLevelFlag = false;
