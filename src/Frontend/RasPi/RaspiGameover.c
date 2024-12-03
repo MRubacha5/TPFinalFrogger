@@ -75,7 +75,37 @@ void gameover(joystick_t * joystickHandler, gameOverHandler_t * gameOverHandler,
         }
     }
     else{
-        hiscoreInit(screenHandler, hiscoreHandler);
+
+        for(i = 0 ; i < DISP_CANT_Y_DOTS/2 ; i++){
+            for (c = 0 ; c < DISP_CANT_X_DOTS ; c++){
+                joystickHandler->pos.x = c;
+                joystickHandler->pos.y = i;
+                disp_write(joystickHandler->pos, mainMenu2[i][c]);
+            }
+        }
+
+        char buffer[6]; 
+        intToChar(6, buffer ,currentScore);
+
+        for(j = 0 ; j < 5 ; j++){
+            for(i = 0 ; i < 5 ; i++){
+                for(c = 0 ; c < 3 ; c++){
+                    joystickHandler->pos.x = 1 + j*3 + c;
+                    joystickHandler->pos.y = 7 + i;
+
+                    hiscoreHandler->intToWrite = buffer[j] - '0';
+
+                    disp_write(joystickHandler->pos, numbers[hiscoreHandler->intToWrite][i][c]);
+                }
+            }
+        }
+
+        if(joystickHandler->coord.sw == J_PRESS && joystickHandler->joyPressed == 0){
+            joystickHandler->joyPressed = 1;
+            hiscoreInit(screenHandler, hiscoreHandler);
+            disp_clear();
+        }
+
     }
     disp_update();
 }
