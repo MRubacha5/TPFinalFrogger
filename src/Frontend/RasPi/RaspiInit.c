@@ -115,13 +115,13 @@ soundHandler_t soundInit(void){
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 
     soundHandler_t handler = {
-        .sound_drown = Mix_LoadWAV("../assets/Audio/sound-frogger-drown.wav"),
-        .sound_squash = Mix_LoadWAV("../assets/Audio/sound-frogger-squash.wav"),
-        .sound_hop = Mix_LoadWAV("../assets/Audio/sound-frogger-hop.wav"),
-        .sound_timer = Mix_LoadWAV("../assets/Audio/sound-frogger-time-running-out.wav"),
-        .sound_homed = Mix_LoadWAV("../assets/Audio/sound-frogger-homed.wav"),
-        .sound_level_clear = Mix_LoadWAV("../assets/Audio/Stage-Clear.wav"),
-        .sound_main_theme = Mix_LoadMUS("../assets/Audio/Main-Theme-Fixed.wav")
+        .sound_drown = Mix_LoadWAV("assets/Audio/sound-frogger-drown.wav"),
+        .sound_squash = Mix_LoadWAV("assets/Audio/sound-frogger-squash.wav"),
+        .sound_hop = Mix_LoadWAV("assets/Audio/sound-frogger-hop.wav"),
+        .sound_timer = Mix_LoadWAV("assets/Audio/sound-frogger-time-running-out.wav"),
+        .sound_homed = Mix_LoadWAV("assets/Audio/sound-frogger-homed.wav"),
+        .sound_level_clear = Mix_LoadWAV("assets/Audio/Stage-Clear.wav"),
+        .sound_main_theme = Mix_LoadMUS("assets/Audio/Main-Theme-Fixed.wav")
     };
 
     if(handler.sound_drown == NULL){
