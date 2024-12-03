@@ -5,8 +5,6 @@
 #define FPS 60
 #define START_TIME 60 // (en segundos)
 
-#define HEIGHT 13 //Constante entre plataformas
-
 //CONFIGURACIONES DE ALLEGRO
 #if defined(ALLEGRO)
     /*******************************************************************************
@@ -19,7 +17,8 @@
     //Ancho de la rana; valor ajustado para ser lo mas preciso posible en terminos del modelo 
     #define HITBOXWIDTH 0.75 * GSIZEX
 
-   //Valor de ancho para Allegro. El alto es constante entre plataformas
+    //Valor de ancho y alto para Allegro
+    #define HEIGHT 13
     #define WIDTH GSIZEX * 14
 
     //Coordenadas x de las posiciones de victoria (Hardcodeadas; si se aumenta el ancho del mapa no lo cubriran)
@@ -45,7 +44,8 @@
     //En rasPi, los objetos son puntuales
     #define HITBOXWIDTH 0
 
-    //valor de ancho del juego para raspi
+    //valor de ancho y alto del juego para raspi
+    #define HEIGHT 13
     #define WIDTH GSIZEX * 14
 
     //Coordenadas x de las posiciones de victoria (idem allegro)
